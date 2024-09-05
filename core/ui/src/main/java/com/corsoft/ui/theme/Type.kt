@@ -1,4 +1,4 @@
-package com.corsoft.hitfactor.ui.theme
+package com.corsoft.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

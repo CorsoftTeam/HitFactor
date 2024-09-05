@@ -1,4 +1,4 @@
-package com.corsoft.hitfactor.ui.theme
+package com.corsoft.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

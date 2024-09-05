@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "HitFactor"
 include(":app")
- 
+include(":core")
+include(":core:data")
+include(":core:ui")
