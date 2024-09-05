@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.corsoft.ui"
+    namespace = "com.corsoft.resources"
     compileSdk = 34
 
     defaultConfig {
@@ -23,12 +23,6 @@ android {
             )
         }
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -40,8 +34,10 @@ android {
 
 dependencies {
 
-    implementation(project(path = ":core:resources"))
-    implementation(platform(libs.compose.bom))
-    implementation(libs.bundles.core)
-    implementation(libs.bundles.compose)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
