@@ -68,6 +68,7 @@ koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compos
 
 #Retrofit
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
@@ -125,6 +126,7 @@ koin = [
 
 retrofit = [
     "retrofit",
+    "retrofit-converter",
     "kotlinx-serialization",
     "retrofit-kotlinx-serialization-converter",
     "okhttp3",
