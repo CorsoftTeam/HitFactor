@@ -8,7 +8,6 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
@@ -31,11 +30,11 @@ private val LightColorScheme = lightColorScheme(
     background = LightThemeColors.Background,
     surface = LightThemeColors.Surface,
     error = LightThemeColors.Error,
-    onPrimary= LightThemeColors.OnPrimary,
-    onSecondary= LightThemeColors.OnSecondary,
-    onBackground= LightThemeColors.OnBackground,
-    onSurface= LightThemeColors.OnSurface,
-    onError= LightThemeColors.OnError,
+    onPrimary = LightThemeColors.OnPrimary,
+    onSecondary = LightThemeColors.OnSecondary,
+    onBackground = LightThemeColors.OnBackground,
+    onSurface = LightThemeColors.OnSurface,
+    onError = LightThemeColors.OnError,
     onSurfaceVariant = AppColors.TextSecondaryLight
 )
 
