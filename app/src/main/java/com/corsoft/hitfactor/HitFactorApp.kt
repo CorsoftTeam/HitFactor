@@ -11,7 +11,7 @@ import org.koin.core.logger.Level
 import org.koin.dsl.module
 import ppk.app.core.data.di.dataModule
 
-class HitFactorApp: Application() {
+class HitFactorApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
