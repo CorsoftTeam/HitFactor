@@ -1,23 +1,17 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
-    namespace = "com.corsoft.hitfactor"
+    namespace = "com.corsoft.auth"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.corsoft.hitfactor"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -42,18 +36,14 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
+    implementation(project(path = ":core:ui"))
+    implementation(project(path = ":core:resources"))
+    implementation(platform(libs.koin.bom))
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.core)
     implementation(libs.bundles.compose)
-    implementation(libs.bundles.testing)
-    implementation(project(":core:ui"))
-    implementation(project(":feature:auth"))
+    implementation(libs.bundles.koin)
 }

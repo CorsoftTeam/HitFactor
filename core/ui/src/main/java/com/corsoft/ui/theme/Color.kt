@@ -3,10 +3,6 @@ package com.corsoft.ui.theme
 import androidx.compose.ui.graphics.Color
 
 object LightThemeColors {
-    val Primary = Color(0xFFE9A600) // Основной цвет
-    val PrimaryVariant = Color(0xFFB28700) // Более темный оттенок основного цвета
-    val Secondary = Color(0xFF4B4B4B) // Графитовый серый
-    val SecondaryVariant = Color(0xFF383838) // Более темный оттенок графитового серого
     val Background = Color(0xFFFFFFFF) // Белый фон
     val Surface = Color(0xFFFFFFFF) // Белая поверхность
     val Error = Color(0xFFB00020) // Цвет ошибки
@@ -18,10 +14,6 @@ object LightThemeColors {
 }
 
 object DarkThemeColors {
-    val Primary = Color(0xFFE9A600) // Основной цвет
-    val PrimaryVariant = Color(0xFFB28700) // Более темный оттенок основного цвета
-    val Secondary = Color(0xFF4B4B4B) // Графитовый серый
-    val SecondaryVariant = Color(0xFF383838) // Более темный оттенок графитового серого
     val Background = Color(0xFF121212) // Темный фон
     val Surface = Color(0xFF121212) // Темная поверхность
     val Error = Color(0xFFCF6679) // Цвет ошибки для темной темы
@@ -30,4 +22,25 @@ object DarkThemeColors {
     val OnBackground = Color(0xFFFFFFFF) // Белый текст на фоне
     val OnSurface = Color(0xFFFFFFFF) // Белый текст на поверхности
     val OnError = Color(0xFF000000) // Черный текст на ошибке
+}
+
+object AppColors {
+    val GraphiteGray = Color(0xFF4B4B4B)
+    val OrangeAccent = Color(0xFFE9A600)
+
+    val Primary = Color(0xFFE9A600) // Основной цвет
+    val PrimaryVariant = Color(0xFFB28700) // Более темный оттенок основного цвета
+    val Secondary = Color(0xFF4B4B4B) // Графитовый серый
+    val SecondaryVariant = Color(0xFF383838) // Более темный оттенок графитового серого
+
+    // Текстовые цвета
+    val TextPrimaryLight = Color(0xFF212121)
+    val TextSecondaryLight = Color(0xFF757575)
+    val TextPrimaryDark = Color(0xFFFFFFFF)
+    val TextSecondaryDark = Color(0xFFBDBDBD)
+    val TextBlue = Color(0xFF6D6DFF)
+
+    // Цвета для иконок
+    val IconLightBackground = Color(0xFF424242)
+    val IconDarkBackground = Color(0xFFFFFFFF)
 }
