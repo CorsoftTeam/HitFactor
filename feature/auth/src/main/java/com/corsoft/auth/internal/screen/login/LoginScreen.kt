@@ -39,9 +39,9 @@ fun LoginScreen(
                 painter = painterResource(id = CoreDrawableRes.logo_large),
                 contentDescription = null
             )
-            Column (
+            Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
-            ){
+            ) {
                 HFTextField(
                     placeholder = "Логин"
                 ) {}
@@ -51,12 +51,12 @@ fun LoginScreen(
                 HFTextButton(
                     text = "Восстановление пароля"
                 ) {
-                    
+
                 }
             }
-            Column (
+            Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
-            ){
+            ) {
                 HFButton(
                     text = "Вход"
                 )

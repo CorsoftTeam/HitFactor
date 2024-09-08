@@ -8,14 +8,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.corsoft.ui.theme.AppColors
 import com.corsoft.ui.theme.HitFactorTheme
 
 @Composable
-fun HFTextButton (
+fun HFTextButton(
     modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit
@@ -32,7 +31,7 @@ fun HFTextButton (
 
 @Preview
 @Composable
-private fun HFTextButtonPreview(){
+private fun HFTextButtonPreview() {
     HitFactorTheme {
         Surface {
             HFTextButton(

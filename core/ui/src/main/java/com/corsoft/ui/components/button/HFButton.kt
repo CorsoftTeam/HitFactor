@@ -1,6 +1,5 @@
 package com.corsoft.ui.components.button
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -87,7 +86,7 @@ private fun HFButtonPreview() {
 @Preview
 @Composable
 private fun HFButtonPreviewDark() {
-    HitFactorTheme (
+    HitFactorTheme(
         darkTheme = true
     ) {
         Surface {

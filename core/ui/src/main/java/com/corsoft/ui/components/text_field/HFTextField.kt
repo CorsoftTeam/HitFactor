@@ -59,7 +59,7 @@ fun HFTextFieldPreview() {
 @Preview
 @Composable
 private fun HFTextFieldPreviewDark() {
-    HitFactorTheme (
+    HitFactorTheme(
         darkTheme = true
     ) {
         Surface {
