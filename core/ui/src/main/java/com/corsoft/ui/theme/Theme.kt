@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = DarkThemeColors.Primary,
-    secondary = DarkThemeColors.Secondary,
+    primary = AppColors.Primary,
+    secondary = AppColors.Secondary,
     background = DarkThemeColors.Background,
     surface = DarkThemeColors.Surface,
     error = DarkThemeColors.Error,
@@ -22,11 +22,12 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = DarkThemeColors.OnBackground,
     onSurface = DarkThemeColors.OnSurface,
     onError = DarkThemeColors.OnError,
+    onSurfaceVariant = AppColors.TextSecondaryDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = LightThemeColors.Primary,
-    secondary = LightThemeColors.Secondary,
+    primary = AppColors.Primary,
+    secondary = AppColors.Secondary,
     background = LightThemeColors.Background,
     surface = LightThemeColors.Surface,
     error = LightThemeColors.Error,
@@ -35,13 +36,14 @@ private val LightColorScheme = lightColorScheme(
     onBackground= LightThemeColors.OnBackground,
     onSurface= LightThemeColors.OnSurface,
     onError= LightThemeColors.OnError,
+    onSurfaceVariant = AppColors.TextSecondaryLight
 )
 
 @Composable
 fun HitFactorTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
