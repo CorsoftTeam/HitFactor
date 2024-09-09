@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -39,6 +40,7 @@ android {
 }
 
 dependencies {
+    ksp(libs.navigation.ksp)
     implementation(project(path = ":core:ui"))
     implementation(project(path = ":core:resources"))
     implementation(project(":core:common"))
@@ -49,4 +51,5 @@ dependencies {
     implementation(libs.bundles.core)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.koin)
+    implementation(libs.bundles.compose.navigation)
 }

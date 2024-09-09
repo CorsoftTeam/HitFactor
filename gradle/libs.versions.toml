@@ -7,6 +7,7 @@ kotlin = "1.9.0"
 coreKtx = "1.13.1"
 lifecycleRuntimeKtx = "2.8.3"
 securityCrypto = "1.0.0"
+ksp = "1.9.0-1.0.13"
 
 #Testing
 junit = "4.13.2"
@@ -16,8 +17,6 @@ espressoCore = "3.6.1"
 #Compose
 activityCompose = "1.9.2"
 composeBom = "2023.08.00"
-composeNavigation = "2.7.7"
-composeDestinations = "1.10.1"
 
 #Koin
 koinBom = "3.5.3"
@@ -32,6 +31,9 @@ retrofitKotlinSerializationConverter = "1.0.0"
 
 #OkHttp
 okhttp3 = "4.12.0"
+
+#Navigation
+navigation = "2.1.0-beta02"
 
 
 #---------------------------------------------------------------------------------------------------
@@ -58,8 +60,6 @@ compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-animation = { group = "androidx.compose.animation", name = "animation" }
 compose-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
-compose-destinations = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestinations" }
 
 #Koin
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koinBom" }
@@ -74,10 +74,13 @@ material = { group = "com.google.android.material", name = "material", version.r
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 retrofit-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinSerializationConverter" }
 
-
 #OkHttp
 okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
 okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
+
+#Navigation
+navigation-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "navigation" }
+navigation = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "navigation" }
 
 #---------------------------------------------------------------------------------------------------
 [plugins]
@@ -86,6 +89,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 #---------------------------------------------------------------------------------------------------
 [bundles]
@@ -99,7 +103,7 @@ core = [
 testing = [
     "junit",
     "androidx-junit",
-    "androidx-espresso-core",
+    "androidx-espresso-core"
 ]
 
 compose = [
@@ -115,8 +119,7 @@ compose = [
 ]
 
 compose-navigation = [
-    "compose-navigation",
-    "compose-destinations",
+    "navigation"
 ]
 
 koin = [
@@ -132,3 +135,5 @@ retrofit = [
     "okhttp3",
     "okhttp3-logging-interceptor"
 ]
+
+
