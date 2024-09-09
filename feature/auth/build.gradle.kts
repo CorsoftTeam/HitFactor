@@ -41,6 +41,9 @@ android {
 dependencies {
     implementation(project(path = ":core:ui"))
     implementation(project(path = ":core:resources"))
+    implementation(project(":core:common"))
+    implementation(project(":core:network"))
+    implementation(project(":data:auth"))
     implementation(platform(libs.koin.bom))
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.core)
