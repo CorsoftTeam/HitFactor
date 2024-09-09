@@ -1,6 +1,8 @@
 package com.corsoft.hitfactor
 
 import android.app.Application
+import com.corsoft.auth.di.authDataModule
+import com.corsoft.auth.di.authFeatureModule
 import com.corsoft.hitfactor.di.appModule
 import com.corsoft.network.di.networkModule
 import org.koin.android.ext.koin.androidContext
@@ -28,8 +30,8 @@ class HitFactorApp : Application() {
 
     private fun KoinApplication.addModules() {
         val coreModules = module { includes(networkModule, dataModule) }
-        val dataModules = module { }
-        val featureModules = module { }
+        val dataModules = module { includes(authDataModule) }
+        val featureModules = module { includes(authFeatureModule) }
         modules(appModule, coreModules, dataModules, featureModules)
     }
 

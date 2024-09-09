@@ -33,11 +33,10 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(platform(libs.koin.bom))
+    implementation(libs.bundles.core)
+    implementation(libs.bundles.koin)
+    implementation(libs.bundles.retrofit)
+    implementation(project(":core:network"))
+    implementation(project(":core:data"))
 }

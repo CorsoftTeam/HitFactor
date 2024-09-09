@@ -1,4 +1,4 @@
-package com.corsoft.login.screen.login
+package com.corsoft.auth.internal.screen.login
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -20,11 +20,12 @@ import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.button.HFTextButton
 import com.corsoft.ui.components.text_field.HFTextField
 import com.corsoft.ui.theme.HitFactorTheme
+import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
-
+    viewModel: LoginViewModel = koinViewModel()
 ) {
     Scaffold {
         Column(
@@ -60,7 +61,7 @@ fun LoginScreen(
                 HFButton(
                     text = "Вход"
                 )
-                {}
+                { viewModel.login() }
                 HFButton(
                     isPrimary = false,
                     text = "Регистрация"
