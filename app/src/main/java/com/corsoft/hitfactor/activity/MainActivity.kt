@@ -4,11 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.corsoft.auth.internal.screen.login.LoginScreen
+import com.corsoft.hitfactor.app.App
 import com.corsoft.ui.theme.HitFactorTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,24 +13,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HitFactorTheme {
-                LoginScreen()
+                App()
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HitFactorTheme {
-        Greeting("Android")
     }
 }
