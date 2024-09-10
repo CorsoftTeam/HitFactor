@@ -1,4 +1,4 @@
-package com.corsoft.auth.navigation
+package com.corsoft.auth.api
 
 import com.ramcosta.composedestinations.annotation.NavHostGraph
 

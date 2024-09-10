@@ -1,4 +1,4 @@
-package com.corsoft.auth.internal.screen.login
+package com.corsoft.auth.internal.screen.register
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -32,17 +32,17 @@ import com.corsoft.ui.components.text_field.HFTextField
 import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.generated.destinations.RegisterScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-@Destination<AuthNavGraph>(start = true)
-internal fun LoginScreen(
+@Destination<AuthNavGraph>
+internal fun RegisterScreen(
     navigator: DestinationsNavigator,
-    viewModel: LoginViewModel = koinViewModel()
+    viewModel: RegisterViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -50,8 +50,8 @@ internal fun LoginScreen(
 
     viewModel.effect.observeWithLifecycle { effect ->
         when (effect) {
-            is LoginEffect.Login -> navigator.navigate(RegisterScreenDestination)
-            is LoginEffect.ShowError -> scope.launch {
+            is RegisterEffect.Register -> navigator.navigate(LoginScreenDestination)
+            is RegisterEffect.ShowError -> scope.launch {
                 snackBarHostState.showSnackbar(effect.message)
             }
         }
@@ -65,23 +65,27 @@ internal fun LoginScreen(
             )
         }
     ) {
-        LoginScreen(
+        RegisterScreen(
             state = uiState,
-            onLoginClick = { viewModel.onAction(LoginAction.Login) },
-            onRegisterClick = { navigator.navigate(RegisterScreenDestination) },
-            onLoginChange = { viewModel.onAction(LoginAction.UpdateLogin(it)) },
-            onPasswordChange = { viewModel.onAction(LoginAction.UpdatePassword(it)) }
+            onLoginClick = { navigator.navigate(LoginScreenDestination) },
+            onRegisterClick = { viewModel.onAction(RegisterAction.Register) },
+            onLoginChange = { viewModel.onAction(RegisterAction.UpdateLogin(it)) },
+            onPasswordChange = { viewModel.onAction(RegisterAction.UpdatePassword(it)) },
+            onNameChange = { viewModel.onAction(RegisterAction.UpdateName(it)) },
+            onPhoneChange = { viewModel.onAction(RegisterAction.UpdatePhone(it)) }
         )
     }
 }
 
 @Composable
-private fun LoginScreen(
-    state: LoginScreenModel,
+private fun RegisterScreen(
+    state: RegisterScreenState,
     onLoginClick: () -> Unit = {},
     onRegisterClick: () -> Unit = {},
     onLoginChange: (String) -> Unit = {},
-    onPasswordChange: (String) -> Unit = {}
+    onPasswordChange: (String) -> Unit = {},
+    onNameChange: (String) -> Unit = {},
+    onPhoneChange: (String) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -100,29 +104,28 @@ private fun LoginScreen(
         ) {
             HFTextField(
                 placeholder = stringResource(id = CoreStringRes.login),
-                text = state.login,
-                onTextChange = { onLoginChange(it) }
-            )
+                text = state.login
+            ) { onLoginChange(it) }
             HFTextField(
                 placeholder = stringResource(id = CoreStringRes.password),
-                text = state.password,
-                onTextChange = { onPasswordChange(it) }
-            )
+                text = state.password
+            ) { onPasswordChange(it) }
+            HFTextField(
+                placeholder = stringResource(id = CoreStringRes.name),
+                text = state.name
+            ) { onNameChange(it) }
+            HFTextField(
+                placeholder = stringResource(id = CoreStringRes.phone_number),
+                text = state.phone
+            ) { onPhoneChange(it) }
             HFTextButton(
-                text = stringResource(id = CoreStringRes.restore_pass)
-            ) {
-
-            }
+                text = stringResource(id = CoreStringRes.already_reg)
+            ) { onLoginClick() }
         }
         Column(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             HFButton(
-                text = stringResource(id = CoreStringRes.enter)
-            )
-            { onLoginClick() }
-            HFButton(
-                isPrimary = false,
                 text = stringResource(id = CoreStringRes.register)
             )
             { onRegisterClick() }
@@ -134,8 +137,8 @@ private fun LoginScreen(
 @Composable
 fun LoginScreenPreviewLight() {
     HitFactorTheme {
-        LoginScreen(
-            LoginScreenModel()
+        RegisterScreen(
+            RegisterScreenState()
         )
     }
 }
@@ -146,8 +149,8 @@ fun LoginScreenPreviewDark() {
     HitFactorTheme(
         darkTheme = true
     ) {
-        LoginScreen(
-            LoginScreenModel()
+        RegisterScreen(
+            RegisterScreenState()
         )
     }
 }
