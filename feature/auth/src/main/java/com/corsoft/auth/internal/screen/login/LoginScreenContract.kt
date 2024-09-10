@@ -6,12 +6,20 @@ import com.corsoft.common.mvvm.MviEffect
 import com.corsoft.common.mvvm.MviState
 
 @Immutable
-data class LoginScreenModel(
+internal data class LoginScreenModel(
     val login: String = "",
     val password: String = "",
     val error: String = ""
 ) : MviState
 
-sealed interface LoginAction : MviAction
+internal sealed interface LoginAction : MviAction {
+    data object Login : LoginAction
+    data class UpdateLogin(val login: String) : LoginAction
+    data class UpdatePassword(val password: String) : LoginAction
 
-sealed interface LoginEffect : MviEffect
+}
+
+internal sealed interface LoginEffect : MviEffect {
+    data object Login : LoginEffect
+    data class ShowError(val message: String) : LoginEffect
+}

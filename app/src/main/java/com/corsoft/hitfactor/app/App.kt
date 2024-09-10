@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.bottombar.BottomNavigationBar
+import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -119,9 +120,9 @@ private fun AppContainer(
                 )
             }
         },
-//        topBar = {
-//            PpkSnackBarHost(hostState = snackBarHostState)
-//        },
+        topBar = {
+            HFSnackBarHost(hostState = snackBarHostState)
+        },
         modifier = modifier
     ) { contentPadding ->
         when {
