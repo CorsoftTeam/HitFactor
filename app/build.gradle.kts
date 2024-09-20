@@ -67,5 +67,6 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:common"))
     implementation(project(":feature:auth"))
+    implementation(project(":feature:services"))
     implementation(project(":data:auth"))
 }

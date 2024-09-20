@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.corsoft.auth.api.AuthNavGraph
+import com.corsoft.hitfactor.navigation.RootNavGraph
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.bottombar.BottomNavigationBar
@@ -24,7 +26,9 @@ import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.DestinationsNavHost
-import com.ramcosta.composedestinations.generated.navgraphs.AuthGraph
+import com.ramcosta.composedestinations.annotation.RootGraph
+import com.ramcosta.composedestinations.generated.auth.navgraphs.AuthGraph
+import com.ramcosta.composedestinations.generated.services.destinations.ServiceListScreenDestination
 import com.ramcosta.composedestinations.utils.currentDestinationFlow
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -140,5 +144,7 @@ private fun AppContainer(
 }
 
 private fun isBottomBarVisible(route: String?): Boolean {
-    return route != null && route in emptyList<String>()
+    return route != null && route in listOf(
+        ServiceListScreenDestination.route
+    )
 }

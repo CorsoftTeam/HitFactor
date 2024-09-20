@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.corsoft.auth"
+    namespace = "com.corsoft.services"
     compileSdk = 34
 
     defaultConfig {
@@ -40,8 +40,8 @@ android {
 }
 
 ksp {
-    arg("compose-destinations.moduleName", "auth")
-    arg("compose-destinations.mode", "destination")
+    arg("compose-destinations.moduleName", "services")
+    arg("compose-destinations.mode", "destinatons")
 }
 
 dependencies {
