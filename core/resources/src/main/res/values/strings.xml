@@ -9,4 +9,7 @@
     <string name="phone_number">Номер телефона</string>
     <string name="already_reg">Уже зарегистрированы? Войти</string>
     <string name="something_wrong">Что-то пошло не так</string>
+    <string name="services">Сервисы</string>
+    <string name="timer">Таймер</string>
+    <string name="profile">Профиль</string>
 </resources>

@@ -27,16 +27,25 @@ import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.services.destinations.ServiceListScreenDestination
+import com.ramcosta.composedestinations.generated.services.navgraphs.ServicesGraph
 import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.utils.currentDestinationFlow
+import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-enum class NavigationBarItem(@DrawableRes val icon: Int, @StringRes val titleRes: Int) {
-    RECEIPTS(CoreDrawableRes.ic_launcher_foreground, CoreStringRes.app_name),
-    STOCK(CoreDrawableRes.ic_launcher_foreground, CoreStringRes.app_name),
-    MOVEMENTS(CoreDrawableRes.ic_launcher_foreground, CoreStringRes.app_name),
-    PROFILE(CoreDrawableRes.ic_launcher_foreground, CoreStringRes.app_name),
+enum class NavigationBarItem(
+    @DrawableRes val icon: Int,
+    @DrawableRes val iconOutline: Int,
+    @StringRes val titleRes: Int
+) {
+    SERVICES(
+        CoreDrawableRes.ic_services,
+        CoreDrawableRes.ic_services_outline,
+        CoreStringRes.services
+    ),
+    TIMER(CoreDrawableRes.ic_timer, CoreDrawableRes.ic_timer_outline, CoreStringRes.timer),
+    PROFILE(CoreDrawableRes.ic_profile, CoreDrawableRes.ic_profile_outline, CoreStringRes.profile),
 }
 
 @Composable
@@ -47,6 +56,7 @@ internal fun App(viewModel: AppViewModel = koinViewModel()) {
     val appState by viewModel.uiState.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
+    val destinationNav = navController.rememberDestinationsNavigator()
 
     viewModel.effect.observeWithLifecycle { effect ->
         when (effect) {
@@ -72,9 +82,11 @@ internal fun App(viewModel: AppViewModel = koinViewModel()) {
             onBottomBarItemClick = {
                 viewModel.onAction(AppAction.SetBottomBarItem(it))
                 when (it) {
-                    NavigationBarItem.RECEIPTS -> {}
-                    NavigationBarItem.STOCK -> {}
-                    NavigationBarItem.MOVEMENTS -> {}
+                    NavigationBarItem.SERVICES -> {
+                        destinationNav.navigate(ServicesGraph)
+                    }
+
+                    NavigationBarItem.TIMER -> {}
                     NavigationBarItem.PROFILE -> {}
                 }
             }
@@ -122,6 +134,9 @@ private fun AppContainer(
                     },
                     icons = remember {
                         items.map { it.icon }.toList()
+                    },
+                    iconsOutline = remember {
+                        items.map { it.iconOutline }.toList()
                     },
                     selectedItem = items.indexOf(selectedBottomBarItem),
                     onItemClick = { onBottomBarItemClick(items[it]) },

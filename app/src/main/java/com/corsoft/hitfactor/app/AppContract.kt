@@ -5,7 +5,7 @@ import com.corsoft.common.mvvm.MviEffect
 import com.corsoft.common.mvvm.MviState
 
 data class AppModel(
-    val selectedBottomBarItem: NavigationBarItem = NavigationBarItem.RECEIPTS,
+    val selectedBottomBarItem: NavigationBarItem = NavigationBarItem.SERVICES,
     val bottomBarItems: List<NavigationBarItem> = NavigationBarItem.entries,
     val isAuth: Boolean? = null,
     val isLoading: Boolean = false,
