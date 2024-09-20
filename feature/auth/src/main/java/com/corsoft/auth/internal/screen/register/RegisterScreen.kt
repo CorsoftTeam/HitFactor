@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.corsoft.auth.api.AuthNavGraph
+import com.corsoft.auth.api.AuthNavigator
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.button.HFButton
@@ -32,7 +33,7 @@ import com.corsoft.ui.components.text_field.HFTextField
 import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.generated.destinations.LoginScreenDestination
+import com.ramcosta.composedestinations.generated.auth.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -42,6 +43,7 @@ import org.koin.androidx.compose.koinViewModel
 @Destination<AuthNavGraph>
 internal fun RegisterScreen(
     navigator: DestinationsNavigator,
+    authNavigator: AuthNavigator,
     viewModel: RegisterViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -50,7 +52,7 @@ internal fun RegisterScreen(
 
     viewModel.effect.observeWithLifecycle { effect ->
         when (effect) {
-            is RegisterEffect.Register -> navigator.navigate(LoginScreenDestination)
+            is RegisterEffect.Register -> authNavigator.login()
             is RegisterEffect.ShowError -> scope.launch {
                 snackBarHostState.showSnackbar(effect.message)
             }

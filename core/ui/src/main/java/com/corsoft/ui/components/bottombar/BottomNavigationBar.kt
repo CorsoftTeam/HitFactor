@@ -32,6 +32,7 @@ fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     items: List<String>,
     icons: List<Int>,
+    iconsOutline: List<Int>,
     selectedItem: Int = 0,
     onItemClick: (Int) -> Unit = {},
 ) {
@@ -52,6 +53,7 @@ fun BottomNavigationBar(
                         BottomNavigationBarItem(
                             text = item,
                             icon = icons[index],
+                            iconOutline = iconsOutline[index],
                             selected = selectedItem == index,
                             onClick = { onItemClick(index) },
                             modifier = Modifier.weight(1f)
@@ -68,6 +70,7 @@ private fun BottomNavigationBarItem(
     modifier: Modifier = Modifier,
     text: String,
     @DrawableRes icon: Int,
+    @DrawableRes iconOutline: Int,
     selected: Boolean,
     onClick: () -> Unit = {},
 ) {
@@ -78,17 +81,20 @@ private fun BottomNavigationBarItem(
             contentColor = if (selected) {
                 MaterialTheme.colorScheme.primary
             } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
+                MaterialTheme.colorScheme.secondary
             },
         ),
         modifier = modifier
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(painter = painterResource(icon), contentDescription = null)
+            Icon(
+                painter = painterResource(if (selected) icon else iconOutline),
+                contentDescription = null
+            )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = text,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
             )
         }
@@ -103,6 +109,7 @@ fun BottomNavigationBarPreview() {
             BottomNavigationBar(
                 items = List(4) { "Item" }.toList(),
                 icons = List(4) { CoreDrawableRes.ic_logo }.toList(),
+                iconsOutline = List(4) { CoreDrawableRes.ic_logo }.toList(),
                 modifier = Modifier.padding(12.dp)
             )
         }
