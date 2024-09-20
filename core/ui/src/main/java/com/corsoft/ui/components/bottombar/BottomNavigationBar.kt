@@ -94,7 +94,7 @@ private fun BottomNavigationBarItem(
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = text,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
             )
         }
