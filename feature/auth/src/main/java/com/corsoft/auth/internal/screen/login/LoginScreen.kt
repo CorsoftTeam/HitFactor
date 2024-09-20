@@ -1,6 +1,5 @@
 package com.corsoft.auth.internal.screen.login
 
-//import com.ramcosta.composedestinations.generated.destinations.RegisterScreenDestination
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.corsoft.auth.api.AuthNavGraph
+import com.corsoft.auth.api.AuthNavigator
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.button.HFButton
@@ -43,6 +43,7 @@ import org.koin.androidx.compose.koinViewModel
 @Destination<AuthNavGraph>(start = true)
 internal fun LoginScreen(
     navigator: DestinationsNavigator,
+    authNavigator: AuthNavigator,
     viewModel: LoginViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -51,7 +52,7 @@ internal fun LoginScreen(
 
     viewModel.effect.observeWithLifecycle { effect ->
         when (effect) {
-            is LoginEffect.Login -> navigator.navigate(RegisterScreenDestination)
+            is LoginEffect.Login -> authNavigator.login()
             is LoginEffect.ShowError -> scope.launch {
                 snackBarHostState.showSnackbar(effect.message)
             }

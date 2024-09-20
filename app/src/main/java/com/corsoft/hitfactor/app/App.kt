@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.corsoft.auth.api.AuthNavGraph
-import com.corsoft.hitfactor.navigation.RootNavGraph
+import com.corsoft.hitfactor.navigation.HFRootNavGraph
+import com.corsoft.hitfactor.navigation.navigators.AuthNavigatorImpl
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.bottombar.BottomNavigationBar
@@ -26,9 +26,8 @@ import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.DestinationsNavHost
-import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.generated.auth.navgraphs.AuthGraph
 import com.ramcosta.composedestinations.generated.services.destinations.ServiceListScreenDestination
+import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.utils.currentDestinationFlow
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -81,9 +80,14 @@ internal fun App(viewModel: AppViewModel = koinViewModel()) {
             }
         ) {
             DestinationsNavHost(
-                navGraph = AuthGraph,
-                startRoute = AuthGraph.startRoute,
-                navController = navController
+                navGraph = HFRootNavGraph,
+                startRoute = HFRootNavGraph.startRoute,
+                navController = navController,
+                dependenciesContainerBuilder = {
+                    dependency(
+                        AuthNavigatorImpl(destinationsNavigator)
+                    )
+                }
             )
         }
     }

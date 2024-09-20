@@ -18,8 +18,6 @@ import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.services.internal.model.ServiceModel
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.NavHostGraph
-import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
 
@@ -61,6 +59,6 @@ private fun ServiceListScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(40.dp)
     ) {
-
+        //TODO: service list
     }
 }
