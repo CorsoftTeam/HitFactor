@@ -1,4 +1,4 @@
-package ppk.app.core.data
+package com.corsoft.data
 
 import android.content.Context
 import android.content.SharedPreferences

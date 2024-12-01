@@ -1,20 +1,22 @@
 package com.corsoft.auth.internal.network
 
-import com.corsoft.auth.internal.network.model.request.LoginRequest
 import com.corsoft.auth.internal.network.model.request.RegisterRequest
 import com.corsoft.auth.internal.network.model.response.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 internal interface AuthApi {
-    @POST("v1/auth/register")
+    @POST("users")
     suspend fun register(
         @Body request: RegisterRequest
-    ): Response<LoginResponse>
+    ): Response<Unit>
 
-    @POST("v1/auth/login")
+    @GET("authorization")
     suspend fun login(
-        @Body request: LoginRequest
+        @Query("login") login: String,
+        @Query("password") password: String
     ): Response<LoginResponse>
 }

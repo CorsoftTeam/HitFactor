@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.corsoft.network"
+    namespace = "com.vaskorr.provider"
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 25
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -33,10 +33,8 @@ android {
 }
 
 dependencies {
+
     implementation(platform(libs.koin.bom))
     implementation(libs.bundles.core)
-    implementation(libs.bundles.koin)
-    implementation(libs.bundles.retrofit)
-    implementation(project(":core:data"))
-    implementation(project(":core:provider"))
+    implementation(project(":core:resources"))
 }

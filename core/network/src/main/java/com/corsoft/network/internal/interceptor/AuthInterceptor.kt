@@ -2,7 +2,7 @@ package ppk.app.core.network.internal.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import ppk.app.core.data.storage.EncryptedStorage
+import com.corsoft.data.storage.EncryptedStorage
 
 internal class AuthInterceptor(private val storage: EncryptedStorage) : Interceptor {
     companion object {

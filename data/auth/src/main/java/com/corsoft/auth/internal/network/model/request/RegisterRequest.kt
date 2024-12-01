@@ -5,10 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class RegisterRequest(
-    @SerialName("login")
-    val login: String?,
-    @SerialName("name")
-    val name: String?,
-    @SerialName("password")
-    val password: String?,
+    @SerialName("user")
+    val user: UserField
 )

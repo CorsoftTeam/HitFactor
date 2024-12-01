@@ -52,7 +52,7 @@ internal fun RegisterScreen(
 
     viewModel.effect.observeWithLifecycle { effect ->
         when (effect) {
-            is RegisterEffect.Register -> authNavigator.login()
+            is RegisterEffect.Register -> navigator.navigate(LoginScreenDestination)
             is RegisterEffect.ShowError -> scope.launch {
                 snackBarHostState.showSnackbar(effect.message)
             }
@@ -74,7 +74,8 @@ internal fun RegisterScreen(
             onLoginChange = { viewModel.onAction(RegisterAction.UpdateLogin(it)) },
             onPasswordChange = { viewModel.onAction(RegisterAction.UpdatePassword(it)) },
             onNameChange = { viewModel.onAction(RegisterAction.UpdateName(it)) },
-            onPhoneChange = { viewModel.onAction(RegisterAction.UpdatePhone(it)) }
+            onPhoneChange = { viewModel.onAction(RegisterAction.UpdatePhone(it)) },
+            onEmailChange = {viewModel.onAction(RegisterAction.UpdateEmail(it))}
         )
     }
 }
@@ -88,6 +89,7 @@ private fun RegisterScreen(
     onPasswordChange: (String) -> Unit = {},
     onNameChange: (String) -> Unit = {},
     onPhoneChange: (String) -> Unit = {},
+    onEmailChange: (String) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -117,9 +119,9 @@ private fun RegisterScreen(
                 text = state.name
             ) { onNameChange(it) }
             HFTextField(
-                placeholder = stringResource(id = CoreStringRes.phone_number),
-                text = state.phone
-            ) { onPhoneChange(it) }
+                placeholder = stringResource(id = CoreStringRes.email),
+                text = state.email
+            ) { onEmailChange(it) }
             HFTextButton(
                 text = stringResource(id = CoreStringRes.already_reg)
             ) { onLoginClick() }

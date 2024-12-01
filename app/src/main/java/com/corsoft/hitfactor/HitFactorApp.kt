@@ -12,7 +12,7 @@ import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.dsl.module
-import ppk.app.core.data.di.dataModule
+import com.corsoft.data.di.dataModule
 
 class HitFactorApp : Application() {
     override fun onCreate() {
