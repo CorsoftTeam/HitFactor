@@ -3,7 +3,9 @@ package com.corsoft.auth.internal.screen.login
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.corsoft.auth.api.AuthRepository
+import com.corsoft.auth.internal.screen.register.RegisterEffect
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.network.model.NetworkResponse
 import kotlinx.coroutines.launch
 
 internal class LoginViewModel(
@@ -11,19 +13,29 @@ internal class LoginViewModel(
 ) : MviViewModel<LoginScreenModel, LoginAction, LoginEffect>(
     LoginScreenModel()
 ) {
-    fun login() {
+    private fun login() {
         viewModelScope.launch {
-            //TODO: add login
-            Log.d("r", authRepository.login("user1", "password1").toString())
-            sendEffect(LoginEffect.Login)
+            val response =
+                authRepository.login(
+                    login = uiState.value.login,
+                    password = uiState.value.password
+                )
+            when (response) {
+                is NetworkResponse.Success -> {
+                    sendEffect(LoginEffect.Login)
+                }
+
+                is NetworkResponse.Failed -> {
+                    sendEffect(LoginEffect.ShowError(response.getErrorMessage()))
+                }
+            }
         }
     }
 
     override fun onAction(action: LoginAction) {
         when (action) {
             is LoginAction.Login -> {
-                sendEffect(LoginEffect.Login)
-                //sendEffect(LoginEffect.ShowError("Бекендер кушает, подождите"))
+                login()
             }
 
             is LoginAction.UpdateLogin -> {

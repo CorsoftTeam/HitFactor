@@ -11,6 +11,7 @@ internal data class RegisterScreenState(
     val password: String = "",
     val name: String = "",
     val phone: String = "",
+    val email: String = "",
     val error: String = ""
 ) : MviState
 
@@ -20,6 +21,7 @@ internal sealed interface RegisterAction : MviAction {
     data class UpdatePassword(val password: String) : RegisterAction
     data class UpdateName(val name: String) : RegisterAction
     data class UpdatePhone(val phone: String) : RegisterAction
+    data class UpdateEmail(val email: String) : RegisterAction
 }
 
 internal sealed interface RegisterEffect : MviEffect {

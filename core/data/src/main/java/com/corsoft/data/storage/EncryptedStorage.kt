@@ -1,4 +1,4 @@
-package ppk.app.core.data.storage
+package com.corsoft.data.storage
 
 import android.content.SharedPreferences
 import ppk.app.core.common.delegate.StringPrefsDelegate

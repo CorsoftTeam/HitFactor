@@ -2,9 +2,10 @@ package com.corsoft.auth.internal
 
 import com.corsoft.auth.api.AuthRepository
 import com.corsoft.auth.internal.network.AuthApi
-import com.corsoft.auth.internal.network.model.request.LoginRequest
+import com.corsoft.auth.internal.network.model.request.RegisterRequest
+import com.corsoft.auth.internal.network.model.request.UserField
 import com.corsoft.network.model.NetworkResponse
-import ppk.app.core.data.storage.EncryptedStorage
+import com.corsoft.data.storage.EncryptedStorage
 import ppk.app.core.network.util.apiCall
 import ppk.app.core.network.util.doOn
 
@@ -15,10 +16,8 @@ internal class AuthRepositoryImpl(
     override suspend fun login(login: String, password: String): NetworkResponse<Unit> =
         apiCall {
             authApi.login(
-                request = LoginRequest(
-                    login = login,
-                    password = password
-                )
+                login = login,
+                password = password
             )
         }.doOn(
             success = {
@@ -31,9 +30,24 @@ internal class AuthRepositoryImpl(
     override suspend fun register(
         login: String,
         password: String,
-        phone: String
-    ): NetworkResponse<Unit> {
-        TODO("Not yet implemented")
-    }
+        email: String
+    ): NetworkResponse<Unit> =
+        apiCall {
+            authApi.register(
+                request = RegisterRequest(
+                    user = UserField(
+                        login = login,
+                        password = password,
+                        email = email,
+                        name = ""
+                    )
+                )
+            )
+        }.doOn(
+            success = {
+                NetworkResponse.Success(Unit)
+            },
+            failed = { it }
+        )
 
 }

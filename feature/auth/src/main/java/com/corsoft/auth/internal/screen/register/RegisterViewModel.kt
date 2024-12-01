@@ -3,6 +3,7 @@ package com.corsoft.auth.internal.screen.register
 import androidx.lifecycle.viewModelScope
 import com.corsoft.auth.api.AuthRepository
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.network.model.NetworkResponse
 import kotlinx.coroutines.launch
 
 internal class RegisterViewModel(
@@ -10,17 +11,32 @@ internal class RegisterViewModel(
 ) : MviViewModel<RegisterScreenState, RegisterAction, RegisterEffect>(
     RegisterScreenState()
 ) {
-    fun register() {
+    private fun register() {
         viewModelScope.launch {
-            //TODO: add register
-            sendEffect(RegisterEffect.Register)
+            viewModelScope.launch {
+                val response =
+                    authRepository.register(
+                        login = uiState.value.login,
+                        password = uiState.value.password,
+                        email = uiState.value.email
+                    )
+                when (response) {
+                    is NetworkResponse.Success -> {
+                        sendEffect(RegisterEffect.Register)
+                    }
+
+                    is NetworkResponse.Failed -> {
+                        sendEffect(RegisterEffect.ShowError(response.getErrorMessage()))
+                    }
+                }
+            }
         }
     }
 
     override fun onAction(action: RegisterAction) {
         when (action) {
             is RegisterAction.Register -> {
-                sendEffect(RegisterEffect.ShowError("Бекендер кушает, подождите"))
+                register()
             }
 
             is RegisterAction.UpdateLogin -> {
@@ -37,6 +53,10 @@ internal class RegisterViewModel(
 
             is RegisterAction.UpdatePhone -> {
                 changeState { it.copy(phone = action.phone) }
+            }
+
+            is RegisterAction.UpdateEmail -> {
+                changeState { it.copy(email = action.email) }
             }
         }
     }

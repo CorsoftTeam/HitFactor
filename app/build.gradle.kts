@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.corsoft.hitfactor"
-        minSdk = 24
+        minSdk = 25
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:provider"))
     ksp(libs.navigation.ksp)
     implementation(platform(libs.compose.bom))
     implementation(platform(libs.koin.bom))
