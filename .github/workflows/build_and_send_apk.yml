@@ -85,7 +85,7 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         document: ./apk/app-release.apk
-        message: "New RELEASE apk version ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
+        message: "New RELEASE apk version ${{ needs.build.outputs.version_name }} (Code: ${{ needs.build.outputs.version_code }})"
 
     - name: Send Debug APK to Telegram
       uses: appleboy/telegram-action@master
@@ -93,4 +93,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         document: ./apk/app-debug.apk
-        message: "New DEBUG apk version ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
+        message: "New DEBUG apk version ${{ needs.build.outputs.version_name }} (Code: ${{ needs.build.outputs.version_code }})"
