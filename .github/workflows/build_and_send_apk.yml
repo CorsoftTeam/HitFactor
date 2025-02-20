@@ -67,12 +67,30 @@ jobs:
         name: app-debug
         path: ./apk
 
-    - name: Send APKs to Telegram
+    - name: Check if APKs exist
+      run: |
+        if [ ! -f ./apk/app-release.apk ]; then
+          echo "Release APK not found!"
+          exit 1
+        fi
+        if [ ! -f ./apk/app-debug.apk ]; then
+          echo "Debug APK not found!"
+          exit 1
+        fi
+        echo "APKs found, proceeding to send."
+
+    - name: Send Release APK to Telegram
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        files: |
-          ./apk/app-release.apk
-          ./apk/app-debug.apk
-        caption: "New APK builds! Version: ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
+        document: ./apk/app-release.apk
+        message: "New RELEASE apk version ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
+
+    - name: Send Debug APK to Telegram
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        document: ./apk/app-debug.apk
+        message: "New DEBUG apk version ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
