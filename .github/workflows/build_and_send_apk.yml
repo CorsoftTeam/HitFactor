@@ -3,7 +3,7 @@ name: Build and Send APKs
 on:
   push:
     branches:
-      - main  # Укажите ветку, на которую нужно реагировать
+      - develop  # Укажите ветку, на которую нужно реагировать
 
 jobs:
   build:
