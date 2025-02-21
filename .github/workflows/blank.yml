@@ -5,7 +5,7 @@ on:
       - develop  # Укажите ветку, на которую нужно реагировать
 
 jobs:
-  build:
+  send-to-telegram:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,17 +21,10 @@ jobs:
         echo "Version Code: $VERSION_CODE"
         echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
         echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-        echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-        echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
-  send-to-telegram:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
     - name: Send Debug APK to Telegram
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: "New DEBUG apk version ${{ env.VERSION_NAME }} (Code: ${{ env.VERSION_CODE }})"
+        message: "New DEBUG apk version ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
