@@ -19,8 +19,10 @@ jobs:
         VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
         echo "Version Name: $VERSION_NAME"
         echo "Version Code: $VERSION_CODE"
-        echo "::set-output name=version_name::$VERSION_NAME"
-        echo "::set-output name=version_code::$VERSION_CODE"
+        echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+        echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+        echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+        echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
   send-to-telegram:
     runs-on: ubuntu-latest
@@ -32,4 +34,4 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        message: "New DEBUG apk version ${{ needs.build.outputs.version_name }} (Code: ${{ needs.build.outputs.version_code }})"
+        message: "New DEBUG apk version ${{ env.VERSION_NAME }} (Code: ${{ env.VERSION_CODE }})"
