@@ -10,6 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Start build notification
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: "🚧 Application build has started"
+    
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -79,8 +86,8 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        document: ./apk/app-release.apk
-        message: "New RELEASE apk version ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
+        document: app/build/outputs/apk/release/app-release.apk
+        message: "✅ RELEASE build done. New apk version is ${{ steps.version.outputs.version_name }}"
 
     - name: Send Debug APK to Telegram
       uses: appleboy/telegram-action@master
@@ -88,4 +95,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         document: app/build/outputs/apk/debug/app-debug.apk
-        message: "New DEBUG apk version ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
+        message: "✅ DEBUG build done. New apk version is ${{ steps.version.outputs.version_name }}"
