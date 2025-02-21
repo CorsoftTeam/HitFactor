@@ -28,16 +28,6 @@ jobs:
     - name: Build Debug APK
       run: ./gradlew assembleDebug
 
-    - name: Extract version information
-      id: version
-      run: |
-        VERSION_NAME=$(grep -oP 'versionName\s*=\s*"\K[^"]+' app/build.gradle.kts)
-        VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
-        echo "Version Name: $VERSION_NAME"
-        echo "Version Code: $VERSION_CODE"
-        echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
-        echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-
     - name: Upload Release APK
       uses: actions/upload-artifact@v4
       with:
@@ -67,6 +57,16 @@ jobs:
         name: app-debug
         path: ./apk
 
+    - name: Extract version information
+      id: version
+      run: |
+        VERSION_NAME=$(grep -oP 'versionName\s*=\s*"\K[^"]+' app/build.gradle.kts)
+        VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
+        echo "Version Name: $VERSION_NAME"
+        echo "Version Code: $VERSION_CODE"
+        echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+        echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+
     - name: Check if APKs exist
       run: |
         if [ ! -f ./apk/app-release.apk ]; then
@@ -85,7 +85,7 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         document: ./apk/app-release.apk
-        message: "New RELEASE apk version ${{ needs.build.outputs.version_name }} (Code: ${{ needs.build.outputs.version_code }})"
+        message: "New RELEASE apk version ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
 
     - name: Send Debug APK to Telegram
       uses: appleboy/telegram-action@master
@@ -93,4 +93,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         document: ./apk/app-debug.apk
-        message: "New DEBUG apk version ${{ needs.build.outputs.version_name }} (Code: ${{ needs.build.outputs.version_code }})"
+        message: "New DEBUG apk version ${{ steps.version.outputs.version_name }} (Code: ${{ steps.version.outputs.version_code }})"
