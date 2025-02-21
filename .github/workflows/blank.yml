@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: test
 on:
   push:
@@ -21,15 +19,14 @@ jobs:
         VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
         echo "Version Name: $VERSION_NAME"
         echo "Version Code: $VERSION_CODE"
-        echo "version_name=$VERSION_NAME" >> $env:GITHUB_OUTPUT
-        echo "version_code=$VERSION_CODE" >> $env:GITHUB_OUTPUT
+        echo "::set-output name=version_name::$VERSION_NAME"
+        echo "::set-output name=version_code::$VERSION_CODE"
 
   send-to-telegram:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-
     - name: Send Debug APK to Telegram
       uses: appleboy/telegram-action@master
       with:
