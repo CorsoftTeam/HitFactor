@@ -57,4 +57,5 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.compose.navigation)
+    implementation(libs.bundles.music)
 }

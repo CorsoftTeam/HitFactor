@@ -9,14 +9,14 @@ import com.corsoft.common.mvvm.MviState
 internal data class LoginScreenModel(
     val login: String = "",
     val password: String = "",
-    val error: String = ""
+    val error: String = "",
+    val isLoading: Boolean = true,
 ) : MviState
 
 internal sealed interface LoginAction : MviAction {
     data object Login : LoginAction
     data class UpdateLogin(val login: String) : LoginAction
     data class UpdatePassword(val password: String) : LoginAction
-
 }
 
 internal sealed interface LoginEffect : MviEffect {

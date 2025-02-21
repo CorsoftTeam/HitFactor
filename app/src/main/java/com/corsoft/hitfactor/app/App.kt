@@ -27,6 +27,7 @@ import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.services.destinations.ServiceListScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
 import com.ramcosta.composedestinations.generated.services.navgraphs.ServicesGraph
 import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.utils.currentDestinationFlow
@@ -44,8 +45,16 @@ enum class NavigationBarItem(
         CoreDrawableRes.ic_services_outline,
         CoreStringRes.services
     ),
-    TIMER(CoreDrawableRes.ic_timer, CoreDrawableRes.ic_timer_outline, CoreStringRes.timer),
-    PROFILE(CoreDrawableRes.ic_profile, CoreDrawableRes.ic_profile_outline, CoreStringRes.profile),
+    TIMER(
+        CoreDrawableRes.ic_timer,
+        CoreDrawableRes.ic_timer_outline,
+        CoreStringRes.timer
+    ),
+    PROFILE(
+        CoreDrawableRes.ic_profile,
+        CoreDrawableRes.ic_profile_outline,
+        CoreStringRes.profile
+    ),
 }
 
 @Composable
@@ -85,8 +94,9 @@ internal fun App(viewModel: AppViewModel = koinViewModel()) {
                     NavigationBarItem.SERVICES -> {
                         destinationNav.navigate(ServicesGraph)
                     }
-
-                    NavigationBarItem.TIMER -> {}
+                    NavigationBarItem.TIMER -> {
+                        destinationNav.navigate(TimerScreenDestination)
+                    }
                     NavigationBarItem.PROFILE -> {}
                 }
             }
@@ -164,6 +174,7 @@ private fun AppContainer(
 
 private fun isBottomBarVisible(route: String?): Boolean {
     return route != null && route in listOf(
-        ServiceListScreenDestination.route
+        ServiceListScreenDestination.route,
+        TimerScreenDestination.route
     )
 }

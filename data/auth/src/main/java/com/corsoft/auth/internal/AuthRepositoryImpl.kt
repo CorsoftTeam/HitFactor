@@ -30,7 +30,8 @@ internal class AuthRepositoryImpl(
     override suspend fun register(
         login: String,
         password: String,
-        email: String
+        email: String,
+        name: String
     ): NetworkResponse<Unit> =
         apiCall {
             authApi.register(
@@ -39,7 +40,7 @@ internal class AuthRepositoryImpl(
                         login = login,
                         password = password,
                         email = email,
-                        name = ""
+                        name = name
                     )
                 )
             )

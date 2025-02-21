@@ -64,8 +64,7 @@ private fun <ApiResponse> handleErrorResponse(
         ?: return NetworkResponse.Failed(Throwable(UNKNOWN_ERROR))
     return try {
         val serverError = json.decodeFromString<ServerError>(errorString)
-        val errorCode = serverError.statusCode
-        NetworkResponse.Failed(Throwable(serverError.message), errorCode)
+        NetworkResponse.Failed(Throwable(serverError.error), response.code())
     } catch (e: Exception) {
         NetworkResponse.Failed(e)
     }

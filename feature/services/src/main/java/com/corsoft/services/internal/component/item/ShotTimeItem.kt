@@ -1,0 +1,98 @@
+package com.corsoft.services.internal.component.item
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.corsoft.resources.CoreDrawableRes
+import com.corsoft.ui.theme.AppColors
+import com.corsoft.ui.theme.HitFactorTheme
+
+@Composable
+internal fun ShotTimeItem(
+    modifier: Modifier = Modifier,
+    index: Int,
+    time: String,
+    split: String,
+    onDelete: () -> Unit
+){
+    Row (
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ){
+        Text(
+            modifier = Modifier.width(36.dp),
+            text = index.toString(),
+            fontSize = 24.sp
+        )
+        Column (
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Text(
+                text = time,
+                fontSize = 32.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = split,
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Icon(
+            modifier = Modifier.size(24.dp).clickable { onDelete() },
+            painter = painterResource(id = CoreDrawableRes.ic_trash),
+            tint = AppColors.RedIcon,
+            contentDescription = ""
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun ShotTimeItemPreview() {
+    HitFactorTheme {
+        Surface {
+            ShotTimeItem(
+                index = 1,
+                time = "01:56.076",
+                split = "01:56.076") { }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun ShotTimeItemPreviewDark() {
+    HitFactorTheme (
+        darkTheme = true
+    ){
+        Surface {
+            ShotTimeItem(
+                index = 2,
+                time = "02:01.076",
+                split = "00:05.076") { }
+        }
+    }
+}

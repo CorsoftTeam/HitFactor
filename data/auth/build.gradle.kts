@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.corsoft.auth"
+    namespace = "com.corsoft.data.auth"
     compileSdk = 34
 
     defaultConfig {

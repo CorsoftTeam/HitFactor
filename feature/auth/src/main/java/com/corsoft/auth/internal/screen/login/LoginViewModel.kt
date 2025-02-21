@@ -13,8 +13,14 @@ internal class LoginViewModel(
 ) : MviViewModel<LoginScreenModel, LoginAction, LoginEffect>(
     LoginScreenModel()
 ) {
+
+    init {
+        setLoading(false)
+    }
+
     private fun login() {
         viewModelScope.launch {
+            setLoading(true)
             val response =
                 authRepository.login(
                     login = uiState.value.login,
@@ -26,6 +32,7 @@ internal class LoginViewModel(
                 }
 
                 is NetworkResponse.Failed -> {
+                    setLoading(false)
                     sendEffect(LoginEffect.ShowError(response.getErrorMessage()))
                 }
             }
@@ -45,6 +52,14 @@ internal class LoginViewModel(
             is LoginAction.UpdatePassword -> {
                 changeState { it.copy(password = action.password) }
             }
+        }
+    }
+
+    private fun setLoading(state: Boolean){
+        changeState {
+            it.copy(
+                isLoading = state
+            )
         }
     }
 }
