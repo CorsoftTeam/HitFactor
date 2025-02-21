@@ -13,4 +13,14 @@
     <string name="services">Сервисы</string>
     <string name="timer">Таймер</string>
     <string name="profile">Профиль</string>
+    <string name="stopped_state_text">СТАРТ</string>
+    <string name="waiting_state_text">ГОТОВНОСТЬ...</string>
+    <string name="run_state_text">СТОП</string>
+    <string name="total_time">Время</string>
+    <string name="first_shot_time">Первый выстрел</string>
+    <string name="split_time">Сплит</string>
+    <string name="to_calculating">К рассчетам</string>
+    <string name="number_">№</string>
+    <string name="shot">Выстрел</string>
+    <string name="delete">Удалить</string>
 </resources>

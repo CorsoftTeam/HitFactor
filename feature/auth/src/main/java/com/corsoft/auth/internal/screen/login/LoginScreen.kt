@@ -1,11 +1,13 @@
 package com.corsoft.auth.internal.screen.login
 
+import LoadingCircle
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -67,13 +69,23 @@ internal fun LoginScreen(
             )
         }
     ) {
-        LoginScreen(
-            state = uiState,
-            onLoginClick = { viewModel.onAction(LoginAction.Login) },
-            onRegisterClick = { navigator.navigate(RegisterScreenDestination) },
-            onLoginChange = { viewModel.onAction(LoginAction.UpdateLogin(it)) },
-            onPasswordChange = { viewModel.onAction(LoginAction.UpdatePassword(it)) }
-        )
+        if (uiState.isLoading) {
+            Column (
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                LoadingCircle()
+            }
+        } else {
+            LoginScreen(
+                state = uiState,
+                onLoginClick = { viewModel.onAction(LoginAction.Login) },
+                onRegisterClick = { navigator.navigate(RegisterScreenDestination) },
+                onLoginChange = { viewModel.onAction(LoginAction.UpdateLogin(it)) },
+                onPasswordChange = { viewModel.onAction(LoginAction.UpdatePassword(it)) }
+            )
+        }
     }
 }
 
@@ -137,7 +149,7 @@ private fun LoginScreen(
 fun LoginScreenPreviewLight() {
     HitFactorTheme {
         LoginScreen(
-            LoginScreenModel()
+            LoginScreenModel( isLoading = true)
         )
     }
 }

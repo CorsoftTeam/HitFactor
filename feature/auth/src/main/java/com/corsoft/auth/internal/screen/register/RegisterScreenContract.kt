@@ -12,7 +12,8 @@ internal data class RegisterScreenState(
     val name: String = "",
     val phone: String = "",
     val email: String = "",
-    val error: String = ""
+    val error: String = "",
+    val isLoading: Boolean = true,
 ) : MviState
 
 internal sealed interface RegisterAction : MviAction {

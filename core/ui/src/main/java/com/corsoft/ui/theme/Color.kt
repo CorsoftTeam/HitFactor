@@ -35,12 +35,13 @@ object AppColors {
 
     // Текстовые цвета
     val TextPrimaryLight = Color(0xFF212121)
-    val TextSecondaryLight = Color(0xFF757575)
+    val TextSecondaryDark = Color(0xFF757575)
     val TextPrimaryDark = Color(0xFFFFFFFF)
-    val TextSecondaryDark = Color(0xFFBDBDBD)
+    val TextSecondaryLight = Color(0xFFBDBDBD)
     val TextBlue = Color(0xFF6D6DFF)
 
     // Цвета для иконок
     val IconLightBackground = Color(0xFF424242)
     val IconDarkBackground = Color(0xFFFFFFFF)
+    val RedIcon = Color(0xFFB00020)
 }

@@ -1,5 +1,6 @@
 package com.corsoft.auth.internal.screen.register
 
+import LoadingCircle
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -67,16 +68,26 @@ internal fun RegisterScreen(
             )
         }
     ) {
-        RegisterScreen(
-            state = uiState,
-            onLoginClick = { navigator.navigate(LoginScreenDestination) },
-            onRegisterClick = { viewModel.onAction(RegisterAction.Register) },
-            onLoginChange = { viewModel.onAction(RegisterAction.UpdateLogin(it)) },
-            onPasswordChange = { viewModel.onAction(RegisterAction.UpdatePassword(it)) },
-            onNameChange = { viewModel.onAction(RegisterAction.UpdateName(it)) },
-            onPhoneChange = { viewModel.onAction(RegisterAction.UpdatePhone(it)) },
-            onEmailChange = {viewModel.onAction(RegisterAction.UpdateEmail(it))}
-        )
+        if (uiState.isLoading) {
+            Column (
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                LoadingCircle()
+            }
+        } else {
+            RegisterScreen(
+                state = uiState,
+                onLoginClick = { navigator.navigate(LoginScreenDestination) },
+                onRegisterClick = { viewModel.onAction(RegisterAction.Register) },
+                onLoginChange = { viewModel.onAction(RegisterAction.UpdateLogin(it)) },
+                onPasswordChange = { viewModel.onAction(RegisterAction.UpdatePassword(it)) },
+                onNameChange = { viewModel.onAction(RegisterAction.UpdateName(it)) },
+                onPhoneChange = { viewModel.onAction(RegisterAction.UpdatePhone(it)) },
+                onEmailChange = {viewModel.onAction(RegisterAction.UpdateEmail(it))}
+            )
+        }
     }
 }
 
