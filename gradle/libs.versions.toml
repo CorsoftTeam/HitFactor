@@ -17,6 +17,7 @@ espressoCore = "3.6.1"
 #Compose
 activityCompose = "1.9.2"
 composeBom = "2023.08.00"
+coil = "3.0.0"
 
 #Koin
 koinBom = "3.5.3"
@@ -70,6 +71,7 @@ compose-animation = { group = "androidx.compose.animation", name = "animation" }
 compose-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 accompainst = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompainst"}
+coil = {group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil"}
 
 #Koin
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koinBom" }
@@ -107,6 +109,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 kotlin-serialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "pluginSerialization"}
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 #---------------------------------------------------------------------------------------------------
 [bundles]
@@ -133,7 +136,8 @@ compose = [
     "compose-icons",
     "compose-lifecycle-runtime",
     "compose-ui-tooling",
-    "accompainst"
+    "accompainst",
+    "coil"
 ]
 
 compose-navigation = [

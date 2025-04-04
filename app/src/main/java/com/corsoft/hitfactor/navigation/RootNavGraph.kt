@@ -22,5 +22,5 @@ object HFRootNavGraph : DirectionNavHostGraphSpec {
 
     override val route: String = "root"
 
-    override val startRoute: TypedRoute<Unit> = AuthGraph
+    override val startRoute: TypedRoute<Unit> = ServicesGraph
 }

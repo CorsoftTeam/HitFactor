@@ -1,5 +1,6 @@
 package com.corsoft.auth.internal
 
+import android.util.Log
 import com.corsoft.auth.api.AuthRepository
 import com.corsoft.auth.internal.network.AuthApi
 import com.corsoft.auth.internal.network.model.request.RegisterRequest
@@ -21,7 +22,8 @@ internal class AuthRepositoryImpl(
             )
         }.doOn(
             success = {
-                storage.accessToken = it.accessToken
+                Log.d("TOKEN2", it.toString())
+                storage.accessToken = it.token
                 NetworkResponse.Success(Unit)
             },
             failed = { it }
@@ -50,5 +52,10 @@ internal class AuthRepositoryImpl(
             },
             failed = { it }
         )
+
+    override fun isUserAuthorised(): Boolean {
+        Log.d("TOKEN", storage.accessToken ?: "")
+        return !storage.accessToken.isNullOrEmpty()
+    }
 
 }
