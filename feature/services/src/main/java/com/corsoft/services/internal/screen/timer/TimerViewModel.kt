@@ -1,30 +1,35 @@
 package com.corsoft.services.internal.screen.timer
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioRecord
+import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.resources.CoreRawRes
 import com.corsoft.services.internal.component.enum.TimerStateEnum
 import com.corsoft.services.internal.model.timer.ShotModel
 import com.corsoft.services.internal.utils.HFCountDownTimer
 import com.corsoft.services.internal.utils.Timer
-import com.github.nisrulz.zentone.ZenTone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-internal class TimerViewModel : MviViewModel<TimerState, TimerAction, TimerEffect>(
+internal class TimerViewModel(
+    context: Context
+) : MviViewModel<TimerState, TimerAction, TimerEffect>(
     TimerState()
 ) {
     private var timer: Timer = Timer()
 
     private var updateTime: Job = Job()
+
+    private val mediaPlayer = MediaPlayer.create(context, CoreRawRes.beep_sound)
 
     private val sampleRate = 44100
     private val bufferSize = AudioRecord.getMinBufferSize(
@@ -63,7 +68,7 @@ internal class TimerViewModel : MviViewModel<TimerState, TimerAction, TimerEffec
                     }
                 },
                 onTimerFinish = {
-                    playTone(freqOfTone = 4000.0, duration = 200)
+                    playBeep()
                     startTimer()
                 }
             ).start()
@@ -101,14 +106,8 @@ internal class TimerViewModel : MviViewModel<TimerState, TimerAction, TimerEffec
         }
     }
 
-    private fun playTone(freqOfTone: Double, duration: Long) {
-        viewModelScope.launch {
-            val zTone = ZenTone()
-            zTone.play(3000F, 100)
-            delay(duration)
-            zTone.stop()
-            zTone.release()
-        }
+    private fun playBeep() {
+        mediaPlayer.start()
     }
 
     @SuppressLint("MissingPermission")
