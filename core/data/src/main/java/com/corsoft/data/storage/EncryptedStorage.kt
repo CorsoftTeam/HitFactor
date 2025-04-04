@@ -1,7 +1,7 @@
 package com.corsoft.data.storage
 
 import android.content.SharedPreferences
-import ppk.app.core.common.delegate.StringPrefsDelegate
+import com.corsoft.common.delegate.StringPrefsDelegate
 
 interface EncryptedStorage {
     var accessToken: String?

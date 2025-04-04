@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.corsoft.auth.api.AuthNavGraph
+import com.corsoft.auth.api.AuthRepository
 import com.corsoft.hitfactor.navigation.HFRootNavGraph
 import com.corsoft.hitfactor.navigation.navigators.AuthNavigatorImpl
 import com.corsoft.resources.CoreDrawableRes
@@ -26,6 +28,8 @@ import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.generated.auth.navgraphs.AuthGraph
+import com.ramcosta.composedestinations.generated.services.destinations.ProfileScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.ServiceListScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
 import com.ramcosta.composedestinations.generated.services.navgraphs.ServicesGraph
@@ -33,7 +37,9 @@ import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.utils.currentDestinationFlow
 import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 enum class NavigationBarItem(
     @DrawableRes val icon: Int,
@@ -58,7 +64,10 @@ enum class NavigationBarItem(
 }
 
 @Composable
-internal fun App(viewModel: AppViewModel = koinViewModel()) {
+internal fun App(
+    viewModel: AppViewModel = koinViewModel(),
+    authRepository: AuthRepository = koinInject()
+) {
 
     val context = LocalContext.current
     val navController = rememberNavController()
@@ -97,13 +106,15 @@ internal fun App(viewModel: AppViewModel = koinViewModel()) {
                     NavigationBarItem.TIMER -> {
                         destinationNav.navigate(TimerScreenDestination)
                     }
-                    NavigationBarItem.PROFILE -> {}
+                    NavigationBarItem.PROFILE -> {
+                        destinationNav.navigate(ProfileScreenDestination)
+                    }
                 }
             }
         ) {
             DestinationsNavHost(
                 navGraph = HFRootNavGraph,
-                startRoute = HFRootNavGraph.startRoute,
+                startRoute = if (authRepository.isUserAuthorised()) HFRootNavGraph.startRoute else AuthGraph,
                 navController = navController,
                 dependenciesContainerBuilder = {
                     dependency(
@@ -175,6 +186,7 @@ private fun AppContainer(
 private fun isBottomBarVisible(route: String?): Boolean {
     return route != null && route in listOf(
         ServiceListScreenDestination.route,
-        TimerScreenDestination.route
+        TimerScreenDestination.route,
+        ProfileScreenDestination.route
     )
 }

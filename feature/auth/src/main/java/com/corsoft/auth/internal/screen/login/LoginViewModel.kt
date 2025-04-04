@@ -7,6 +7,7 @@ import com.corsoft.auth.internal.screen.register.RegisterEffect
 import com.corsoft.common.mvvm.MviViewModel
 import com.corsoft.network.model.NetworkResponse
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 internal class LoginViewModel(
     private val authRepository: AuthRepository

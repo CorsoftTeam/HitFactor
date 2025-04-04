@@ -1,4 +1,4 @@
-package ppk.app.core.common.delegate
+package com.corsoft.common.delegate
 
 import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty
