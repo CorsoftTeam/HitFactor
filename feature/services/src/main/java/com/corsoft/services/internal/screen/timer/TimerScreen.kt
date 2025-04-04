@@ -190,11 +190,12 @@ private fun TimerScreen(
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        HFButton(
-            text = stringResource(id = CoreStringRes.to_calculating),
-            isPrimary = false,
-            enabled = (state.timerState == TimerStateEnum.STOPPED && state.shotTimes.isNotEmpty())
-        ) { }
+        if (state.timerState == TimerStateEnum.STOPPED) {
+            HFButton(
+                text = stringResource(id = CoreStringRes.to_calculating),
+                isPrimary = false
+            ) { }
+        }
     }
 }
 
