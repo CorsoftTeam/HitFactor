@@ -1,6 +1,7 @@
 package com.corsoft.services.internal.screen.timer
 
 import android.Manifest
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.services.internal.component.button.TimerButton
@@ -43,7 +45,9 @@ import com.corsoft.services.internal.component.enum.TimerStateEnum
 import com.corsoft.services.internal.component.item.ShotTimeItem
 import com.corsoft.services.internal.model.timer.ShotModel
 import com.corsoft.ui.components.button.HFButton
+import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
+import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.HitFactorTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -75,6 +79,16 @@ internal fun TimerScreen(
 
     Scaffold(
         topBar = {
+            ToolBar(
+                title = {
+                    Text(
+                        text = stringResource(id = CoreStringRes.timer)
+                    )
+                },
+                actions = {
+                    HFIconButton(icon = CoreDrawableRes.ic_settings) { }
+                }
+            )
             HFSnackBarHost(
                 hostState = snackBarHostState,
                 modifier = Modifier.statusBarsPadding()
@@ -100,12 +114,11 @@ private fun TimerScreen(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = 40.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
         Card(
             Modifier.weight(1f),
             colors = CardDefaults.cardColors(
@@ -141,6 +154,7 @@ private fun TimerScreen(
                 LazyColumn {
                     items(state.shotTimes) { time ->
                         ShotTimeItem(
+                            modifier = Modifier.animateItem(),
                             index = state.shotTimes.indexOf(time) + 1,
                             time = state.formatTime(time.time),
                             split = state.formatTime(time.split),
@@ -190,7 +204,9 @@ private fun TimerScreen(
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        if (state.timerState == TimerStateEnum.STOPPED) {
+        AnimatedVisibility(
+            visible = state.timerState == TimerStateEnum.STOPPED
+        ) {
             HFButton(
                 text = stringResource(id = CoreStringRes.to_calculating),
                 isPrimary = false

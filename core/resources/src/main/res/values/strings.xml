@@ -23,4 +23,11 @@
     <string name="number_">№</string>
     <string name="shot">Выстрел</string>
     <string name="delete">Удалить</string>
+    <string name="gun_storage">Оружейная</string>
+    <string name="ammo">Снаряжение</string>
+    <string name="trainings">Тренировки</string>
+    <string name="calculator">Калькулятор</string>
+    <string name="documents">Документы</string>
+    <string name="statistic">Статистика</string>
+    <string name="video_analyze">Анализ видео</string>
 </resources>

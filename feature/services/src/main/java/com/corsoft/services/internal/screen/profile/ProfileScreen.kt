@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -22,14 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.rememberAsyncImagePainter
 import com.corsoft.resources.CoreDrawableRes
+import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
+import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.HitFactorTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -46,6 +50,16 @@ internal fun ProfileScreen(
 
     Scaffold(
         topBar = {
+            ToolBar(
+                title = {
+                    Text(
+                        text = stringResource(id = CoreStringRes.profile)
+                    )
+                },
+                actions = {
+                    HFIconButton(icon = CoreDrawableRes.ic_settings) { }
+                }
+            )
             HFSnackBarHost(
                 hostState = snackBarHostState,
                 modifier = Modifier.statusBarsPadding()
@@ -68,14 +82,6 @@ private fun ProfileScreen(
     Column (
         modifier = modifier
     ){
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            HFIconButton(icon = CoreDrawableRes.ic_settings) {
-                onSettingsClick()
-            }
-        }
         Row {
             Spacer(modifier = Modifier.width(30.dp))
             Image(
