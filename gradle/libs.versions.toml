@@ -72,6 +72,7 @@ compose-icons = { group = "androidx.compose.material", name = "material-icons-ex
 compose-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 accompainst = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompainst"}
 coil = {group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil"}
+coil-network-okhttp = {group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil"}
 
 #Koin
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koinBom" }
@@ -137,7 +138,8 @@ compose = [
     "compose-lifecycle-runtime",
     "compose-ui-tooling",
     "accompainst",
-    "coil"
+    "coil",
+    "coil-network-okhttp"
 ]
 
 compose-navigation = [

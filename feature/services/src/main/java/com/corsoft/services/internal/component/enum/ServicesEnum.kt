@@ -1,10 +1,12 @@
 package com.corsoft.services.internal.component.enum
 
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
+import com.ramcosta.composedestinations.generated.services.destinations.DocumentsScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -49,13 +51,13 @@ internal enum class ServicesEnum {
     fun navigate(navigator: DestinationsNavigator){
         when (this) {
             TIMER -> navigator.navigate(TimerScreenDestination)
-            CALC -> TODO()
-            CALENDAR -> TODO()
-            AMMO -> TODO()
-            GUNS -> TODO()
-            DOCS -> TODO()
-            STAT -> TODO()
-            ANALYZE -> TODO()
+            CALC -> {}
+            CALENDAR -> {}
+            AMMO -> {}
+            GUNS -> {}
+            DOCS -> navigator.navigate(DocumentsScreenDestination)
+            STAT -> {}
+            ANALYZE -> {}
         }
     }
 

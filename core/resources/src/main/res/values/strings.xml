@@ -30,4 +30,6 @@
     <string name="documents">Документы</string>
     <string name="statistic">Статистика</string>
     <string name="video_analyze">Анализ видео</string>
+
+    <string name="local_documents_message">Обратите внимание, что документы хранятся локально на вашем устройстве и не передаются на сервер</string>
 </resources>
