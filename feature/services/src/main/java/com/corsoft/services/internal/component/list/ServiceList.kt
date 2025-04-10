@@ -25,7 +25,7 @@ internal fun ServiceList(
     navigator: DestinationsNavigator
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2), // Фиксированное количество колонок (2)
+        columns = GridCells.Fixed(2),
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
