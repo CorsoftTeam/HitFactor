@@ -1,6 +1,5 @@
 package com.corsoft.services.internal.component.enum
 
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -8,6 +7,7 @@ import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.ramcosta.composedestinations.generated.services.destinations.DocumentsScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.WeaponsScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 internal enum class ServicesEnum {
@@ -54,7 +54,7 @@ internal enum class ServicesEnum {
             CALC -> {}
             CALENDAR -> {}
             AMMO -> {}
-            GUNS -> {}
+            GUNS -> navigator.navigate(WeaponsScreenDestination)
             DOCS -> navigator.navigate(DocumentsScreenDestination)
             STAT -> {}
             ANALYZE -> {}

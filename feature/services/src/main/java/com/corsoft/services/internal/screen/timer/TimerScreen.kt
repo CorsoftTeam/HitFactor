@@ -53,6 +53,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.generated.services.destinations.CalculateHFScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
 
@@ -100,7 +101,8 @@ internal fun TimerScreen(
             state = uiState,
             actions = { action ->
                 viewModel.onAction(action)
-            }
+            },
+            onCalculateButtonClick = { navigator.navigate(CalculateHFScreenDestination) }
         )
     }
 }
@@ -110,7 +112,8 @@ private fun TimerScreen(
     modifier: Modifier = Modifier,
     state: TimerState,
     actions: (TimerAction) -> Unit = {},
-    onStartButtonClick: () -> Unit = {}
+    onStartButtonClick: () -> Unit = {},
+    onCalculateButtonClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -209,8 +212,9 @@ private fun TimerScreen(
         ) {
             HFButton(
                 text = stringResource(id = CoreStringRes.to_calculating),
-                isPrimary = false
-            ) { }
+                isPrimary = false,
+                onClick = onCalculateButtonClick
+            )
         }
     }
 }

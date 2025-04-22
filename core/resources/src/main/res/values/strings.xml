@@ -30,6 +30,14 @@
     <string name="documents">Документы</string>
     <string name="statistic">Статистика</string>
     <string name="video_analyze">Анализ видео</string>
+    <string name="reset">Сброс</string>
+
+    <string name="self_defence">ОООП</string>
+    <string name="pistol">Пистолет</string>
+    <string name="pcc">КПК</string>
+    <string name="carbine">Карабин</string>
+    <string name="shotgun">Ружье</string>
+    <string name="bolt_action">Болтовка</string>
 
     <string name="local_documents_message">Обратите внимание, что документы хранятся локально на вашем устройстве и не передаются на сервер</string>
 </resources>

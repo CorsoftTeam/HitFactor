@@ -70,4 +70,5 @@ dependencies {
     implementation(project(":feature:auth"))
     implementation(project(":feature:services"))
     implementation(project(":data:auth"))
+    implementation(project(":data:user"))
 }

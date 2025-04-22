@@ -7,7 +7,7 @@ import com.corsoft.common.mvvm.MviState
 import com.corsoft.services.internal.model.ServiceModel
 
 @Immutable
-data class ServiceListScreenState(
+internal data class ServiceListScreenState(
     val serviceList: List<ServiceModel> = emptyList()
 ) : MviState
 

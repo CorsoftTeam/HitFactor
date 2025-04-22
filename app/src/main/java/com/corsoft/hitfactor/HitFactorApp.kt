@@ -13,6 +13,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.dsl.module
 import com.corsoft.data.di.dataModule
+import com.corsoft.hitfactor.data.user.di.userDataModule
 
 class HitFactorApp : Application() {
     override fun onCreate() {
@@ -31,7 +32,7 @@ class HitFactorApp : Application() {
 
     private fun KoinApplication.addModules() {
         val coreModules = module { includes(networkModule, dataModule) }
-        val dataModules = module { includes(authDataModule) }
+        val dataModules = module { includes(authDataModule, userDataModule) }
         val featureModules = module { includes(authFeatureModule, servicesFeatureModule) }
         modules(appModule, coreModules, dataModules, featureModules)
     }
