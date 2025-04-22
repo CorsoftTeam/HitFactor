@@ -3,10 +3,11 @@ package com.corsoft.auth.internal
 import android.util.Log
 import com.corsoft.auth.api.AuthRepository
 import com.corsoft.auth.internal.network.AuthApi
+import com.corsoft.auth.internal.network.model.request.AuthRequest
 import com.corsoft.auth.internal.network.model.request.RegisterRequest
 import com.corsoft.auth.internal.network.model.request.UserField
-import com.corsoft.network.model.NetworkResponse
 import com.corsoft.data.storage.EncryptedStorage
+import com.corsoft.network.model.NetworkResponse
 import ppk.app.core.network.util.apiCall
 import ppk.app.core.network.util.doOn
 
@@ -14,20 +15,22 @@ internal class AuthRepositoryImpl(
     private val storage: EncryptedStorage,
     private val authApi: AuthApi
 ) : AuthRepository {
-    override suspend fun login(login: String, password: String): NetworkResponse<Unit> =
-        apiCall {
-            authApi.login(
+    override suspend fun login(login: String, password: String): NetworkResponse<Unit> {
+        val response = authApi.login(
+            AuthRequest(
                 login = login,
                 password = password
             )
-        }.doOn(
-            success = {
-                Log.d("TOKEN2", it.toString())
-                storage.accessToken = it.token
-                NetworkResponse.Success(Unit)
-            },
-            failed = { it }
         )
+        if (response.isSuccessful) {
+            Log.d("HEADER", response.headers()["set-cookie"].toString())
+            storage.accessToken = response.body()?.token
+            storage.cookie = response.headers()["set-cookie"]
+            return NetworkResponse.Success(Unit)
+        } else {
+            return NetworkResponse.Failed(Throwable(response.errorBody()?.string()))
+        }
+    }
 
     override suspend fun register(
         login: String,
@@ -54,7 +57,6 @@ internal class AuthRepositoryImpl(
         )
 
     override fun isUserAuthorised(): Boolean {
-        Log.d("TOKEN", storage.accessToken ?: "")
         return !storage.accessToken.isNullOrEmpty()
     }
 

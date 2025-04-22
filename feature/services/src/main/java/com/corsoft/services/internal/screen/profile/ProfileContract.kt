@@ -7,7 +7,7 @@ import com.corsoft.common.mvvm.MviState
 import com.corsoft.services.internal.model.ServiceModel
 
 @Immutable
-data class ProfileScreenState(
+internal data class ProfileScreenState(
     val serviceList: List<ServiceModel> = emptyList(),
     val isLoading: Boolean = true
 ) : MviState

@@ -51,6 +51,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":data:auth"))
+    implementation(project(":data:user"))
     implementation(platform(libs.koin.bom))
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.core)

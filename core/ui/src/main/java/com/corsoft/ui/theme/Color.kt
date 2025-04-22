@@ -11,6 +11,8 @@ object LightThemeColors {
     val OnBackground = Color(0xFF000000) // Черный текст на фоне
     val OnSurface = Color(0xFF000000) // Черный текст на поверхности
     val OnError = Color(0xFFFFFFFF) // Белый текст на ошибке
+    val OnPrimaryContainer = Color(0xFF1B1C21)
+    val OnSecondaryContainer = Color(0xFF26262E)
 }
 
 object DarkThemeColors {
@@ -22,6 +24,8 @@ object DarkThemeColors {
     val OnBackground = Color(0xFFFFFFFF) // Белый текст на фоне
     val OnSurface = Color(0xFFFFFFFF) // Белый текст на поверхности
     val OnError = Color(0xFF000000) // Черный текст на ошибке
+    val OnPrimaryContainer = Color(0xFF1B1C21)
+    val OnSecondaryContainer = Color(0xFF26262E)
 }
 
 object AppColors {
