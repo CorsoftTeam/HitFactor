@@ -127,7 +127,6 @@ private fun TimerScreen(
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent
             ),
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
         ) {
             Column(
                 Modifier
@@ -135,24 +134,7 @@ private fun TimerScreen(
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 24.dp),
-                ) {
-                    Text(
-                        text = stringResource(id = CoreStringRes.number_),
-                        modifier = Modifier.width(36.dp)
-                    )
-                    Text(
-                        text = stringResource(id = CoreStringRes.total_time),
-                        modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
-                    )
-                }
-
                 Spacer(modifier = Modifier.height(8.dp))
-                Divider()
 
                 LazyColumn {
                     items(state.shotTimes) { time ->
@@ -163,10 +145,7 @@ private fun TimerScreen(
                             split = state.formatTime(time.split),
                             onDelete = { actions(TimerAction.DeleteTime(state.shotTimes.indexOf(time))) }
                         )
-                        if (state.shotTimes.indexOf(time) != state.shotTimes.lastIndex) {
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Divider()
-                        }
+                        Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
             }
@@ -211,6 +190,7 @@ private fun TimerScreen(
             visible = state.timerState == TimerStateEnum.STOPPED
         ) {
             HFButton(
+                modifier = Modifier.height(64.dp),
                 text = stringResource(id = CoreStringRes.to_calculating),
                 isPrimary = false,
                 onClick = onCalculateButtonClick
@@ -322,7 +302,7 @@ private fun TimerPreviewDarkRun() {
 @Composable
 private fun TimerPreviewDarkStop() {
     HitFactorTheme(
-        darkTheme = true
+        darkTheme = false
     ) {
         Surface {
             TimerScreen(
