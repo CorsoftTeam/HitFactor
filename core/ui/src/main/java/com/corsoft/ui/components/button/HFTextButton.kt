@@ -21,7 +21,7 @@ fun HFTextButton(
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.labelMedium.copy(
+        style = MaterialTheme.typography.labelLarge.copy(
             textDecoration = TextDecoration.Underline
         ),
         color = AppColors.TextBlue,

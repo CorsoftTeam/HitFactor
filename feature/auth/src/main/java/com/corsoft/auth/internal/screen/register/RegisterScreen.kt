@@ -6,10 +6,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -30,7 +34,7 @@ import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.button.HFTextButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
-import com.corsoft.ui.components.text_field.HFTextField
+import com.corsoft.ui.components.text_field.HFFilledTextField
 import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
@@ -60,35 +64,19 @@ internal fun RegisterScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            HFSnackBarHost(
-                hostState = snackBarHostState,
-                modifier = Modifier.statusBarsPadding()
-            )
-        }
-    ) {
-        if (uiState.isLoading) {
-            Column (
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                LoadingCircle()
-            }
-        } else {
-            RegisterScreen(
-                state = uiState,
-                onLoginClick = { navigator.navigate(LoginScreenDestination) },
-                onRegisterClick = { viewModel.onAction(RegisterAction.Register) },
-                onLoginChange = { viewModel.onAction(RegisterAction.UpdateLogin(it)) },
-                onPasswordChange = { viewModel.onAction(RegisterAction.UpdatePassword(it)) },
-                onNameChange = { viewModel.onAction(RegisterAction.UpdateName(it)) },
-                onPhoneChange = { viewModel.onAction(RegisterAction.UpdatePhone(it)) },
-                onEmailChange = {viewModel.onAction(RegisterAction.UpdateEmail(it))}
-            )
-        }
-    }
+    RegisterScreen(
+        state = uiState,
+        onLoginClick = { navigator.navigate(LoginScreenDestination) },
+        onRegisterClick = { viewModel.onAction(RegisterAction.Register) },
+        onLoginChange = { viewModel.onAction(RegisterAction.UpdateLogin(it)) },
+        onPasswordChange = { viewModel.onAction(RegisterAction.UpdatePassword(it)) },
+        onNameChange = { viewModel.onAction(RegisterAction.UpdateName(it)) },
+        onPhoneChange = { viewModel.onAction(RegisterAction.UpdatePhone(it)) },
+        onEmailChange = { viewModel.onAction(RegisterAction.UpdateEmail(it)) },
+        snackbarHostState = snackBarHostState
+    )
+
+
 }
 
 @Composable
@@ -101,49 +89,74 @@ private fun RegisterScreen(
     onNameChange: (String) -> Unit = {},
     onPhoneChange: (String) -> Unit = {},
     onEmailChange: (String) -> Unit = {},
+    snackbarHostState: SnackbarHostState = SnackbarHostState()
 ) {
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 40.dp)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(40.dp)
-    ) {
-        Spacer(modifier = Modifier.height(50.dp))
-        Image(
-            painter = painterResource(id = CoreDrawableRes.logo_large),
-            contentDescription = null
-        )
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            HFTextField(
-                placeholder = stringResource(id = CoreStringRes.login),
-                text = state.login
-            ) { onLoginChange(it) }
-            HFTextField(
-                placeholder = stringResource(id = CoreStringRes.password),
-                text = state.password
-            ) { onPasswordChange(it) }
-            HFTextField(
-                placeholder = stringResource(id = CoreStringRes.name),
-                text = state.name
-            ) { onNameChange(it) }
-            HFTextField(
-                placeholder = stringResource(id = CoreStringRes.email),
-                text = state.email
-            ) { onEmailChange(it) }
-            HFTextButton(
-                text = stringResource(id = CoreStringRes.already_reg)
-            ) { onLoginClick() }
-        }
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            HFButton(
-                text = stringResource(id = CoreStringRes.register)
+
+    Scaffold(
+        topBar = {
+            HFSnackBarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.statusBarsPadding()
             )
-            { onRegisterClick() }
+        }
+    ) { paddingValues ->
+        if (state.isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                LoadingCircle()
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 40.dp)
+                    .padding(paddingValues)
+                    .consumeWindowInsets(paddingValues)
+                    .imePadding()
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(40.dp)
+            ) {
+                Spacer(modifier = Modifier.height(50.dp))
+                Image(
+                    painter = painterResource(id = CoreDrawableRes.logo_large),
+                    contentDescription = null
+                )
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    HFFilledTextField(
+                        placeholder = stringResource(id = CoreStringRes.login),
+                        text = state.login
+                    ) { onLoginChange(it) }
+                    HFFilledTextField(
+                        placeholder = stringResource(id = CoreStringRes.password),
+                        text = state.password
+                    ) { onPasswordChange(it) }
+                    HFFilledTextField(
+                        placeholder = stringResource(id = CoreStringRes.name),
+                        text = state.name
+                    ) { onNameChange(it) }
+                    HFFilledTextField(
+                        placeholder = stringResource(id = CoreStringRes.email),
+                        text = state.email
+                    ) { onEmailChange(it) }
+                    HFTextButton(
+                        text = stringResource(id = CoreStringRes.already_reg)
+                    ) { onLoginClick() }
+                }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    HFButton(
+                        text = stringResource(id = CoreStringRes.register)
+                    )
+                    { onRegisterClick() }
+                }
+            }
         }
     }
 }

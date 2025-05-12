@@ -6,11 +6,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -31,7 +34,7 @@ import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.button.HFTextButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
-import com.corsoft.ui.components.text_field.HFTextField
+import com.corsoft.ui.components.text_field.HFFilledTextField
 import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
@@ -61,32 +64,14 @@ internal fun LoginScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            HFSnackBarHost(
-                hostState = snackBarHostState,
-                modifier = Modifier.statusBarsPadding()
-            )
-        }
-    ) {
-        if (uiState.isLoading) {
-            Column (
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                LoadingCircle()
-            }
-        } else {
-            LoginScreen(
-                state = uiState,
-                onLoginClick = { viewModel.onAction(LoginAction.Login) },
-                onRegisterClick = { navigator.navigate(RegisterScreenDestination) },
-                onLoginChange = { viewModel.onAction(LoginAction.UpdateLogin(it)) },
-                onPasswordChange = { viewModel.onAction(LoginAction.UpdatePassword(it)) }
-            )
-        }
-    }
+    LoginScreen(
+        state = uiState,
+        onLoginClick = { viewModel.onAction(LoginAction.Login) },
+        onRegisterClick = { navigator.navigate(RegisterScreenDestination) },
+        onLoginChange = { viewModel.onAction(LoginAction.UpdateLogin(it)) },
+        onPasswordChange = { viewModel.onAction(LoginAction.UpdatePassword(it)) },
+        snackbarHostState = snackBarHostState
+    )
 }
 
 @Composable
@@ -95,51 +80,75 @@ private fun LoginScreen(
     onLoginClick: () -> Unit = {},
     onRegisterClick: () -> Unit = {},
     onLoginChange: (String) -> Unit = {},
-    onPasswordChange: (String) -> Unit = {}
+    onPasswordChange: (String) -> Unit = {},
+    snackbarHostState: SnackbarHostState = SnackbarHostState()
 ) {
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 40.dp)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(40.dp)
-    ) {
-        Spacer(modifier = Modifier.height(50.dp))
-        Image(
-            painter = painterResource(id = CoreDrawableRes.logo_large),
-            contentDescription = null
-        )
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            HFTextField(
-                placeholder = stringResource(id = CoreStringRes.login),
-                text = state.login,
-                onTextChange = { onLoginChange(it) }
+    Scaffold(
+        topBar = {
+            HFSnackBarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.statusBarsPadding()
             )
-            HFTextField(
-                placeholder = stringResource(id = CoreStringRes.password),
-                text = state.password,
-                onTextChange = { onPasswordChange(it) }
-            )
-            HFTextButton(
-                text = stringResource(id = CoreStringRes.restore_pass)
-            ) {
-
-            }
         }
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            HFButton(
-                text = stringResource(id = CoreStringRes.enter)
-            )
-            { onLoginClick() }
-            HFButton(
-                isPrimary = false,
-                text = stringResource(id = CoreStringRes.register)
-            )
-            { onRegisterClick() }
+    ) { paddingValues ->
+        if (state.isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                LoadingCircle()
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 40.dp)
+                    .padding(paddingValues)
+                    .consumeWindowInsets(paddingValues)
+                    .imePadding()
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(60.dp)
+            ) {
+                Spacer(modifier = Modifier.height(50.dp))
+                Image(
+                    painter = painterResource(id = CoreDrawableRes.logo_large),
+                    contentDescription = null
+                )
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    HFFilledTextField(
+                        placeholder = stringResource(id = CoreStringRes.login),
+                        text = state.login,
+                        onTextChange = { onLoginChange(it) }
+                    )
+                    HFFilledTextField(
+                        placeholder = stringResource(id = CoreStringRes.password),
+                        text = state.password,
+                        onTextChange = { onPasswordChange(it) }
+                    )
+                    HFTextButton(
+                        text = stringResource(id = CoreStringRes.restore_pass)
+                    ) {
+
+                    }
+                }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    HFButton(
+                        text = stringResource(id = CoreStringRes.enter)
+                    )
+                    { onLoginClick() }
+                    HFButton(
+                        isPrimary = false,
+                        text = stringResource(id = CoreStringRes.register)
+                    )
+                    { onRegisterClick() }
+                }
+            }
         }
     }
 }
@@ -161,7 +170,7 @@ fun LoginScreenPreviewDark() {
         darkTheme = true
     ) {
         LoginScreen(
-            LoginScreenModel()
+            LoginScreenModel(isLoading = false)
         )
     }
 }
