@@ -5,7 +5,6 @@ import com.corsoft.auth.api.AuthRepository
 import com.corsoft.auth.internal.network.AuthApi
 import com.corsoft.auth.internal.network.model.request.AuthRequest
 import com.corsoft.auth.internal.network.model.request.RegisterRequest
-import com.corsoft.auth.internal.network.model.request.UserField
 import com.corsoft.data.storage.EncryptedStorage
 import com.corsoft.network.model.NetworkResponse
 import ppk.app.core.network.util.apiCall
@@ -41,12 +40,10 @@ internal class AuthRepositoryImpl(
         apiCall {
             authApi.register(
                 request = RegisterRequest(
-                    user = UserField(
-                        login = login,
-                        password = password,
-                        email = email,
-                        name = name
-                    )
+                    login = login,
+                    password = password,
+                    email = email,
+                    name = name
                 )
             )
         }.doOn(

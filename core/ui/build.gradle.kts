@@ -8,7 +8,6 @@ android {
 }
 
 dependencies {
-
     implementation(project(path = ":core:resources"))
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.core)

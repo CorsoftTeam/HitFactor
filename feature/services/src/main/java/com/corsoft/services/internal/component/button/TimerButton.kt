@@ -33,7 +33,7 @@ internal fun TimerButton (
 ) {
     Card(
         onClick = onStartButtonClick,
-        modifier = modifier.fillMaxWidth().height(100.dp),
+        modifier = modifier.fillMaxWidth().height(80.dp),
         colors = CardDefaults.cardColors(
             containerColor = timerState.buttonColor
         ),

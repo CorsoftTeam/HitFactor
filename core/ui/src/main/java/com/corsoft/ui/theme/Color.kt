@@ -3,7 +3,7 @@ package com.corsoft.ui.theme
 import androidx.compose.ui.graphics.Color
 
 object LightThemeColors {
-    val Background = Color(0xFFFFFFFF) // Белый фон
+    val Background = Color(0xFFFDFDFD) // Белый фон
     val Surface = Color(0xFFFFFFFF) // Белая поверхность
     val Error = Color(0xFFB00020) // Цвет ошибки
     val OnPrimary = Color(0xFF000000) // Черный текст на основном цвете
@@ -13,6 +13,7 @@ object LightThemeColors {
     val OnError = Color(0xFFFFFFFF) // Белый текст на ошибке
     val OnPrimaryContainer = Color(0xFF1B1C21)
     val OnSecondaryContainer = Color(0xFF26262E)
+    val PrimaryContainer = Color(0xFFededea)
 }
 
 object DarkThemeColors {
@@ -24,8 +25,9 @@ object DarkThemeColors {
     val OnBackground = Color(0xFFFFFFFF) // Белый текст на фоне
     val OnSurface = Color(0xFFFFFFFF) // Белый текст на поверхности
     val OnError = Color(0xFF000000) // Черный текст на ошибке
-    val OnPrimaryContainer = Color(0xFF1B1C21)
+    val OnPrimaryContainer = Color(0xFFFFFFFF)
     val OnSecondaryContainer = Color(0xFF26262E)
+    val PrimaryContainer = Color(0xFF1C1D22)
 }
 
 object AppColors {

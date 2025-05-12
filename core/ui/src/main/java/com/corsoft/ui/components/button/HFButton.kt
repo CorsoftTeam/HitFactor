@@ -31,14 +31,10 @@ fun HFButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = when (isPrimary) {
                 true -> AppColors.Primary
-                false -> AppColors.Secondary
-            },
-            contentColor = when (isPrimary) {
-                true -> AppColors.TextPrimaryDark
-                false -> AppColors.TextPrimaryDark
+                false -> MaterialTheme.colorScheme.primaryContainer
             }
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(16.dp)
     ) {
         Text(
             modifier = Modifier.padding(8.dp),

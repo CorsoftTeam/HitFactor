@@ -13,7 +13,7 @@ fun configureFlavors(appExtension: ApplicationExtension) {
     appExtension.apply {
         flavorDimensions += DEFAULT_DIMENSION
         productFlavors {
-            val appName = "ППК"
+            val appName = "HitFactor"
             create(TEST) {
                 dimension = DEFAULT_DIMENSION
                 resValue("string", "app_name", "$appName (test)")
