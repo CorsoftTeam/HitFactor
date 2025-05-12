@@ -31,6 +31,15 @@
     <string name="statistic">Статистика</string>
     <string name="video_analyze">Анализ видео</string>
     <string name="reset">Сброс</string>
+    <string name="naming">Название</string>
+    <string name="serial_number">Серийный номер</string>
+    <string name="caliber">Калибр</string>
+    <string name="weapon_type">Тип оружия</string>
+    <string name="add">Добавить</string>
+    <string name="weapon_adding">Добавление оружия</string>
+    <string name="results">Результаты</string>
+
+    <!-- Enums -->
 
     <string name="self_defence">ОООП</string>
     <string name="pistol">Пистолет</string>
@@ -38,6 +47,10 @@
     <string name="carbine">Карабин</string>
     <string name="shotgun">Ружье</string>
     <string name="bolt_action">Болтовка</string>
+
+    <!-- Errors -->
+
+    <string name="all_fields_must_be_filled">Все поля должны быть заполнены</string>
 
     <string name="local_documents_message">Обратите внимание, что документы хранятся локально на вашем устройстве и не передаются на сервер</string>
 </resources>

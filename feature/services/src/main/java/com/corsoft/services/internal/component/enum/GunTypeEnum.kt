@@ -24,7 +24,6 @@ internal enum class GunTypeEnum {
             BOLT_ACTION -> stringResource(id = CoreStringRes.bolt_action)
         }
 
-
     companion object {
         fun fromKey(key: String): GunTypeEnum =
             when (key) {
@@ -34,6 +33,18 @@ internal enum class GunTypeEnum {
                 "carbine" -> CARBINE
                 "shotgun" -> SHOTGUN
                 "bolt_action" -> BOLT_ACTION
+
+                else -> PISTOL
+            }
+
+        fun fromName(key: String): GunTypeEnum =
+            when (key) {
+                "ОООП" -> SELF_DEFENCE
+                "Пистолет" -> PISTOL
+                "КПК" -> PCC
+                "Карабин" -> CARBINE
+                "Ружье" -> SHOTGUN
+                "Болтовка" -> BOLT_ACTION
 
                 else -> PISTOL
             }

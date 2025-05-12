@@ -7,4 +7,10 @@ import com.corsoft.network.model.NetworkResponse
 interface UserRepository {
     suspend fun getMyGuns(): NetworkResponse<List<Gun>>
     suspend fun getMe(): NetworkResponse<User>
+    suspend fun addGun(
+        name: String,
+        caliber: String,
+        serialNumber: String,
+        type: String
+    ): NetworkResponse<Unit>
 }

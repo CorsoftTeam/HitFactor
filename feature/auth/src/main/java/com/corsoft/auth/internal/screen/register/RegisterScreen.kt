@@ -126,7 +126,8 @@ private fun RegisterScreen(
                     contentDescription = null
                 )
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    horizontalAlignment = Alignment.End
                 ) {
                     HFFilledTextField(
                         placeholder = stringResource(id = CoreStringRes.login),
@@ -178,7 +179,7 @@ fun LoginScreenPreviewDark() {
         darkTheme = true
     ) {
         RegisterScreen(
-            RegisterScreenState()
+            RegisterScreenState(isLoading = false)
         )
     }
 }

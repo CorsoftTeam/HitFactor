@@ -14,17 +14,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.rememberNavController
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.services.internal.component.list.GunList
-import com.corsoft.services.internal.model.ServiceModel
+import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.HitFactorTheme
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.generated.services.destinations.AddWeaponScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -38,8 +37,7 @@ internal fun WeaponsScreen(
 
     WeaponsScreen(
         state = uiState,
-        navigator = navigator,
-        onServiceClick = { navigator.navigate(it.destination) }
+        onAddClick = { navigator.navigate(AddWeaponScreenDestination) }
     )
     HFSnackBarHost(
         hostState = snackBarHostState,
@@ -51,8 +49,7 @@ internal fun WeaponsScreen(
 private fun WeaponsScreen(
     modifier: Modifier = Modifier,
     state: WeaponsScreenState,
-    navigator: DestinationsNavigator,
-    onServiceClick: (ServiceModel) -> Unit = {}
+    onAddClick: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -62,6 +59,13 @@ private fun WeaponsScreen(
                         text = stringResource(id = CoreStringRes.gun_storage)
                     )
                 }
+            )
+        },
+        bottomBar = {
+            HFButton(
+                modifier = Modifier.padding(16.dp),
+                text = stringResource(id = CoreStringRes.add),
+                onClick = onAddClick
             )
         }
     ) { paddingValues ->
@@ -83,8 +87,7 @@ private fun ServicesPreviewDark() {
     ) {
         Surface {
             WeaponsScreen(
-                state = WeaponsScreenState(),
-                navigator = rememberNavController().rememberDestinationsNavigator()
+                state = WeaponsScreenState()
             )
         }
     }
