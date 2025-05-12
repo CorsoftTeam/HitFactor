@@ -1,5 +1,6 @@
 package com.corsoft.services.di
 
+import com.corsoft.services.internal.screen.add_weapon.AddWeaponViewModel
 import com.corsoft.services.internal.screen.calculate_hf.CalculateHFViewModel
 import com.corsoft.services.internal.screen.documents.DocumentsViewModel
 import com.corsoft.services.internal.screen.profile.ProfileViewModel
@@ -16,4 +17,5 @@ val servicesFeatureModule = module {
     viewModelOf(::DocumentsViewModel)
     viewModelOf(::CalculateHFViewModel)
     viewModelOf(::WeaponsViewModel)
+    viewModelOf(::AddWeaponViewModel)
 }

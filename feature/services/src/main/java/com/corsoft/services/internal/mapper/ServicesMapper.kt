@@ -9,5 +9,5 @@ internal fun Gun.toUiModel(): GunModel =
         name = name,
         serialNumber = serialNumber,
         caliber = caliber,
-        gunType = GunTypeEnum.fromKey(gunType)
+        gunType = GunTypeEnum.fromKey(gunType.lowercase())
     )

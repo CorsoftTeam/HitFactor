@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.Navigator
 import androidx.navigation.compose.rememberNavController
 import com.corsoft.services.internal.component.card.ServiceCard
 import com.corsoft.services.internal.component.enum.ServicesEnum
@@ -32,7 +31,11 @@ internal fun ServiceList(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(ServicesEnum.entries) { item ->
-            ServiceCard(name = item.getName(), icon = item.getIconRes()) {
+            ServiceCard(
+                name = item.getName(),
+                icon = item.getIconRes(),
+                enabled = item.isEnabled()
+            ) {
                 item.navigate(navigator)
             }
         }

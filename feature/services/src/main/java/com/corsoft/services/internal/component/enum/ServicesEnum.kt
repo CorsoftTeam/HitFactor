@@ -61,4 +61,16 @@ internal enum class ServicesEnum {
         }
     }
 
+    fun isEnabled(): Boolean =
+        when (this) {
+            TIMER -> true
+            CALC -> false
+            CALENDAR -> false
+            AMMO -> false
+            GUNS -> true
+            DOCS -> true
+            STAT -> false
+            ANALYZE -> false
+        }
+
 }

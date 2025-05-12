@@ -117,7 +117,8 @@ private fun LoginScreen(
                     contentDescription = null
                 )
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    horizontalAlignment = Alignment.End
                 ) {
                     HFFilledTextField(
                         placeholder = stringResource(id = CoreStringRes.login),
