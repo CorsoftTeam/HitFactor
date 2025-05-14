@@ -13,6 +13,7 @@
     <string name="services">Сервисы</string>
     <string name="timer">Таймер</string>
     <string name="profile">Профиль</string>
+    <string name="rules">Правила</string>
     <string name="stopped_state_text">СТАРТ</string>
     <string name="waiting_state_text">ГОТОВНОСТЬ...</string>
     <string name="run_state_text">СТОП</string>
@@ -60,5 +61,8 @@
     <string name="all_fields_must_be_filled">Все поля должны быть заполнены</string>
     <string name="something_wrong">Что-то пошло не так</string>
 
+    <!-- Messages -->
+
     <string name="local_documents_message">Обратите внимание, что документы хранятся локально на вашем устройстве и не передаются на сервер</string>
+    <string name="pdf_reader_message">Загрузка документа может занять некоторое время. Для увеличения текста - двойное касание</string>
 </resources>
