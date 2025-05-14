@@ -19,6 +19,7 @@ internal enum class ServicesEnum {
     DOCS,
     STAT,
     ANALYZE,
+    RESULTS
     ;
 
     @Composable
@@ -32,6 +33,7 @@ internal enum class ServicesEnum {
             DOCS -> stringResource(id = CoreStringRes.documents)
             STAT -> stringResource(id = CoreStringRes.statistic)
             ANALYZE -> stringResource(id = CoreStringRes.video_analyze)
+            RESULTS -> stringResource(id = CoreStringRes.results)
         }
 
     @Composable
@@ -46,6 +48,7 @@ internal enum class ServicesEnum {
             DOCS -> CoreDrawableRes.ic_document
             STAT -> CoreDrawableRes.ic_chart
             ANALYZE -> CoreDrawableRes.ic_scan
+            RESULTS -> CoreDrawableRes.ic_profile_outline
         }
 
     fun navigate(navigator: DestinationsNavigator){
@@ -58,6 +61,7 @@ internal enum class ServicesEnum {
             DOCS -> navigator.navigate(DocumentsScreenDestination)
             STAT -> {}
             ANALYZE -> {}
+            RESULTS -> {}
         }
     }
 
@@ -71,6 +75,7 @@ internal enum class ServicesEnum {
             DOCS -> true
             STAT -> false
             ANALYZE -> false
+            RESULTS -> false
         }
 
 }

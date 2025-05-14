@@ -1,6 +1,6 @@
 package com.corsoft.services.internal.screen.calculate_hf
 
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -28,15 +30,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.corsoft.common.formatTime
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
+import com.corsoft.services.internal.screen.calculate_hf.navigation.CalculateHFNavArgs
 import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
@@ -44,9 +49,10 @@ import com.corsoft.ui.theme.HitFactorTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
+import java.util.Locale
 
 @Composable
-@Destination<ServicesNavGraph>
+@Destination<ServicesNavGraph>(navArgs = CalculateHFNavArgs::class)
 internal fun CalculateHFScreen(
     navigator: DestinationsNavigator,
     viewModel: CalculateHFViewModel = koinViewModel()
@@ -56,7 +62,14 @@ internal fun CalculateHFScreen(
 
     CalculateHFScreen(
         state = uiState,
-        onBackClick = { navigator.popBackStack() }
+        onBackClick = { navigator.popBackStack() },
+        addAlpha = { viewModel.onAction(CalculateHFAction.AddAlpha) },
+        addCharlie = { viewModel.onAction(CalculateHFAction.AddCharlie) },
+        addDelta = { viewModel.onAction(CalculateHFAction.AddDelta) },
+        addMiss = { viewModel.onAction(CalculateHFAction.AddMiss) },
+        addNoShoot = { viewModel.onAction(CalculateHFAction.AddNoShoot) },
+        addProcedure = { viewModel.onAction(CalculateHFAction.AddProcedure) },
+        reset = { viewModel.onAction(CalculateHFAction.Reset) }
     )
     HFSnackBarHost(
         hostState = snackBarHostState,
@@ -69,6 +82,14 @@ internal fun CalculateHFScreen(
 private fun CalculateHFScreen(
     modifier: Modifier = Modifier,
     state: CalculateHFScreenState,
+    addAlpha: () -> Unit = {},
+    addCharlie: () -> Unit = {},
+    addDelta: () -> Unit = {},
+    addMiss: () -> Unit = {},
+    addNoShoot: () -> Unit = {},
+    addProcedure: () -> Unit = {},
+    reset: () -> Unit = {},
+    save: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
     Scaffold(
@@ -92,11 +113,12 @@ private fun CalculateHFScreen(
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxHeight()
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.Bottom
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Column(
@@ -104,13 +126,13 @@ private fun CalculateHFScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Hit Factor",
+                    text = stringResource(id = CoreStringRes.hit_factor),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.displaySmall
                 )
                 Text(
-                    text = "2.34",
+                    text = String.format(Locale.US, "%.2f", state.hitFactor),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                     fontSize = 78.sp,
@@ -119,35 +141,76 @@ private fun CalculateHFScreen(
                 )
             }
 
-            Text(
-                text = "Общее время:",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineLarge
-            )
-            Text(
-                text = "00:56.345",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.primary
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        //TODO
+                    },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = formatTime(state.time),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    painter = painterResource(id = CoreDrawableRes.ic_edit),
+                    tint = MaterialTheme.colorScheme.primary,
+                    contentDescription = ""
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
 
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text(text = "6 Alpha")
-                    Text(text = "3 Charlie")
-                    Text(text = "0 Delta")
+                    Text(
+                        text = stringResource(
+                            id = CoreStringRes.x_alpha,
+                            formatArgs = arrayOf(state.alphaCount)
+                        )
+                    )
+                    Text(
+                        text = stringResource(
+                            id = CoreStringRes.x_charlie,
+                            formatArgs = arrayOf(state.charlieCount)
+                        )
+                    )
+                    Text(
+                        text = stringResource(
+                            id = CoreStringRes.x_delta,
+                            formatArgs = arrayOf(state.deltaCount)
+                        )
+                    )
                 }
                 Column(
                     modifier = Modifier.weight(1f),
                     horizontalAlignment = Alignment.End
                 ) {
-                    Text(text = "Miss 0")
-                    Text(text = "No shoot 1")
-                    Text(text = "Procedure 0")
+                    Text(
+                        text = stringResource(
+                            id = CoreStringRes.miss_x,
+                            formatArgs = arrayOf(state.missCount)
+                        )
+                    )
+                    Text(
+                        text = stringResource(
+                            id = CoreStringRes.no_shoot_x,
+                            formatArgs = arrayOf(state.noShootCount)
+                        )
+                    )
+                    Text(
+                        text = stringResource(
+                            id = CoreStringRes.procedure_x,
+                            formatArgs = arrayOf(state.procedureCount)
+                        )
+                    )
                 }
             }
 
@@ -159,22 +222,40 @@ private fun CalculateHFScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 item {
-                    calcButton(text = "A") { }
+                    CalcButton(
+                        text = "A",
+                        onClick = addAlpha
+                    )
                 }
                 item {
-                    calcButton(text = "C") { }
+                    CalcButton(
+                        text = "C",
+                        onClick = addCharlie
+                    )
                 }
                 item {
-                    calcButton(text = "D") { }
+                    CalcButton(
+                        text = "D",
+                        onClick = addDelta
+                    )
                 }
                 item {
-                    calcButton(text = "M", true) { }
+                    CalcButton(
+                        text = "M", isBad = true,
+                        onClick = addMiss
+                    )
                 }
                 item {
-                    calcButton(text = "NS", true) { }
+                    CalcButton(
+                        text = "NS", isBad = true,
+                        onClick = addNoShoot
+                    )
                 }
                 item {
-                    calcButton(text = "P", true) { }
+                    CalcButton(
+                        text = "P", isBad = true,
+                        onClick = addProcedure
+                    )
                 }
             }
 
@@ -184,9 +265,27 @@ private fun CalculateHFScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                onClick = { },
+                onClick = save,
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = stringResource(id = CoreStringRes.save),
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                onClick = reset,
                 colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-                border = BorderStroke(width = 1.dp, color = Color.Red)
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -205,7 +304,7 @@ private fun CalculateHFScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun calcButton(
+private fun CalcButton(
     text: String,
     isBad: Boolean = false,
     onClick: () -> Unit,
@@ -213,13 +312,7 @@ private fun calcButton(
     Card(
         modifier = Modifier.size(50.dp),
         onClick = onClick,
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        border = BorderStroke(
-            width = 1.dp, color = if (isBad)
-                Color.Red
-            else
-                MaterialTheme.colorScheme.primary
-        )
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -243,7 +336,13 @@ private fun CalculateHFPreviewDark() {
     ) {
         Surface {
             CalculateHFScreen(
-                state = CalculateHFScreenState(),
+                state = CalculateHFScreenState(
+                    time = 23395,
+                    alphaCount = 5,
+                    charlieCount = 2,
+                    deltaCount = 2,
+                    missCount = 1
+                ),
             )
         }
     }

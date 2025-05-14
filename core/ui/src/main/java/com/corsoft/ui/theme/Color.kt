@@ -39,6 +39,9 @@ object AppColors {
     val Secondary = Color(0xFF4B4B4B) // Графитовый серый
     val SecondaryVariant = Color(0xFF383838) // Более темный оттенок графитового серого
 
+    val GoodColor = Color(0xFF40A55E)
+    val BadColor = Color(0xFFFF6B6B)
+
     // Текстовые цвета
     val TextPrimaryLight = Color(0xFF212121)
     val TextSecondaryDark = Color(0xFF757575)
