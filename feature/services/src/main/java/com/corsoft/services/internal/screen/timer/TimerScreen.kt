@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.corsoft.common.formatTime
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
@@ -97,7 +98,7 @@ internal fun TimerScreen(
             actions = { action ->
                 viewModel.onAction(action)
             },
-            onCalculateButtonClick = { navigator.navigate(CalculateHFScreenDestination) }
+            onCalculateButtonClick = { navigator.navigate(CalculateHFScreenDestination(time = uiState.time)) }
         )
     }
 }
@@ -107,7 +108,6 @@ private fun TimerScreen(
     modifier: Modifier = Modifier,
     state: TimerState,
     actions: (TimerAction) -> Unit = {},
-    onStartButtonClick: () -> Unit = {},
     onCalculateButtonClick: () -> Unit = {}
 ) {
     Column(
@@ -136,8 +136,8 @@ private fun TimerScreen(
                         ShotTimeItem(
                             modifier = Modifier.animateItem(),
                             index = state.shotTimes.indexOf(time) + 1,
-                            time = state.formatTime(time.time),
-                            split = state.formatTime(time.split),
+                            time = formatTime(time.time),
+                            split = formatTime(time.split),
                             onDelete = { actions(TimerAction.DeleteTime(state.shotTimes.indexOf(time))) }
                         )
                         Spacer(modifier = Modifier.height(16.dp))
@@ -153,14 +153,14 @@ private fun TimerScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = state.formatTime(state.time),
+                text = formatTime(state.time),
                 fontSize = 50.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
             if (state.timerState == TimerStateEnum.RUN) {
                 Text(
-                    text = state.formatTime(state.realTime),
+                    text = formatTime(state.realTime),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant

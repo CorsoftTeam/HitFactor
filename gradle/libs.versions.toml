@@ -18,6 +18,7 @@ espressoCore = "3.6.1"
 activityCompose = "1.9.2"
 composeBom = "2023.08.00"
 coil = "3.0.0"
+pdf = "1.1.2"
 
 #Koin
 koinBom = "3.5.3"
@@ -79,6 +80,7 @@ compose-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-ru
 accompainst = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompainst"}
 coil = {group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil"}
 coil-network-okhttp = {group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil"}
+pdf_viewer = { group = "io.github.grizzi91", name = "bouquet", version.ref = "pdf" }
 
 #Koin
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koinBom" }
@@ -150,7 +152,8 @@ compose = [
     "compose-ui-tooling",
     "accompainst",
     "coil",
-    "coil-network-okhttp"
+    "coil-network-okhttp",
+    "pdf_viewer"
 ]
 
 compose-navigation = [

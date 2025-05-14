@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">HitFactor</string>
+    <string name="hit_factor">Hit Factor</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
     <string name="restore_pass">Восстановление пароля</string>
@@ -9,7 +10,6 @@
     <string name="phone_number">Номер телефона</string>
     <string name="email">E-mail</string>
     <string name="already_reg">Уже зарегистрированы? Войти</string>
-    <string name="something_wrong">Что-то пошло не так</string>
     <string name="services">Сервисы</string>
     <string name="timer">Таймер</string>
     <string name="profile">Профиль</string>
@@ -31,6 +31,7 @@
     <string name="statistic">Статистика</string>
     <string name="video_analyze">Анализ видео</string>
     <string name="reset">Сброс</string>
+    <string name="save">Сохранить</string>
     <string name="naming">Название</string>
     <string name="serial_number">Серийный номер</string>
     <string name="caliber">Калибр</string>
@@ -38,6 +39,12 @@
     <string name="add">Добавить</string>
     <string name="weapon_adding">Добавление оружия</string>
     <string name="results">Результаты</string>
+    <string name="x_alpha">%d Alpha</string>
+    <string name="x_charlie">%d Charlie</string>
+    <string name="x_delta">%d Delta</string>
+    <string name="miss_x">Miss %d</string>
+    <string name="no_shoot_x">No shoot %d</string>
+    <string name="procedure_x">Procedure %d</string>
 
     <!-- Enums -->
 
@@ -51,6 +58,7 @@
     <!-- Errors -->
 
     <string name="all_fields_must_be_filled">Все поля должны быть заполнены</string>
+    <string name="something_wrong">Что-то пошло не так</string>
 
     <string name="local_documents_message">Обратите внимание, что документы хранятся локально на вашем устройстве и не передаются на сервер</string>
 </resources>
