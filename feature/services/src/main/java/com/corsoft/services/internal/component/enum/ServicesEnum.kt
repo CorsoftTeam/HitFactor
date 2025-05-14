@@ -5,7 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
+import com.ramcosta.composedestinations.generated.services.destinations.CalculateHFScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.DocumentsScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.RulesScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.WeaponsScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -19,7 +21,8 @@ internal enum class ServicesEnum {
     DOCS,
     STAT,
     ANALYZE,
-    RESULTS
+    RESULTS,
+    RULES
     ;
 
     @Composable
@@ -34,6 +37,7 @@ internal enum class ServicesEnum {
             STAT -> stringResource(id = CoreStringRes.statistic)
             ANALYZE -> stringResource(id = CoreStringRes.video_analyze)
             RESULTS -> stringResource(id = CoreStringRes.results)
+            RULES -> stringResource(id = CoreStringRes.rules)
         }
 
     @Composable
@@ -48,13 +52,14 @@ internal enum class ServicesEnum {
             DOCS -> CoreDrawableRes.ic_document
             STAT -> CoreDrawableRes.ic_chart
             ANALYZE -> CoreDrawableRes.ic_scan
-            RESULTS -> CoreDrawableRes.ic_profile_outline
+            RESULTS -> CoreDrawableRes.ic_results
+            RULES -> CoreDrawableRes.ic_rules
         }
 
     fun navigate(navigator: DestinationsNavigator){
         when (this) {
             TIMER -> navigator.navigate(TimerScreenDestination)
-            CALC -> {}
+            CALC -> navigator.navigate(CalculateHFScreenDestination(0))
             CALENDAR -> {}
             AMMO -> {}
             GUNS -> navigator.navigate(WeaponsScreenDestination)
@@ -62,13 +67,14 @@ internal enum class ServicesEnum {
             STAT -> {}
             ANALYZE -> {}
             RESULTS -> {}
+            RULES -> navigator.navigate(RulesScreenDestination)
         }
     }
 
     fun isEnabled(): Boolean =
         when (this) {
             TIMER -> true
-            CALC -> false
+            CALC -> true
             CALENDAR -> false
             AMMO -> false
             GUNS -> true
@@ -76,6 +82,7 @@ internal enum class ServicesEnum {
             STAT -> false
             ANALYZE -> false
             RESULTS -> false
+            RULES -> true
         }
 
 }
