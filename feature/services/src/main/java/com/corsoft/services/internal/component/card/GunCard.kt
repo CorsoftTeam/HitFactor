@@ -56,7 +56,7 @@ internal fun GunCard(
             }
             Column {
                 Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSecondaryContainer),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
@@ -74,6 +74,26 @@ internal fun GunCard(
 @Preview
 @Composable
 private fun ServiceCardPreview() {
+    HitFactorTheme(
+        darkTheme = false
+    ) {
+        Surface {
+            GunCard(
+                modifier = Modifier.padding(8.dp),
+                gunModel = GunModel(
+                    name = "Сайга-9",
+                    gunType = GunTypeEnum.PCC,
+                    serialNumber = "MK6630P",
+                    caliber = "9x19 FMJ"
+                )
+            ) { }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun ServiceCardPreview2() {
     HitFactorTheme(
         darkTheme = true
     ) {

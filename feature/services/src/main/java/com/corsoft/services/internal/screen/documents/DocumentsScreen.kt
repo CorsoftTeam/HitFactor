@@ -1,7 +1,6 @@
 package com.corsoft.services.internal.screen.documents
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -32,18 +31,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.rememberAsyncImagePainter
-import coil3.request.ImageRequest
-import coil3.size.Size
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
+import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.card.InfoCard
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
@@ -72,7 +69,6 @@ internal fun DocumentsScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DocumentsScreen(
     modifier: Modifier = Modifier,
@@ -93,6 +89,13 @@ private fun DocumentsScreen(
                         onClick = onBackClick
                     )
                 }
+            )
+        },
+        bottomBar = {
+            HFButton(
+                modifier = Modifier.padding(16.dp),
+                text = stringResource(id = CoreStringRes.add),
+                onClick = { }
             )
         }
     ) { paddingValues ->
@@ -132,25 +135,6 @@ private fun DocumentsScreen(
             )
 
             Spacer(modifier = Modifier.height(48.dp))
-
-            Card(
-                modifier = modifier.fillMaxWidth(),
-                onClick = { },
-                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.primary)
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        modifier = Modifier.padding(8.dp),
-                        painter = painterResource(id = CoreDrawableRes.ic_plus),
-                        tint = MaterialTheme.colorScheme.primary,
-                        contentDescription = ""
-                    )
-                }
-            }
         }
     }
 }
@@ -197,8 +181,7 @@ private fun documentTab(
             Card(
                 modifier = modifier.size(100.dp),
                 onClick = { },
-                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.primary)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -206,7 +189,9 @@ private fun documentTab(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Icon(
-                        modifier = Modifier.padding(8.dp).size(24.dp),
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(24.dp),
                         painter = painterResource(id = CoreDrawableRes.ic_plus),
                         tint = MaterialTheme.colorScheme.primary,
                         contentDescription = ""
