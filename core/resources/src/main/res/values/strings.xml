@@ -46,6 +46,10 @@
     <string name="miss_x">Miss %d</string>
     <string name="no_shoot_x">No shoot %d</string>
     <string name="procedure_x">Procedure %d</string>
+    <string name="start_sub">Попробовать за 1 ₽</string>
+    <string name="next_without_sub">Продолжить в ограниченном режиме</string>
+    <string name="offline_mode">Оффлайн режим</string>
+
 
     <!-- Enums -->
 
@@ -65,4 +69,7 @@
 
     <string name="local_documents_message">Обратите внимание, что документы хранятся локально на вашем устройстве и не передаются на сервер</string>
     <string name="pdf_reader_message">Загрузка документа может занять некоторое время. Для увеличения текста - двойное касание</string>
+    <string name="get_sub_for_more">Оформите премиум доступ всего за рубль</string>
+    <string name="next_sub_paid">После первого месяца — 299 ₽ в месяц. Автопродление, можно отменить в любой момент</string>
+
 </resources>
