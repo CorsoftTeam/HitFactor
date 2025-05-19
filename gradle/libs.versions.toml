@@ -46,6 +46,10 @@ accompainst = "0.36.0"
 #Music
 zentone = "2.2.0"
 
+#Payments
+rustore = "2025.02.01"
+billing-client = "8.0.0"
+
 
 
 
@@ -108,6 +112,10 @@ chucker = { group = "com.github.chuckerteam.chucker", name = "library", version.
 
 #Music
 zentone = { group = "com.github.nisrulz", name = "zentone", version.ref = "zentone" }
+
+#Payments
+rustore-bom = { group = "ru.rustore.sdk", name = "bom", version.ref = "rustore" }
+billing-client = { group = "ru.rustore.sdk", name = "billingclient", version.ref = "billing-client" }
 
 #---------------------------------------------------------------------------------------------------
 [plugins]
@@ -177,6 +185,10 @@ retrofit = [
 
 music = [
     "zentone"
+]
+
+payments = [
+    "billing-client"
 ]
 
 

@@ -11,6 +11,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri("https://artifactory-external.vkpartner.ru/artifactory/maven")
+        }
     }
 }
 
@@ -29,3 +32,5 @@ include(":data:auth")
 include(":feature:services")
 include(":core:provider")
 include(":data:user")
+include(":feature:payments")
+include(":data:payments")

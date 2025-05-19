@@ -3,6 +3,7 @@ package com.corsoft.hitfactor.navigation
 import com.ramcosta.composedestinations.animations.NavHostAnimatedDestinationStyle
 import com.ramcosta.composedestinations.animations.defaults.NoTransitions
 import com.ramcosta.composedestinations.generated.auth.navgraphs.AuthGraph
+import com.ramcosta.composedestinations.generated.navgraphs.PaymentsGraph
 import com.ramcosta.composedestinations.generated.services.navgraphs.ServicesGraph
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.DirectionNavHostGraphSpec
@@ -17,7 +18,8 @@ object HFRootNavGraph : DirectionNavHostGraphSpec {
 
     override val nestedNavGraphs: List<NavGraphSpec> = listOf(
         AuthGraph,
-        ServicesGraph
+        ServicesGraph,
+        PaymentsGraph
     )
 
     override val route: String = "root"

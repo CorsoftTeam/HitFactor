@@ -7,7 +7,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.corsoft.ui.theme.AppColors
@@ -21,9 +20,7 @@ fun HFTextButton(
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.labelLarge.copy(
-            textDecoration = TextDecoration.Underline
-        ),
+        style = MaterialTheme.typography.labelLarge,
         color = AppColors.TextBlue,
         modifier = modifier.clickable { onClick() }
     )

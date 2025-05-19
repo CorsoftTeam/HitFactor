@@ -17,10 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.corsoft.auth.api.AuthNavGraph
 import com.corsoft.auth.api.AuthRepository
+import com.corsoft.hitfactor.data.payments.api.PaymentsRepository
 import com.corsoft.hitfactor.navigation.HFRootNavGraph
 import com.corsoft.hitfactor.navigation.navigators.AuthNavigatorImpl
+import com.corsoft.hitfactor.navigation.navigators.PaymentsNavigatorImpl
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.bottombar.BottomNavigationBar
@@ -29,15 +30,16 @@ import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.auth.navgraphs.AuthGraph
+import com.ramcosta.composedestinations.generated.navgraphs.PaymentsGraph
 import com.ramcosta.composedestinations.generated.services.destinations.ProfileScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.ServiceListScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
 import com.ramcosta.composedestinations.generated.services.navgraphs.ServicesGraph
 import com.ramcosta.composedestinations.navigation.dependency
+import com.ramcosta.composedestinations.spec.Route
 import com.ramcosta.composedestinations.utils.currentDestinationFlow
 import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
@@ -66,7 +68,8 @@ enum class NavigationBarItem(
 @Composable
 internal fun App(
     viewModel: AppViewModel = koinViewModel(),
-    authRepository: AuthRepository = koinInject()
+    authRepository: AuthRepository = koinInject(),
+    paymentsRepository: PaymentsRepository = koinInject()
 ) {
 
     val context = LocalContext.current
@@ -114,11 +117,14 @@ internal fun App(
         ) {
             DestinationsNavHost(
                 navGraph = HFRootNavGraph,
-                startRoute = if (authRepository.isUserAuthorised()) HFRootNavGraph.startRoute else AuthGraph,
+                startRoute = getNavGraph(authRepository, paymentsRepository),
                 navController = navController,
                 dependenciesContainerBuilder = {
                     dependency(
                         AuthNavigatorImpl(destinationsNavigator)
+                    )
+                    dependency(
+                        PaymentsNavigatorImpl(destinationsNavigator)
                     )
                 }
             )
@@ -189,4 +195,19 @@ private fun isBottomBarVisible(route: String?): Boolean {
         TimerScreenDestination.route,
         ProfileScreenDestination.route
     )
+}
+
+private fun getNavGraph(
+    authRepository: AuthRepository,
+    paymentsRepository: PaymentsRepository
+): Route {
+    return if (authRepository.isUserAuthorised()) {
+        if (paymentsRepository.isSub()) {
+            ServicesGraph
+        } else {
+            PaymentsGraph
+        }
+    } else {
+        AuthGraph
+    }
 }
