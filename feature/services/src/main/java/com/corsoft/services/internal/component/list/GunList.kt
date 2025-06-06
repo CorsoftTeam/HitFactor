@@ -18,7 +18,8 @@ import com.corsoft.ui.theme.HitFactorTheme
 @Composable
 internal fun GunList(
     modifier: Modifier = Modifier,
-    gunList: List<GunModel>
+    gunList: List<GunModel>,
+    onItemClick: (GunModel) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -26,7 +27,9 @@ internal fun GunList(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(gunList) { item ->
-            GunCard(gunModel = item) { }
+            GunCard(gunModel = item) {
+                onItemClick(item)
+            }
         }
     }
 }
@@ -44,19 +47,22 @@ private fun ServiceCardPreview() {
                         name = "Сайга-9",
                         gunType = GunTypeEnum.PCC,
                         serialNumber = "MK6630P",
-                        caliber = "9x19 FMJ"
+                        caliber = "9x19 FMJ",
+                        shotCount = 12
                     ),
                     GunModel(
                         name = "МР-79-9ТМ",
                         gunType = GunTypeEnum.SELF_DEFENCE,
                         serialNumber = "Т0188-211",
-                        caliber = "9PA"
+                        caliber = "9PA",
+                        shotCount = 12
                     ),
                     GunModel(
                         name = "ТОЗ-34Р",
                         gunType = GunTypeEnum.SHOTGUN,
                         serialNumber = "УМ4999",
-                        caliber = "12x70"
+                        caliber = "12x70",
+                        shotCount = 12
                     )
                 )
             )

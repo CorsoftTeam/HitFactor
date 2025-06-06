@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.corsoft.resources.CoreStringRes
 
-internal enum class GunTypeEnum {
+enum class GunTypeEnum {
     SELF_DEFENCE,
     PISTOL,
     PCC,

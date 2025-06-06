@@ -5,9 +5,12 @@ import com.corsoft.common.mvvm.MviAction
 import com.corsoft.common.mvvm.MviEffect
 import com.corsoft.common.mvvm.MviState
 import com.corsoft.services.internal.model.ServiceModel
+import com.corsoft.services.internal.model.UserModel
 
 @Immutable
 internal data class ProfileScreenState(
+    val user: UserModel = UserModel(),
+    val profilePhoto: String = "",
     val serviceList: List<ServiceModel> = emptyList(),
     val isLoading: Boolean = true
 ) : MviState

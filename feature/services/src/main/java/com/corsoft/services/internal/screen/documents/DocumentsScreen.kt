@@ -112,8 +112,8 @@ private fun DocumentsScreen(
 
             documentTab(
                 name = "РОХа", photos = listOf(
-                    Uri.parse(""),
-                    Uri.parse("")
+                    Uri.parse("https://opis-cdn.tinkoffjournal.ru/mercury/ognestrel-photo-08.42in4brimb20..jpg"),
+                    Uri.parse("https://загрузки.торги-россии.рф/pictures/\$2y\$10\$NrGbQimgf3.1QslM9Nb.s2sBKHi0XFVn9LNRPIKegR1KyCuYB0C.png")
                 )
             )
 
@@ -121,7 +121,7 @@ private fun DocumentsScreen(
 
             documentTab(
                 name = "Справка 002-о/y", photos = listOf(
-                    Uri.parse(""),
+                    Uri.parse("https://proguns.ru/wp-content/uploads/2020/09/spravka-003-oy.jpg"),
                 )
             )
 
@@ -129,8 +129,8 @@ private fun DocumentsScreen(
 
             documentTab(
                 name = "Паспорт РФ", photos = listOf(
-                    Uri.parse(""),
-                    Uri.parse("")
+                    Uri.parse("https://opis-cdn.tinkoffjournal.ru/mercury/easy-breezy-passport-before.hasxgdjplsgq.png"),
+                    Uri.parse("https://docs.dbrain.io/~gitbook/image?url=https%3A%2F%2F1997706258-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F-MGd7t8Xm9EFLYborr9A%252Fuploads%252F0VTD0X7VPAGcdvE6lEIL%252Fpassport_registration.png%3Falt%3Dmedia%26token%3D67c4f423-2c4a-46f9-80bf-bfa38345c1b1&width=768&dpr=4&quality=100&sign=5c2bb0f5&sv=2")
                 )
             )
 

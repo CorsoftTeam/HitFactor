@@ -37,6 +37,7 @@
     <string name="serial_number">Серийный номер</string>
     <string name="caliber">Калибр</string>
     <string name="weapon_type">Тип оружия</string>
+    <string name="shot_count">Настрел</string>
     <string name="add">Добавить</string>
     <string name="weapon_adding">Добавление оружия</string>
     <string name="results">Результаты</string>
@@ -71,5 +72,9 @@
     <string name="pdf_reader_message">Загрузка документа может занять некоторое время. Для увеличения текста - двойное касание</string>
     <string name="get_sub_for_more">Оформите премиум доступ всего за рубль</string>
     <string name="next_sub_paid">После первого месяца — 299 ₽ в месяц. Автопродление, можно отменить в любой момент</string>
+
+    <!-- Warnings -->
+    <string name="need_clean">Оружие необходимо почистить. Настрел превысил максимальный показатель</string>
+    <string name="need_clean_immediately">Оружие необходимо почистить. Настрел превысил максимальный показатель, дальнейшее использование в текущем состоянии может привести к поломке</string>
 
 </resources>

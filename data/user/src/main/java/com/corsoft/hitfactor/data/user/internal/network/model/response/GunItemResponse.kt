@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class GunItemResponse(
     @SerializedName("id")
-    val token: String,
+    val id: Int,
     @SerializedName("name")
     val name: String,
     @SerializedName("gun_type")
@@ -15,4 +15,6 @@ internal data class GunItemResponse(
     val caliber: String,
     @SerializedName("serial_number")
     val serialNumber: String,
+    @SerializedName("shot_count")
+    val shotCount: Int,
 )

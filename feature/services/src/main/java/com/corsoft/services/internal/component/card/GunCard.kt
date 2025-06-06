@@ -7,19 +7,27 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.services.internal.component.enum.GunTypeEnum
 import com.corsoft.services.internal.model.GunModel
+import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.theme.HitFactorTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +62,9 @@ internal fun GunCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            Column {
+            Column (
+                horizontalAlignment = Alignment.End
+            ){
                 Card(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
                     shape = RoundedCornerShape(8.dp)
@@ -65,6 +75,17 @@ internal fun GunCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.labelMedium
                     )
+                }
+                if (gunModel.shotCount > 100) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Column {
+                        Icon(
+                            modifier = Modifier.size(24.dp),
+                            painter = painterResource(id = CoreDrawableRes.ic_alert),
+                            tint = if (gunModel.shotCount > 200) Color.Red else Color.Yellow,
+                            contentDescription = ""
+                        )
+                    }
                 }
             }
         }
@@ -84,7 +105,8 @@ private fun ServiceCardPreview() {
                     name = "Сайга-9",
                     gunType = GunTypeEnum.PCC,
                     serialNumber = "MK6630P",
-                    caliber = "9x19 FMJ"
+                    caliber = "9x19 FMJ",
+                    shotCount = 12
                 )
             ) { }
         }
@@ -104,7 +126,8 @@ private fun ServiceCardPreview2() {
                     name = "Сайга-9",
                     gunType = GunTypeEnum.PCC,
                     serialNumber = "MK6630P",
-                    caliber = "9x19 FMJ"
+                    caliber = "9x19 FMJ",
+                    shotCount = 123
                 )
             ) { }
         }

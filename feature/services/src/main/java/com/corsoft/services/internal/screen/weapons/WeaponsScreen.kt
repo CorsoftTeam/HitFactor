@@ -14,15 +14,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.services.internal.component.list.GunList
+import com.corsoft.services.internal.model.GunModel
+import com.corsoft.services.internal.screen.weapon_details.navigation.WeaponDetailsNavArgs
 import com.corsoft.ui.components.button.HFButton
+import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.HitFactorTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.generated.services.destinations.AddWeaponScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.WeaponDetailsScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
 
@@ -37,7 +42,15 @@ internal fun WeaponsScreen(
 
     WeaponsScreen(
         state = uiState,
-        onAddClick = { navigator.navigate(AddWeaponScreenDestination) }
+        onAddClick = { navigator.navigate(AddWeaponScreenDestination) },
+        onItemClick = {
+            navigator.navigate(
+                WeaponDetailsScreenDestination(
+                    WeaponDetailsNavArgs(it.id)
+                )
+            )
+        },
+        onBackClick = { navigator.popBackStack() }
     )
     HFSnackBarHost(
         hostState = snackBarHostState,
@@ -49,7 +62,9 @@ internal fun WeaponsScreen(
 private fun WeaponsScreen(
     modifier: Modifier = Modifier,
     state: WeaponsScreenState,
-    onAddClick: () -> Unit = {}
+    onAddClick: () -> Unit = {},
+    onItemClick: (GunModel) -> Unit = {},
+    onBackClick: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -58,7 +73,13 @@ private fun WeaponsScreen(
                     Text(
                         text = stringResource(id = CoreStringRes.gun_storage)
                     )
-                }
+                },
+                navigationIcon = {
+                    HFIconButton(
+                        icon = CoreDrawableRes.ic_back,
+                        onClick = onBackClick
+                    )
+                },
             )
         },
         bottomBar = {
@@ -73,7 +94,8 @@ private fun WeaponsScreen(
             modifier = modifier
                 .padding(paddingValues)
                 .padding(horizontal = 8.dp),
-            gunList = state.weaponsList
+            gunList = state.weaponsList,
+            onItemClick = onItemClick
         )
     }
 }

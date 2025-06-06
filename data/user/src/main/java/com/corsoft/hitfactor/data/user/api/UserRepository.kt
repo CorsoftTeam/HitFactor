@@ -13,4 +13,7 @@ interface UserRepository {
         serialNumber: String,
         type: String
     ): NetworkResponse<Unit>
+    suspend fun getGunById( id: Int): NetworkResponse<Gun>
+    suspend fun deleteGunById( id: Int): NetworkResponse<Gun>
+    suspend fun getProfilePhotoUrl(): NetworkResponse<String>
 }

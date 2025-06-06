@@ -63,5 +63,48 @@ internal class UserRepositoryImpl(
             }
         )
 
+    override suspend fun getGunById(id: Int): NetworkResponse<Gun> =
+        apiCall {
+            userApi.getGunById(
+                userId = userApi.getMe().body()?.uuid ?: "",
+                id
+            )
+        }.doOn(
+            success = {
+                NetworkResponse.Success(it.toModel())
+            },
+            failed = {
+                it
+            }
+        )
+
+    override suspend fun deleteGunById(id: Int): NetworkResponse<Gun> =
+        apiCall {
+            userApi.deleteGunById(
+                userId = userApi.getMe().body()?.uuid ?: "",
+                id
+            )
+        }.doOn(
+            success = {
+                NetworkResponse.Success(it.toModel())
+            },
+            failed = {
+                it
+            }
+        )
+
+    override suspend fun getProfilePhotoUrl(): NetworkResponse<String> =
+        apiCall {
+            userApi.getProfilePhoto(
+                userId = userApi.getMe().body()?.uuid ?: ""
+            )
+        }.doOn(
+            success = {
+                NetworkResponse.Success(it.profilePhotoUrl)
+            },
+            failed = {
+                it
+            }
+        )
 
 }

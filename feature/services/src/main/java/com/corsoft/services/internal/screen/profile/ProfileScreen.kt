@@ -2,6 +2,7 @@ package com.corsoft.services.internal.screen.profile
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -31,6 +33,7 @@ import coil3.compose.rememberAsyncImagePainter
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
+import com.corsoft.services.internal.component.card.ParameterCard
 import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
@@ -53,7 +56,7 @@ internal fun ProfileScreen(
             ToolBar(
                 title = {
                     Text(
-                        text = stringResource(id = CoreStringRes.profile)
+                        text = uiState.user.name
                     )
                 },
                 actions = {
@@ -80,13 +83,15 @@ private fun ProfileScreen(
     onSettingsClick: () -> Unit = {},
 ) {
     Column (
-        modifier = modifier
+        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp)
     ){
-        Row {
-            Spacer(modifier = Modifier.width(30.dp))
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ){
             Image(
                 painter = rememberAsyncImagePainter(
-                    model = "",
+                    model = state.profilePhoto,
                     placeholder = painterResource(id = CoreDrawableRes.default_profile_photo),
                     error = painterResource(id = CoreDrawableRes.default_profile_photo),
                 ),
@@ -96,17 +101,17 @@ private fun ProfileScreen(
                 contentScale = ContentScale.Crop,
                 contentDescription = ""
             )
-//            GlideImage(
-//                model = "",
-//                contentDescription = "",
-//                modifier = Modifier
-//                    .size(100.dp)
-//                    .clip(CircleShape),
-//                contentScale = ContentScale.Crop,
-//                loading = placeholder(CoreDrawableRes.default_profile_photo),
-//                failure = placeholder(CoreDrawableRes.default_profile_photo)
-//            )
         }
+        Spacer(modifier = Modifier.height(32.dp))
+        ParameterCard(
+            name = stringResource(id = CoreStringRes.login),
+            value = state.user.login
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        ParameterCard(
+            name = stringResource(id = CoreStringRes.email),
+            value = state.user.email
+        )
     }
 
 }

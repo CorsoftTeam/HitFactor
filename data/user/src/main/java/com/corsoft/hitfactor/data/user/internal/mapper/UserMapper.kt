@@ -8,17 +8,19 @@ import com.corsoft.hitfactor.data.user.internal.network.model.response.UserRespo
 internal fun UserResponse.toModel(): User =
     User(
         name = name,
-        lastName = lastName,
+        lastName = lastName ?: "",
         login = login,
         email = email,
-        phoneNumber = phoneNumber,
+        phoneNumber = phoneNumber ?: "",
         uuid = uuid
     )
 
 internal fun GunItemResponse.toModel(): Gun =
     Gun(
+        id = id,
         name = name,
         caliber = caliber,
         serialNumber = serialNumber,
-        gunType = gunType
+        gunType = gunType,
+        shotCount = shotCount
     )
