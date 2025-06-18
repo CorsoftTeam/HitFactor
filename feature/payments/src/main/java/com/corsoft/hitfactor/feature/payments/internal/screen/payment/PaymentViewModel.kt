@@ -10,6 +10,8 @@ internal class PaymentViewModel(
 ) {
 
     override fun onAction(action: PaymentAction) {
-        paymentsRepository.pay()
+        paymentsRepository.pay{
+            sendEffect(PaymentEffect.GoNext)
+        }
     }
 }

@@ -8,10 +8,11 @@ data class AppModel(
     val selectedBottomBarItem: NavigationBarItem = NavigationBarItem.SERVICES,
     val bottomBarItems: List<NavigationBarItem> = NavigationBarItem.entries,
     val isAuth: Boolean? = null,
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val isError: Boolean = false,
     val isInternetAvailable: Boolean = true,
-    val isBottomBarVisibility: Boolean = false
+    val isBottomBarVisibility: Boolean = false,
+    val isSubscribed: Boolean = false
 ) : MviState
 
 sealed interface AppAction : MviAction {

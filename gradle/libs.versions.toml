@@ -50,6 +50,9 @@ zentone = "2.2.0"
 rustore = "2025.02.01"
 billing-client = "8.0.0"
 
+#Lottie
+lottieVersion = "6.3.0"
+
 
 
 
@@ -117,6 +120,9 @@ zentone = { group = "com.github.nisrulz", name = "zentone", version.ref = "zento
 rustore-bom = { group = "ru.rustore.sdk", name = "bom", version.ref = "rustore" }
 billing-client = { group = "ru.rustore.sdk", name = "billingclient", version.ref = "billing-client" }
 
+#Lottie
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion" }
+
 #---------------------------------------------------------------------------------------------------
 [plugins]
 
@@ -161,7 +167,8 @@ compose = [
     "accompainst",
     "coil",
     "coil-network-okhttp",
-    "pdf_viewer"
+    "pdf_viewer",
+    "lottie"
 ]
 
 compose-navigation = [

@@ -9,7 +9,8 @@ import com.corsoft.services.internal.model.UserModel
 
 @Immutable
 internal data class WeaponDetailsScreenState(
-    val gunModel: GunModel = GunModel()
+    val gunModel: GunModel = GunModel(),
+    val isLoading: Boolean = true
 ) : MviState
 
 internal sealed interface WeaponDetailsAction : MviAction

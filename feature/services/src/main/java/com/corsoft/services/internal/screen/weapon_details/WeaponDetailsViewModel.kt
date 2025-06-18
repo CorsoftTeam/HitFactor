@@ -32,6 +32,15 @@ internal class WeaponDetailsViewModel(
                 },
                 failed = { }
             )
+            //setLoading(false)
+        }
+    }
+
+    private fun setLoading(state: Boolean){
+        changeState {
+            it.copy(
+                isLoading = state
+            )
         }
     }
 

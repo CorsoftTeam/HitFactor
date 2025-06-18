@@ -2,6 +2,7 @@ package com.corsoft.services.internal.component.enum
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 
 enum class GunTypeEnum {
@@ -22,6 +23,16 @@ enum class GunTypeEnum {
             CARBINE -> stringResource(id = CoreStringRes.carbine)
             SHOTGUN -> stringResource(id = CoreStringRes.shotgun)
             BOLT_ACTION -> stringResource(id = CoreStringRes.bolt_action)
+        }
+
+    fun getImageRes() : Int =
+        when (this) {
+            SELF_DEFENCE -> CoreDrawableRes.ic_pistol
+            PISTOL -> CoreDrawableRes.ic_pistol
+            PCC -> CoreDrawableRes.ic_pcc
+            CARBINE -> CoreDrawableRes.ic_carbine
+            SHOTGUN -> CoreDrawableRes.ic_shotgun
+            BOLT_ACTION -> CoreDrawableRes.ic_bolt_action
         }
 
     companion object {
