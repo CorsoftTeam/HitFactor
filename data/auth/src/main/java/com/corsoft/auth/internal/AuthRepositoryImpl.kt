@@ -1,35 +1,33 @@
 package com.corsoft.auth.internal
 
-import android.util.Log
 import com.corsoft.auth.api.AuthRepository
-import com.corsoft.auth.internal.network.AuthApi
-import com.corsoft.auth.internal.network.model.request.AuthRequest
-import com.corsoft.auth.internal.network.model.request.RegisterRequest
-import com.corsoft.data.storage.EncryptedStorage
 import com.corsoft.network.model.NetworkResponse
-import ppk.app.core.network.util.apiCall
-import ppk.app.core.network.util.doOn
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 internal class AuthRepositoryImpl(
-    private val storage: EncryptedStorage,
-    private val authApi: AuthApi
+    private val auth: FirebaseAuth,
+    private val firestore: FirebaseFirestore
 ) : AuthRepository {
-    override suspend fun login(login: String, password: String): NetworkResponse<Unit> {
-        val response = authApi.login(
-            AuthRequest(
-                login = login,
-                password = password
-            )
-        )
-        if (response.isSuccessful) {
-            Log.d("HEADER", response.headers()["set-cookie"].toString())
-            storage.accessToken = response.body()?.token
-            storage.cookie = response.headers()["set-cookie"]
-            return NetworkResponse.Success(Unit)
-        } else {
-            return NetworkResponse.Failed(Throwable(response.errorBody()?.string()))
+    override suspend fun login(email: String, password: String): NetworkResponse<Unit> =
+        suspendCancellableCoroutine { continuation ->
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    continuation.resume(NetworkResponse.Success(Unit))
+                } else {
+                    continuation.resume(
+                        NetworkResponse.Failed(
+                            Throwable(
+                                task.exception?.message ?: "Неизвестная ошибка"
+                            )
+                        )
+                    )
+                }
+            }
         }
-    }
 
     override suspend fun register(
         login: String,
@@ -37,24 +35,49 @@ internal class AuthRepositoryImpl(
         email: String,
         name: String
     ): NetworkResponse<Unit> =
-        apiCall {
-            authApi.register(
-                request = RegisterRequest(
-                    login = login,
-                    password = password,
-                    email = email,
-                    name = name
-                )
-            )
-        }.doOn(
-            success = {
-                NetworkResponse.Success(Unit)
-            },
-            failed = { it }
-        )
+        suspendCancellableCoroutine { continuation ->
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    firestore.collection("users").document(user?.uid ?: "").set(mapOf(
+                        "uid" to user?.uid,
+                        "name" to name,
+                        "login" to login,
+                        "email" to email,
+                        "createdAt" to FieldValue.serverTimestamp()
+                    )).addOnCompleteListener { taskRegister ->
+                        if (taskRegister.isSuccessful){
+                            continuation.resume(NetworkResponse.Success(Unit))
+                        } else {
+                            continuation.resume(
+                                NetworkResponse.Failed(
+                                    Throwable(
+                                        taskRegister.exception?.message ?: "Неизвестная ошибка"
+                                    )
+                                )
+                            )
+                        }
+                    }
+                } else {
+                    continuation.resume(
+                        NetworkResponse.Failed(
+                            Throwable(
+                                task.exception?.message ?: "Неизвестная ошибка"
+                            )
+                        )
+                    )
+                }
+            }
+        }
 
-    override fun isUserAuthorised(): Boolean {
-        return !storage.accessToken.isNullOrEmpty()
-    }
+    override suspend fun isUserAuthorised(): Boolean =
+        suspendCancellableCoroutine { continuation ->
+            val currentUser = auth.currentUser
+            if (currentUser != null) {
+                continuation.resume(true)
+            } else {
+                continuation.resume(false)
+            }
+        }
 
 }

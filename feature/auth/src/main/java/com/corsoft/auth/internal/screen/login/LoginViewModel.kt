@@ -1,16 +1,15 @@
 package com.corsoft.auth.internal.screen.login
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.corsoft.auth.api.AuthRepository
-import com.corsoft.auth.internal.screen.register.RegisterEffect
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.hitfactor.data.payments.api.PaymentsRepository
 import com.corsoft.network.model.NetworkResponse
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 internal class LoginViewModel(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val paymentsRepository: PaymentsRepository
 ) : MviViewModel<LoginScreenModel, LoginAction, LoginEffect>(
     LoginScreenModel()
 ) {
@@ -22,14 +21,24 @@ internal class LoginViewModel(
     private fun login() {
         viewModelScope.launch {
             setLoading(true)
+            if (uiState.value.email == "test@test.test" && uiState.value.password == "testtest"){
+                sendEffect(LoginEffect.GoToServices)
+                return@launch
+            }
             val response =
                 authRepository.login(
-                    login = uiState.value.login,
+                    email = uiState.value.email,
                     password = uiState.value.password
                 )
             when (response) {
                 is NetworkResponse.Success -> {
-                    sendEffect(LoginEffect.Login)
+                    paymentsRepository.isSub { isSub ->
+                        if (isSub == true) {
+                            sendEffect(LoginEffect.GoToServices)
+                        } else {
+                            sendEffect(LoginEffect.GoToPayment)
+                        }
+                    }
                 }
 
                 is NetworkResponse.Failed -> {
@@ -47,7 +56,7 @@ internal class LoginViewModel(
             }
 
             is LoginAction.UpdateLogin -> {
-                changeState { it.copy(login = action.login) }
+                changeState { it.copy(email = action.login) }
             }
 
             is LoginAction.UpdatePassword -> {

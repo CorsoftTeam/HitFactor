@@ -8,9 +8,5 @@ import com.corsoft.hitfactor.build_logic.convention.ProjectConfig
 internal fun configureCompose(commonExtension: CommonExtension<*, *, *, *, *, *>) {
     commonExtension.apply {
         buildFeatures.compose = true
-
-        composeOptions {
-            kotlinCompilerExtensionVersion = ProjectConfig.kotlinCompiler
-        }
     }
 }

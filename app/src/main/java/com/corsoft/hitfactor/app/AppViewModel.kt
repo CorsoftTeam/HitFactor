@@ -1,12 +1,15 @@
 package com.corsoft.hitfactor.app
 
 import androidx.lifecycle.viewModelScope
+import com.corsoft.auth.api.AuthRepository
 import com.corsoft.common.mvvm.MviViewModel
 import com.corsoft.hitfactor.data.payments.api.PaymentsRepository
 import kotlinx.coroutines.launch
+import kotlin.math.truncate
 
 class AppViewModel(
-    private val paymentsRepository: PaymentsRepository
+    private val paymentsRepository: PaymentsRepository,
+    private val authRepository: AuthRepository
 ) : MviViewModel<AppModel, AppAction, AppEffect>(AppModel()) {
 
     override fun onAction(action: AppAction) {
@@ -18,10 +21,19 @@ class AppViewModel(
 
     init {
         viewModelScope.launch {
-            paymentsRepository.isSub { result ->
+            if (authRepository.isUserAuthorised()){
+                paymentsRepository.isSub { result ->
+                    changeState {
+                        it.copy(
+                            isAuth = true,
+                            isSubscribed = result ?: false, //TODO: add error message
+                            isLoading = false
+                        )
+                    }
+                }
+            } else {
                 changeState {
                     it.copy(
-                        isSubscribed = result ?: false, //TODO: add error message
                         isLoading = false
                     )
                 }

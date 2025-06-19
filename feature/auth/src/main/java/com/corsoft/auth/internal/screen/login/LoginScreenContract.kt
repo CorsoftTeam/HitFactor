@@ -7,7 +7,7 @@ import com.corsoft.common.mvvm.MviState
 
 @Immutable
 internal data class LoginScreenModel(
-    val login: String = "",
+    val email: String = "",
     val password: String = "",
     val error: String = "",
     val isLoading: Boolean = true,
@@ -20,6 +20,7 @@ internal sealed interface LoginAction : MviAction {
 }
 
 internal sealed interface LoginEffect : MviEffect {
-    data object Login : LoginEffect
+    data object GoToServices : LoginEffect
+    data object GoToPayment : LoginEffect
     data class ShowError(val message: String) : LoginEffect
 }

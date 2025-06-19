@@ -6,11 +6,14 @@ import com.ramcosta.composedestinations.generated.auth.navgraphs.AuthGraph
 import com.ramcosta.composedestinations.generated.navgraphs.PaymentsGraph
 import com.ramcosta.composedestinations.generated.services.navgraphs.ServicesGraph
 import com.ramcosta.composedestinations.spec.DestinationSpec
+import com.ramcosta.composedestinations.spec.Direction
 import com.ramcosta.composedestinations.spec.DirectionNavHostGraphSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.TypedRoute
 
 object HFRootNavGraph : DirectionNavHostGraphSpec {
+    override val defaultStartDirection: Direction
+        get() = ServicesGraph
 
     override val defaultTransitions: NavHostAnimatedDestinationStyle = NoTransitions
 

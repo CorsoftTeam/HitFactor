@@ -4,6 +4,9 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.corsoft.network.createOkHttpClient
 import com.corsoft.network.createRetrofit
 import com.corsoft.network.internal.interceptor.AuthInterceptor
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.vaskorr.provider.CoreNetworkConfigProvider
 import org.koin.dsl.module
 
@@ -14,6 +17,12 @@ val networkModule = module {
             chuckerInterceptor = ChuckerInterceptor(get()),
             isProdReleaseFlavor = get<CoreNetworkConfigProvider>().isProdReleaseFlavor()
         )
+    }
+    single {
+        FirebaseAuth.getInstance()
+    }
+    single {
+        FirebaseFirestore.getInstance()
     }
     single { createRetrofit(get()) }
 }

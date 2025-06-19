@@ -12,8 +12,8 @@ val authDataModule = module {
     factory { get<Retrofit>().create<AuthApi>() }
     single {
         AuthRepositoryImpl(
-            storage = get(),
-            authApi = get()
+            auth = get(),
+            firestore = get()
         )
     } bind AuthRepository::class
 }

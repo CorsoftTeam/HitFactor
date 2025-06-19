@@ -57,7 +57,8 @@ internal fun LoginScreen(
 
     viewModel.effect.observeWithLifecycle { effect ->
         when (effect) {
-            is LoginEffect.Login -> authNavigator.login()
+            is LoginEffect.GoToServices -> authNavigator.goToServices()
+            is LoginEffect.GoToPayment -> authNavigator.goToPayment()
             is LoginEffect.ShowError -> scope.launch {
                 snackBarHostState.showSnackbar(effect.message)
             }
@@ -121,8 +122,8 @@ private fun LoginScreen(
                     horizontalAlignment = Alignment.End
                 ) {
                     HFFilledTextField(
-                        placeholder = stringResource(id = CoreStringRes.login),
-                        text = state.login,
+                        placeholder = stringResource(id = CoreStringRes.email),
+                        text = state.email,
                         onTextChange = { onLoginChange(it) }
                     )
                     HFFilledTextField(

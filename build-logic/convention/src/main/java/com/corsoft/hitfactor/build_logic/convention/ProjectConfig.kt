@@ -11,5 +11,5 @@ internal object ProjectConfig {
     const val versionCode = 1
     const val versionName = "1.0"
     val javaVersion = JavaVersion.VERSION_19
-    const val kotlinCompiler = "1.5.1"
+    const val kotlinCompiler = "1.6.10"
 }

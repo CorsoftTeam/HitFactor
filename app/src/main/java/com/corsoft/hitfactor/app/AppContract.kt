@@ -7,7 +7,7 @@ import com.corsoft.common.mvvm.MviState
 data class AppModel(
     val selectedBottomBarItem: NavigationBarItem = NavigationBarItem.SERVICES,
     val bottomBarItems: List<NavigationBarItem> = NavigationBarItem.entries,
-    val isAuth: Boolean? = null,
+    val isAuth: Boolean = false,
     val isLoading: Boolean = true,
     val isError: Boolean = false,
     val isInternetAvailable: Boolean = true,

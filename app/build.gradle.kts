@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.hf.app)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -13,6 +15,8 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(platform(libs.koin.bom))
     implementation(platform(libs.rustore.bom))
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.firebase)
     implementation(libs.bundles.core)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.compose)

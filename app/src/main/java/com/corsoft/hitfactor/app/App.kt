@@ -32,12 +32,15 @@ import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.generated.auth.navgraphs.AuthGraph
 import com.ramcosta.composedestinations.generated.navgraphs.PaymentsGraph
 import com.ramcosta.composedestinations.generated.services.destinations.DocumentsScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.ServiceListScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
 import com.ramcosta.composedestinations.generated.services.navgraphs.ServicesGraph
 import com.ramcosta.composedestinations.navigation.dependency
+import com.ramcosta.composedestinations.spec.Direction
+import com.ramcosta.composedestinations.spec.Route
 import com.ramcosta.composedestinations.utils.currentDestinationFlow
 import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
 import kotlinx.coroutines.launch
@@ -100,9 +103,11 @@ internal fun App(
                     NavigationBarItem.SERVICES -> {
                         destinationNav.navigate(ServicesGraph)
                     }
+
                     NavigationBarItem.TIMER -> {
                         destinationNav.navigate(TimerScreenDestination)
                     }
+
                     NavigationBarItem.DOCUMENTS -> {
                         destinationNav.navigate(DocumentsScreenDestination)
                     }
@@ -111,7 +116,10 @@ internal fun App(
         ) {
             DestinationsNavHost(
                 navGraph = HFRootNavGraph,
-                startRoute = if (appState.isSubscribed) ServicesGraph else PaymentsGraph,
+                start = getCurrentGraph(
+                    isAuth = appState.isAuth,
+                    isSub = appState.isSubscribed
+                ),
                 navController = navController,
                 dependenciesContainerBuilder = {
                     dependency(
@@ -177,6 +185,7 @@ private fun AppContainer(
                     LoadingCircle()
                 }
             }
+
             else -> Box(
                 modifier = Modifier.padding(contentPadding)
             ) {
@@ -193,3 +202,14 @@ private fun isBottomBarVisible(route: String?): Boolean {
         DocumentsScreenDestination.route
     )
 }
+
+private fun getCurrentGraph(isAuth: Boolean, isSub: Boolean): Direction =
+    if (isAuth) {
+        if (isSub) {
+            ServicesGraph
+        } else {
+            PaymentsGraph
+        }
+    } else {
+        AuthGraph
+    }
