@@ -1,5 +1,6 @@
 package com.corsoft.services.internal.screen.weapon_details
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.corsoft.common.mvvm.MviViewModel
@@ -10,7 +11,7 @@ import kotlinx.coroutines.launch
 import ppk.app.core.network.util.doOn
 
 internal class WeaponDetailsViewModel(
-    userRepository: UserRepository,
+    private val userRepository: UserRepository,
     savedStateHandle: SavedStateHandle
 ) : MviViewModel<WeaponDetailsScreenState, WeaponDetailsAction, WeaponDetailsEffect>(
     WeaponDetailsScreenState()
@@ -19,7 +20,9 @@ internal class WeaponDetailsViewModel(
     private val navArgs = WeaponDetailsScreenDestination.argsFrom(savedStateHandle)
 
     override fun onAction(action: WeaponDetailsAction) {
-
+        when(action){
+            WeaponDetailsAction.Delete -> delete()
+        }
     }
 
     init {
@@ -27,12 +30,26 @@ internal class WeaponDetailsViewModel(
             userRepository.getGunById(navArgs.gunId).doOn(
                 success = {
                     changeState { state ->
+                        Log.d("WEAPON", it.toString())
                         state.copy(gunModel = it.toUiModel())
                     }
                 },
                 failed = { }
             )
-            //setLoading(false)
+            setLoading(false)
+        }
+    }
+
+    private fun delete(){
+        viewModelScope.launch {
+            userRepository.deleteGunById(uiState.value.gunModel.id).doOn(
+                success = {
+                    sendEffect(WeaponDetailsEffect.Back)
+                },
+                failed = {
+                    //TODO: add warning
+                }
+            )
         }
     }
 

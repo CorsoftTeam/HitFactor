@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.corsoft.ui.theme.AppColors
@@ -22,6 +23,7 @@ fun HFButton(
     text: String,
     isPrimary: Boolean = true,
     enabled: Boolean = true,
+    customColor: Color? = null,
     onClick: () -> Unit
 ) {
     Button(
@@ -29,10 +31,11 @@ fun HFButton(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
-            containerColor = when (isPrimary) {
-                true -> AppColors.Primary
-                false -> MaterialTheme.colorScheme.primaryContainer
-            }
+            containerColor = customColor
+                ?: when (isPrimary) {
+                    true -> AppColors.Primary
+                    false -> MaterialTheme.colorScheme.primaryContainer
+                }
         ),
         shape = RoundedCornerShape(16.dp)
     ) {

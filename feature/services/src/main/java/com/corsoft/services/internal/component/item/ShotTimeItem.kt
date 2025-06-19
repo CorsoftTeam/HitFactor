@@ -1,8 +1,5 @@
 package com.corsoft.services.internal.component.item
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.slideIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.corsoft.resources.CoreDrawableRes
@@ -39,7 +35,7 @@ internal fun ShotTimeItem(
     time: String,
     split: String,
     onDelete: () -> Unit
-){
+) {
 
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -95,7 +91,8 @@ private fun ShotTimeItemPreview() {
             ShotTimeItem(
                 index = 1,
                 time = "01:56.076",
-                split = "01:56.076") { }
+                split = "01:56.076"
+            ) { }
         }
     }
 }
@@ -103,14 +100,15 @@ private fun ShotTimeItemPreview() {
 @Preview
 @Composable
 private fun ShotTimeItemPreviewDark() {
-    HitFactorTheme (
+    HitFactorTheme(
         darkTheme = true
-    ){
+    ) {
         Surface {
             ShotTimeItem(
                 index = 2,
                 time = "02:01.076",
-                split = "00:05.076") { }
+                split = "00:05.076"
+            ) { }
         }
     }
 }

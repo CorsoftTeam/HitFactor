@@ -12,7 +12,9 @@ val userDataModule = module {
     factory { get<Retrofit>().create<UserApi>() }
     single {
         UserRepositoryImpl(
-            userApi = get()
+            userApi = get(),
+            auth = get(),
+            firestore = get()
         )
     } bind UserRepository::class
 }

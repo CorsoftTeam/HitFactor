@@ -11,6 +11,8 @@ internal data class WeaponsScreenState(
     val weaponsList: List<GunModel> = emptyList()
 ) : MviState
 
-internal sealed interface WeaponsAction : MviAction
+internal sealed interface WeaponsAction : MviAction {
+    data object Refresh: WeaponsAction
+}
 
 internal sealed interface WeaponsEffect : MviEffect

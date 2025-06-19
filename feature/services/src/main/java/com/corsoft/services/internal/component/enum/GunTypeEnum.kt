@@ -25,6 +25,16 @@ enum class GunTypeEnum {
             BOLT_ACTION -> stringResource(id = CoreStringRes.bolt_action)
         }
 
+    fun getKey(): String =
+        when (this) {
+            PISTOL -> "pistol"
+            SELF_DEFENCE -> "self_defence"
+            PCC -> "pcc"
+            CARBINE -> "carbine"
+            SHOTGUN -> "shotgun"
+            BOLT_ACTION -> "bolt_action"
+        }
+
     fun getImageRes() : Int =
         when (this) {
             SELF_DEFENCE -> CoreDrawableRes.ic_pistol

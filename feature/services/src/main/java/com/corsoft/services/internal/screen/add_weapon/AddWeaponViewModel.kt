@@ -37,7 +37,7 @@ internal class AddWeaponViewModel(
                 userRepository.addGun(
                     name = uiState.value.name,
                     caliber = uiState.value.caliber,
-                    type = uiState.value.gunType.name,
+                    type = uiState.value.gunType.getKey(),
                     serialNumber = uiState.value.serialNumber
                 ).doOn(
                     success = {

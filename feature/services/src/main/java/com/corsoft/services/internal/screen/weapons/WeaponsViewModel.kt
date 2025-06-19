@@ -8,15 +8,21 @@ import kotlinx.coroutines.launch
 import ppk.app.core.network.util.doOn
 
 internal class WeaponsViewModel(
-    userRepository: UserRepository
+    private val userRepository: UserRepository
 ) : MviViewModel<WeaponsScreenState, WeaponsAction, WeaponsEffect>(
     WeaponsScreenState()
 ) {
     override fun onAction(action: WeaponsAction) {
-
+        when(action) {
+            WeaponsAction.Refresh -> loadData()
+        }
     }
 
     init {
+        loadData()
+    }
+
+    private fun loadData() {
         viewModelScope.launch {
             userRepository.getMyGuns().doOn(
                 success = {
@@ -32,5 +38,4 @@ internal class WeaponsViewModel(
             )
         }
     }
-
 }

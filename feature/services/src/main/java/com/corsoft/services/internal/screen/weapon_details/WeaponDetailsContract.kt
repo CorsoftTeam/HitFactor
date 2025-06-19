@@ -13,6 +13,10 @@ internal data class WeaponDetailsScreenState(
     val isLoading: Boolean = true
 ) : MviState
 
-internal sealed interface WeaponDetailsAction : MviAction
+internal sealed interface WeaponDetailsAction : MviAction {
+    data object Delete: WeaponDetailsAction
+}
 
-internal sealed interface WeaponDetailsEffect : MviEffect
+internal sealed interface WeaponDetailsEffect : MviEffect {
+    data object Back: WeaponDetailsEffect
+}

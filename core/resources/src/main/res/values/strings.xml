@@ -50,6 +50,9 @@
     <string name="start_sub">Попробовать за 1 ₽</string>
     <string name="next_without_sub">Продолжить в ограниченном режиме</string>
     <string name="offline_mode">Оффлайн режим</string>
+    <string name="ranges">Стрельбища</string>
+    <string name="website">Сайт</string>
+    <string name="call">Звонок</string>
 
 
     <!-- Enums -->

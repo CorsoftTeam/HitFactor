@@ -18,26 +18,7 @@ internal class ProfileViewModel(
 
     init {
         viewModelScope.launch {
-            userRepository.getMe().doOn(
-                success = { response ->
-                    changeState {
-                        it.copy(
-                            user = response.toUiModel()
-                        )
-                    }
-                },
-                failed = { }
-            )
-            userRepository.getProfilePhotoUrl().doOn(
-                success = { response ->
-                    changeState {
-                        it.copy(
-                            profilePhoto = response
-                        )
-                    }
-                },
-                failed = { }
-            )
+
         }
     }
 

@@ -4,6 +4,7 @@ import com.corsoft.services.internal.screen.add_weapon.AddWeaponViewModel
 import com.corsoft.services.internal.screen.calculate_hf.CalculateHFViewModel
 import com.corsoft.services.internal.screen.documents.DocumentsViewModel
 import com.corsoft.services.internal.screen.profile.ProfileViewModel
+import com.corsoft.services.internal.screen.ranges.RangesViewModel
 import com.corsoft.services.internal.screen.service_list.ServiceListViewModel
 import com.corsoft.services.internal.screen.timer.TimerViewModel
 import com.corsoft.services.internal.screen.weapon_details.WeaponDetailsViewModel
@@ -20,4 +21,5 @@ val servicesFeatureModule = module {
     viewModelOf(::WeaponsViewModel)
     viewModelOf(::AddWeaponViewModel)
     viewModelOf(::WeaponDetailsViewModel)
+    viewModelOf(::RangesViewModel)
 }

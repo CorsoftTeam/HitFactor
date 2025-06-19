@@ -34,13 +34,12 @@ import com.corsoft.services.internal.component.enum.GunTypeEnum
 import com.corsoft.services.internal.model.GunModel
 import com.corsoft.services.internal.screen.weapon_details.navigation.WeaponDetailsNavArgs
 import com.corsoft.ui.components.button.HFIconButton
-import com.corsoft.ui.components.card.InfoCard
 import com.corsoft.ui.components.card.WarningCard
-import com.corsoft.ui.components.loading.ScanLoading
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.AppColors
 import com.corsoft.ui.theme.HitFactorTheme
+import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.generated.services.destinations.AddWeaponScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -55,10 +54,17 @@ internal fun WeaponDetailsScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    viewModel.effect.observeWithLifecycle { effect ->
+        when (effect) {
+            WeaponDetailsEffect.Back -> navigator.popBackStack()
+        }
+    }
+
     WeaponDetailsScreen(
         state = uiState,
         onAddClick = { navigator.navigate(AddWeaponScreenDestination) },
-        onBackClick = { navigator.popBackStack() }
+        onBackClick = { navigator.popBackStack() },
+        onDeleteClick = { viewModel.onAction(WeaponDetailsAction.Delete) }
     )
     HFSnackBarHost(
         hostState = snackBarHostState,
@@ -107,7 +113,9 @@ private fun WeaponDetailsScreen(
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
-                    modifier = Modifier.fillMaxWidth().height(150.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp),
                     painter = painterResource(id = state.gunModel.gunType.getImageRes()),
                     contentDescription = ""
                 )
@@ -143,11 +151,12 @@ private fun WeaponDetailsScreen(
                     name = stringResource(id = CoreStringRes.shot_count),
                     value = state.gunModel.shotCount.toString()
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .height(60.dp)
                         .clickable { onDeleteClick() },
                     verticalArrangement = Arrangement.Center,
                 ) {

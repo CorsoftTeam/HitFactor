@@ -7,6 +7,7 @@ import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.ramcosta.composedestinations.generated.services.destinations.CalculateHFScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.DocumentsScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.RangesScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.RulesScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.WeaponsScreenDestination
@@ -16,6 +17,7 @@ internal enum class ServicesEnum {
     TIMER,
     CALC,
     CALENDAR,
+    RANGES,
     AMMO,
     GUNS,
     DOCS,
@@ -31,6 +33,7 @@ internal enum class ServicesEnum {
             TIMER -> stringResource(id = CoreStringRes.timer)
             CALC -> stringResource(id = CoreStringRes.calculator)
             CALENDAR -> stringResource(id = CoreStringRes.trainings)
+            RANGES -> stringResource(id = CoreStringRes.ranges)
             AMMO -> stringResource(id = CoreStringRes.ammo)
             GUNS -> stringResource(id = CoreStringRes.gun_storage)
             DOCS -> stringResource(id = CoreStringRes.documents)
@@ -47,6 +50,7 @@ internal enum class ServicesEnum {
             TIMER -> CoreDrawableRes.ic_timer_outline
             CALC -> CoreDrawableRes.ic_calc
             CALENDAR -> CoreDrawableRes.ic_calendar
+            RANGES -> CoreDrawableRes.ic_home
             AMMO -> CoreDrawableRes.ic_ammo
             GUNS -> CoreDrawableRes.ic_gun
             DOCS -> CoreDrawableRes.ic_document
@@ -61,6 +65,7 @@ internal enum class ServicesEnum {
             TIMER -> navigator.navigate(TimerScreenDestination)
             CALC -> navigator.navigate(CalculateHFScreenDestination(0))
             CALENDAR -> {}
+            RANGES -> navigator.navigate(RangesScreenDestination)
             AMMO -> {}
             GUNS -> navigator.navigate(WeaponsScreenDestination)
             DOCS -> navigator.navigate(DocumentsScreenDestination)
@@ -76,6 +81,7 @@ internal enum class ServicesEnum {
             TIMER -> true
             CALC -> true
             CALENDAR -> false
+            RANGES -> true
             AMMO -> false
             GUNS -> true
             DOCS -> true
