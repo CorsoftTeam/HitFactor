@@ -1,5 +1,9 @@
 package com.corsoft.services.internal.screen.weapons
 
+import LoadingCircle
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
@@ -12,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -97,13 +102,23 @@ private fun WeaponsScreen(
             )
         }
     ) { paddingValues ->
-        GunList(
-            modifier = modifier
-                .padding(paddingValues)
-                .padding(horizontal = 8.dp),
-            gunList = state.weaponsList,
-            onItemClick = onItemClick
-        )
+        if (state.isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                LoadingCircle()
+            }
+        } else {
+            GunList(
+                modifier = modifier
+                    .padding(paddingValues)
+                    .padding(horizontal = 8.dp),
+                gunList = state.weaponsList,
+                onItemClick = onItemClick
+            )
+        }
     }
 }
 

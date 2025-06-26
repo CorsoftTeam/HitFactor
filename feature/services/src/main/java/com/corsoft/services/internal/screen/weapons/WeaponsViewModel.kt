@@ -24,6 +24,7 @@ internal class WeaponsViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
+            setLoading(true)
             userRepository.getMyGuns().doOn(
                 success = {
                     changeState { state ->
@@ -35,6 +36,15 @@ internal class WeaponsViewModel(
                         state.copy(weaponsList = listOf())
                     }
                 }
+            )
+            setLoading(false)
+        }
+    }
+
+    private fun setLoading(state: Boolean){
+        changeState {
+            it.copy(
+                isLoading = state
             )
         }
     }

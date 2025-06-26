@@ -43,6 +43,7 @@ import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.generated.services.destinations.AddWeaponScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.valentinilk.shimmer.shimmer
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -115,7 +116,8 @@ private fun WeaponDetailsScreen(
                 Image(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(150.dp),
+                        .height(150.dp)
+                        .shimmer(),
                     painter = painterResource(id = state.gunModel.gunType.getImageRes()),
                     contentDescription = ""
                 )

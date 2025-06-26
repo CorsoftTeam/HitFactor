@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -90,7 +91,8 @@ internal fun TimerScreen(
                 hostState = snackBarHostState,
                 modifier = Modifier.statusBarsPadding()
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0.dp)
     ) { paddingValues ->
         TimerScreen(
             modifier = Modifier.padding(paddingValues),
@@ -125,12 +127,9 @@ private fun TimerScreen(
         ) {
             Column(
                 Modifier
-                    .padding(12.dp)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(8.dp))
-
                 LazyColumn {
                     items(state.shotTimes) { time ->
                         ShotTimeItem(
@@ -148,7 +147,7 @@ private fun TimerScreen(
 
         Column(
             Modifier
-                .padding(24.dp)
+                .padding(16.dp)
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -179,8 +178,7 @@ private fun TimerScreen(
             onCountHitFactorClick = {},
             readyTimerValue = state.readyTimerValue
         )
-        Spacer(modifier = Modifier.height(24.dp))
-
+        Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(
             visible = state.timerState == TimerStateEnum.STOPPED
         ) {
@@ -191,50 +189,9 @@ private fun TimerScreen(
                 onClick = onCalculateButtonClick
             )
         }
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
-
-//@Preview
-//@Composable
-//private fun TimerPreview() {
-//    HitFactorTheme {
-//        Surface {
-//            TimerScreen(
-//                state = TimerState(
-//                    shotTimes = listOf(
-//                        ShotModel(15000, 15000),
-//                        ShotModel(25000, 10000),
-//                        ShotModel(35000, 10000),
-//                    ),
-//                    time = 36786,
-//                )
-//            )
-//        }
-//    }
-//}
-//
-//@Preview
-//@Composable
-//private fun TimerPreviewDark() {
-//    HitFactorTheme(
-//        darkTheme = true
-//    ) {
-//        Surface {
-//            TimerScreen(
-//                state = TimerState(
-//                    shotTimes = listOf(
-//                        ShotModel(15000, 15000),
-//                        ShotModel(25000, 10000),
-//                        ShotModel(35000, 10000),
-//                    ),
-//                    time = 36786,
-//                    readyTimerValue = 4,
-//                    timerState = TimerStateEnum.WAITING
-//                )
-//            )
-//        }
-//    }
-//}
 
 @Preview
 @Composable

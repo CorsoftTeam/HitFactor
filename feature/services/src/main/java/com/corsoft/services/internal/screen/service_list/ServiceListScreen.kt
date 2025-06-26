@@ -1,5 +1,6 @@
 package com.corsoft.services.internal.screen.service_list
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.services.internal.component.list.ServiceList
+import com.corsoft.services.internal.component.list.ServiceList2
 import com.corsoft.services.internal.model.ServiceModel
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
@@ -63,12 +66,14 @@ private fun ServiceListScreen(
                     )
                 }
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0.dp)
     ) { paddingValues ->
-        ServiceList(
+        ServiceList2(
             modifier = modifier
                 .padding(paddingValues)
                 .padding(horizontal = 8.dp),
+            context = LocalContext.current,
             navigator = navigator
         )
     }

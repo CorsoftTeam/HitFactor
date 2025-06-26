@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -131,19 +132,23 @@ private fun RegisterScreen(
                 ) {
                     HFFilledTextField(
                         placeholder = stringResource(id = CoreStringRes.login),
-                        text = state.login
+                        text = state.login,
+                        semanticContentType = ContentType.Username
                     ) { onLoginChange(it) }
                     HFFilledTextField(
                         placeholder = stringResource(id = CoreStringRes.password),
-                        text = state.password
+                        text = state.password,
+                        semanticContentType = ContentType.Password
                     ) { onPasswordChange(it) }
                     HFFilledTextField(
                         placeholder = stringResource(id = CoreStringRes.name),
-                        text = state.name
+                        text = state.name,
+                        semanticContentType = ContentType.PersonFirstName
                     ) { onNameChange(it) }
                     HFFilledTextField(
                         placeholder = stringResource(id = CoreStringRes.email),
-                        text = state.email
+                        text = state.email,
+                        semanticContentType = ContentType.EmailAddress
                     ) { onEmailChange(it) }
                     HFTextButton(
                         text = stringResource(id = CoreStringRes.already_reg)

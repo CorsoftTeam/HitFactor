@@ -46,8 +46,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun HitFactorTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
+    darkTheme: Boolean = true, //DARK THEME SWITCH -> isSystemInDarkTheme()
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {

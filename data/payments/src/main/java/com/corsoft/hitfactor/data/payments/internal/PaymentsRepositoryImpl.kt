@@ -1,5 +1,6 @@
 package com.corsoft.hitfactor.data.payments.internal
 
+import android.util.Log
 import com.corsoft.hitfactor.data.payments.api.PaymentsRepository
 import ru.rustore.sdk.billingclient.RuStoreBillingClient
 import ru.rustore.sdk.billingclient.model.product.ProductType
@@ -19,6 +20,7 @@ class PaymentsRepositoryImpl(
     override suspend fun isSub(onDone: (Boolean?) -> Unit) {
         client.purchases.getPurchases()
             .addOnSuccessListener { purchases: List<Purchase> ->
+                Log.d("PAYMENTS", purchases.toString())
                 val hasActiveSubscription = purchases.any { purchase ->
                     purchase.productType == ProductType.SUBSCRIPTION && purchase.purchaseState == PurchaseState.CONFIRMED
                 }
@@ -27,5 +29,13 @@ class PaymentsRepositoryImpl(
             .addOnFailureListener {
                 onDone(null)
             }
+    }
+
+    override suspend fun isAuth(onDone: (Boolean) -> Unit) {
+        client.userInfo.getAuthorizationStatus().addOnSuccessListener {
+            onDone(it.authorized)
+        }.addOnFailureListener {
+            onDone(false)
+        }
     }
 }

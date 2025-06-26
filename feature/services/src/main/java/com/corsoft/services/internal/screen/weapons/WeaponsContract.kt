@@ -8,7 +8,8 @@ import com.corsoft.services.internal.model.GunModel
 
 @Immutable
 internal data class WeaponsScreenState(
-    val weaponsList: List<GunModel> = emptyList()
+    val weaponsList: List<GunModel> = emptyList(),
+    val isLoading: Boolean = true
 ) : MviState
 
 internal sealed interface WeaponsAction : MviAction {

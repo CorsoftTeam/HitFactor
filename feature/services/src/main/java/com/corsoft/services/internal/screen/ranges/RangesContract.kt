@@ -13,7 +13,7 @@ import com.corsoft.services.internal.model.RangeModel
 @Immutable
 internal data class RangesScreenState(
     val citiesList: List<CityModel> = emptyList(),
-    val currentCity: CityModel = CityModel(),
+    val currentCity: CityModel = CityModel(name = "Выберите город"),
     val rangeList: List<RangeModel> = emptyList()
 ) : MviState
 

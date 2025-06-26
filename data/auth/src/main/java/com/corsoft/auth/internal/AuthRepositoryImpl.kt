@@ -39,14 +39,16 @@ internal class AuthRepositoryImpl(
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    firestore.collection("users").document(user?.uid ?: "").set(mapOf(
-                        "uid" to user?.uid,
-                        "name" to name,
-                        "login" to login,
-                        "email" to email,
-                        "createdAt" to FieldValue.serverTimestamp()
-                    )).addOnCompleteListener { taskRegister ->
-                        if (taskRegister.isSuccessful){
+                    firestore.collection("users").document(user?.uid ?: "").set(
+                        mapOf(
+                            "uid" to user?.uid,
+                            "name" to name,
+                            "login" to login,
+                            "email" to email,
+                            "createdAt" to FieldValue.serverTimestamp()
+                        )
+                    ).addOnCompleteListener { taskRegister ->
+                        if (taskRegister.isSuccessful) {
                             continuation.resume(NetworkResponse.Success(Unit))
                         } else {
                             continuation.resume(
@@ -75,6 +77,25 @@ internal class AuthRepositoryImpl(
             val currentUser = auth.currentUser
             if (currentUser != null) {
                 continuation.resume(true)
+            } else {
+                continuation.resume(false)
+            }
+        }
+
+    override suspend fun isUserVip(): Boolean =
+        suspendCancellableCoroutine { continuation ->
+            val currentUser = auth.currentUser
+            if (currentUser != null) {
+                firestore.collection("users").document(currentUser.uid).get()
+                    .addOnSuccessListener { result ->
+                        if (result.data?.getOrDefault("isVip", false) == true) {
+                            continuation.resume(true)
+                        } else {
+                            continuation.resume(false)
+                        }
+                    }.addOnFailureListener {
+                    continuation.resume(false)
+                }
             } else {
                 continuation.resume(false)
             }

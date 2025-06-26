@@ -5,18 +5,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.autofill.ContentType
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.corsoft.ui.theme.HitFactorTheme
@@ -26,13 +24,17 @@ fun HFFilledTextField(
     modifier: Modifier = Modifier,
     placeholder: String,
     text: String = "",
-    onTextChange: (String) -> Unit
+    semanticContentType: ContentType? = null,
+    onTextChange: (String) -> Unit,
 ) {
     TextField(
         value = text,
         onValueChange = onTextChange,
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = if (semanticContentType == null)
+            modifier.fillMaxWidth()
+        else
+            modifier.fillMaxWidth()
+            .semantics { contentType = semanticContentType },
         label = {
             Text(
                 text = placeholder,

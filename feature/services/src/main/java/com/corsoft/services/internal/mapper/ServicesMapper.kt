@@ -1,13 +1,19 @@
 package com.corsoft.services.internal.mapper
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.corsoft.hitfactor.data.user.api.model.City
 import com.corsoft.hitfactor.data.user.api.model.Gun
 import com.corsoft.hitfactor.data.user.api.model.Range
+import com.corsoft.hitfactor.data.user.api.model.Trainer
+import com.corsoft.hitfactor.data.user.api.model.Training
 import com.corsoft.hitfactor.data.user.api.model.User
 import com.corsoft.services.internal.component.enum.GunTypeEnum
 import com.corsoft.services.internal.model.CityModel
 import com.corsoft.services.internal.model.GunModel
 import com.corsoft.services.internal.model.RangeModel
+import com.corsoft.services.internal.model.TrainerModel
+import com.corsoft.services.internal.model.TrainingModel
 import com.corsoft.services.internal.model.UserModel
 
 internal fun Gun.toUiModel(): GunModel =
@@ -43,4 +49,23 @@ internal fun Range.toUiModel(): RangeModel =
         phone = phone,
         website = website,
         photo = photo
+    )
+
+internal fun Training.toUiModel(): TrainingModel =
+    TrainingModel(
+        dateTime = dateTime,
+        length = length,
+        hfScore = hfScore,
+        note = note,
+        weaponId = weaponId,
+        shotCount = shotCount
+    )
+
+internal fun Trainer.toUiModel(): TrainerModel =
+    TrainerModel(
+        id = id,
+        name = name,
+        phone = phone,
+        photo = photo,
+        description = description
     )

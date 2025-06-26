@@ -87,6 +87,8 @@ internal fun RangeCard(
         ) {
             HFButton(
                 modifier = Modifier.weight(1f),
+                isPrimary = false,
+                customColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 text = stringResource(id = CoreStringRes.call)
             ) {
                 onCallClick(rangeModel.phone)

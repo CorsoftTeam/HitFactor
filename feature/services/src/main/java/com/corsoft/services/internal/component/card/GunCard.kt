@@ -45,7 +45,7 @@ internal fun GunCard(
     ) {
 
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp),
         ) {
             Column(
                 modifier = Modifier.weight(1f),

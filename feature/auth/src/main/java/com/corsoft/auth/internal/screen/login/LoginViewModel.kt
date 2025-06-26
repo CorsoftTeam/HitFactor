@@ -15,16 +15,12 @@ internal class LoginViewModel(
 ) {
 
     init {
-        setLoading(false)
+        checkUser()
     }
 
     private fun login() {
         viewModelScope.launch {
             setLoading(true)
-            if (uiState.value.email == "test@test.test" && uiState.value.password == "testtest"){
-                sendEffect(LoginEffect.GoToServices)
-                return@launch
-            }
             val response =
                 authRepository.login(
                     email = uiState.value.email,
@@ -32,13 +28,7 @@ internal class LoginViewModel(
                 )
             when (response) {
                 is NetworkResponse.Success -> {
-                    paymentsRepository.isSub { isSub ->
-                        if (isSub == true) {
-                            sendEffect(LoginEffect.GoToServices)
-                        } else {
-                            sendEffect(LoginEffect.GoToPayment)
-                        }
-                    }
+                    checkUser()
                 }
 
                 is NetworkResponse.Failed -> {
@@ -46,6 +36,34 @@ internal class LoginViewModel(
                     sendEffect(LoginEffect.ShowError(response.getErrorMessage()))
                 }
             }
+        }
+    }
+
+    private fun checkUser() {
+        viewModelScope.launch {
+            setLoading(true)
+            if (authRepository.isUserAuthorised()) {
+                if (authRepository.isUserVip()) {
+                    sendEffect(LoginEffect.GoToServices)
+                } else {
+                    paymentsRepository.isAuth { isAuth ->
+                        viewModelScope.launch {
+                            if (isAuth) {
+                                paymentsRepository.isSub { isSub ->
+                                    if (isSub == true) {
+                                        sendEffect(LoginEffect.GoToServices)
+                                    } else {
+                                        sendEffect(LoginEffect.GoToPayment)
+                                    }
+                                }
+                            } else {
+                                sendEffect(LoginEffect.GoToPayment)
+                            }
+                        }
+                    }
+                }
+            }
+            setLoading(false)
         }
     }
 
@@ -65,7 +83,7 @@ internal class LoginViewModel(
         }
     }
 
-    private fun setLoading(state: Boolean){
+    private fun setLoading(state: Boolean) {
         changeState {
             it.copy(
                 isLoading = state

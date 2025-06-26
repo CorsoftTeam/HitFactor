@@ -1,19 +1,26 @@
 package com.corsoft.hitfactor.data.user.internal
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.corsoft.hitfactor.data.user.api.UserRepository
 import com.corsoft.hitfactor.data.user.api.model.City
 import com.corsoft.hitfactor.data.user.api.model.Gun
 import com.corsoft.hitfactor.data.user.api.model.Range
+import com.corsoft.hitfactor.data.user.api.model.Trainer
+import com.corsoft.hitfactor.data.user.api.model.Training
 import com.corsoft.hitfactor.data.user.internal.mapper.getCityItem
 import com.corsoft.hitfactor.data.user.internal.mapper.getGunItem
 import com.corsoft.hitfactor.data.user.internal.mapper.getRangeItem
+import com.corsoft.hitfactor.data.user.internal.mapper.getTrainerItem
+import com.corsoft.hitfactor.data.user.internal.mapper.getTrainingItem
 import com.corsoft.hitfactor.data.user.internal.network.UserApi
 import com.corsoft.network.model.NetworkResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.time.LocalDateTime
 import kotlin.coroutines.resume
 
 internal class UserRepositoryImpl(
@@ -139,6 +146,81 @@ internal class UserRepositoryImpl(
                 .get()
                 .addOnSuccessListener {
                     continuation.resume(NetworkResponse.Success(it.documents.map { range -> getRangeItem(range.data) }))
+                }
+                .addOnFailureListener { exception ->
+                    continuation.resume(NetworkResponse.Failed(Throwable(exception.message)))
+                }
+        }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override suspend fun getTrainings(): NetworkResponse<List<Training>> =
+        suspendCancellableCoroutine { continuation ->
+            val user = auth.currentUser
+            firestore
+                .collection("users")
+                .document(user?.uid ?: "")
+                .collection("trainings")
+                .get()
+                .addOnSuccessListener {
+                    continuation.resume(NetworkResponse.Success(it.documents.map { range -> getTrainingItem(range.data) }))
+                }
+                .addOnFailureListener { exception ->
+                    continuation.resume(NetworkResponse.Failed(Throwable(exception.message)))
+                }
+        }
+
+    override suspend fun addTraining(
+        dateTime: LocalDateTime,
+        length: Int,
+        hfScore: Float,
+        note: String,
+        weaponId: String,
+        shotCount: Int
+    ): NetworkResponse<Unit> =
+        suspendCancellableCoroutine { continuation ->
+            val user = auth.currentUser
+            val newTrainingRef = firestore
+                .collection("users")
+                .document(user?.uid ?: "")
+                .collection("trainings")
+                .document()
+
+            newTrainingRef
+                .set(
+                    mapOf(
+                        "uid" to newTrainingRef.id,
+                        "dateTime" to dateTime,
+                        "length" to length,
+                        "hfScore" to hfScore,
+                        "note" to note,
+                        "weaponId" to weaponId,
+                        "shotCount" to shotCount,
+                        "createdAt" to FieldValue.serverTimestamp()
+                    )
+                ).addOnCompleteListener { taskRegister ->
+                    if (taskRegister.isSuccessful) {
+                        continuation.resume(NetworkResponse.Success(Unit))
+                    } else {
+                        continuation.resume(
+                            NetworkResponse.Failed(
+                                Throwable(
+                                    taskRegister.exception?.message ?: "Неизвестная ошибка"
+                                )
+                            )
+                        )
+                    }
+                }
+        }
+
+    override suspend fun getTrainers(cityId: String): NetworkResponse<List<Trainer>> =
+        suspendCancellableCoroutine { continuation ->
+            firestore
+                .collection("cities")
+                .document(cityId)
+                .collection("trainers")
+                .get()
+                .addOnSuccessListener {
+                    continuation.resume(NetworkResponse.Success(it.documents.map { range -> getTrainerItem(range.data) }))
                 }
                 .addOnFailureListener { exception ->
                     continuation.resume(NetworkResponse.Failed(Throwable(exception.message)))

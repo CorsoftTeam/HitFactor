@@ -2,6 +2,7 @@ package com.corsoft.services.internal.screen.rules
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -12,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.corsoft.resources.CoreDrawableRes
+import com.corsoft.resources.CoreRawRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.ui.components.button.HFIconButton
@@ -35,7 +37,8 @@ internal fun RulesScreen() {
                     )
                 }
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0.dp)
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -48,9 +51,7 @@ internal fun RulesScreen() {
             )
             VerticalPDFReader(
                 state = rememberVerticalPdfReaderState(
-                    resource = ResourceType.Remote(
-                        url = "https://ipsc.ru/wp-content/uploads/2018/09/%D0%9F%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0_%D0%B2%D0%B8%D0%B4%D0%B0_%D1%81%D0%BF%D0%BE%D1%80%D1%82%D0%B0_%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B5%D0%BB%D1%8C%D0%B1%D0%B0__%D0%9A%D0%9E%D0%9C%D0%91%D0%98%D0%9D%D0%98%D0%A0%D0%9E%D0%92%D0%90%D0%9D%D0%9D%D0%AB%D0%95_2015.pdf"
-                    ),
+                    resource = ResourceType.Asset(CoreRawRes.doc_ipsc_rules),
                     isZoomEnable = true
                 ),
                 modifier = Modifier.fillMaxSize()

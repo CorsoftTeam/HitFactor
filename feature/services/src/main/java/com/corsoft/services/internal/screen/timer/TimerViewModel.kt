@@ -18,6 +18,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.math.abs
+import kotlin.math.log10
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 internal class TimerViewModel(
@@ -35,7 +38,7 @@ internal class TimerViewModel(
     private val bufferSize = AudioRecord.getMinBufferSize(
         sampleRate,
         AudioFormat.CHANNEL_IN_MONO,
-        AudioFormat.ENCODING_PCM_16BIT
+        AudioFormat.ENCODING_PCM_FLOAT
     )
     private var recording: Job? = null
 
@@ -115,20 +118,27 @@ internal class TimerViewModel(
         if (recording == null) {
             recording = CoroutineScope(Dispatchers.IO).launch {
                 val audioRecord = AudioRecord(
-                    MediaRecorder.AudioSource.MIC,
+                    MediaRecorder.AudioSource.UNPROCESSED,
                     sampleRate,
                     AudioFormat.CHANNEL_IN_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT,
+                    AudioFormat.ENCODING_PCM_FLOAT,
                     bufferSize
                 )
+
                 audioRecord.startRecording()
-                val buffer = ShortArray(bufferSize)
+                val buffer = FloatArray(bufferSize)
+
                 while (true) {
-                    val read = audioRecord.read(buffer, 0, bufferSize)
+                    val read = audioRecord.read(buffer, 0, bufferSize, AudioRecord.READ_BLOCKING)
                     if (read > 0) {
-                        val maxAmplitude = buffer.maxOrNull() ?: 0
-                        if (maxAmplitude > 20000) {
-                            onShotDetected(maxAmplitude.toInt())
+                        val maxAmplitude = buffer.maxOrNull() ?: 0f
+                        val rms = sqrt(buffer.map { it * it }.average())
+                        if (maxAmplitude > 0.5f) {
+                            Log.d("SHOT", rms.toString())
+                            if (rms > 0.37f) { // TODO: ADD SETTINGS
+                                Log.d("REAL_SHOT", rms.toString())
+                                onShotDetected((maxAmplitude * 32767).toInt())
+                            }
                         }
                     }
                 }
@@ -142,7 +152,6 @@ internal class TimerViewModel(
 
     private fun onShotDetected(amp: Int) {
         if (uiState.value.timerState == TimerStateEnum.RUN) {
-            Log.d("SHOT", amp.toString())
             changeState { state ->
                 val time = timer.getTimeInMillis()
                 val times = state.shotTimes.toMutableList()
