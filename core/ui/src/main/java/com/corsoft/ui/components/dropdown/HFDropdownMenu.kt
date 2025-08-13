@@ -65,7 +65,7 @@ fun HFDropdownMenu(
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(option) },
+                    text = { Text(text = option, modifier = Modifier.fillMaxWidth()) },
                     onClick = {
                         onValueChange(option)
                         expanded = false
@@ -95,7 +95,7 @@ fun HFTextFieldPreview() {
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
+@Preview(apiLevel = 34)
 @Composable
 private fun HFTextFieldPreviewDark() {
     HitFactorTheme(

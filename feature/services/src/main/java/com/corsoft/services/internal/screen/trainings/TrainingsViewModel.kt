@@ -3,7 +3,9 @@ package com.corsoft.services.internal.screen.trainings
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewModelScope
+import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.hitfactor.data.analytics.api.AnalyticsRepository
 import com.corsoft.hitfactor.data.user.api.UserRepository
 import com.corsoft.services.internal.mapper.toUiModel
 import kotlinx.coroutines.launch
@@ -11,15 +13,23 @@ import ppk.app.core.network.util.doOn
 
 @RequiresApi(Build.VERSION_CODES.O)
 internal class TrainingsViewModel(
-    userRepository: UserRepository
+    private val userRepository: UserRepository,
+    analytics: AnalyticsRepository
 ): MviViewModel<TrainingsScreenState, TrainingsAction, TrainingsEffect>(
     TrainingsScreenState()
 ) {
     override fun onAction(action: TrainingsAction) {
-
+        when (action) {
+            TrainingsAction.Refresh -> loadData()
+        }
     }
 
     init {
+        loadData()
+        analytics.sendEvent(FirebaseEventsEnum.OPEN_CALENDAR.key)
+    }
+
+    private fun loadData() {
         viewModelScope.launch {
             setLoading(true)
             userRepository.getTrainings().doOn(

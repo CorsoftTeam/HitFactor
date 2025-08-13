@@ -13,6 +13,8 @@ internal data class TrainingsScreenState(
     val isLoading: Boolean = true
 ) : MviState
 
-internal sealed interface TrainingsAction : MviAction
+internal sealed interface TrainingsAction : MviAction {
+    data object Refresh: TrainingsAction
+}
 
 internal sealed interface TrainingsEffect : MviEffect

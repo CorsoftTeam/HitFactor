@@ -1,6 +1,6 @@
 package com.corsoft.network.internal.interceptor
 
-import com.corsoft.data.storage.EncryptedStorage
+import com.corsoft.data.api.storage.EncryptedStorage
 import okhttp3.Interceptor
 import okhttp3.Response
 

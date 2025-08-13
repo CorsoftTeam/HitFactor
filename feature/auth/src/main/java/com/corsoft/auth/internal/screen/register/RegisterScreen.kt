@@ -2,6 +2,9 @@ package com.corsoft.auth.internal.screen.register
 
 import LoadingCircle
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +18,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,8 +27,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,6 +48,11 @@ import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.generated.auth.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.defaultShimmerTheme
+import com.valentinilk.shimmer.rememberShimmer
+import com.valentinilk.shimmer.shimmer
+import com.valentinilk.shimmer.shimmerSpec
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -49,7 +61,6 @@ import org.koin.androidx.compose.koinViewModel
 @Destination<AuthNavGraph>
 internal fun RegisterScreen(
     navigator: DestinationsNavigator,
-    authNavigator: AuthNavigator,
     viewModel: RegisterViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -93,14 +104,11 @@ private fun RegisterScreen(
     snackbarHostState: SnackbarHostState = SnackbarHostState()
 ) {
 
-    Scaffold(
-        topBar = {
-            HFSnackBarHost(
-                hostState = snackbarHostState,
-                modifier = Modifier.statusBarsPadding()
-            )
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
+        SnackbarHost(
+            modifier = Modifier.statusBarsPadding(),
+            hostState = snackbarHostState
+        )
         if (state.isLoading) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -123,6 +131,33 @@ private fun RegisterScreen(
             ) {
                 Spacer(modifier = Modifier.height(50.dp))
                 Image(
+                    modifier = Modifier
+                        .height(100.dp).shimmer(
+                            customShimmer = rememberShimmer(
+                                shimmerBounds = ShimmerBounds.View,
+                                theme = defaultShimmerTheme.copy(
+                                    animationSpec = infiniteRepeatable(
+                                        animation = shimmerSpec(
+                                            durationMillis = 2000,
+                                            easing = LinearEasing,
+                                            delayMillis = 500,
+                                        ),
+                                        repeatMode = RepeatMode.Restart,
+                                    ),
+                                    blendMode = BlendMode.SrcAtop,
+                                    shaderColors = listOf(
+                                        Color.White.copy(alpha = 0f),
+                                        Color.White.copy(alpha = 0.3f),
+                                        Color.White.copy(alpha = 0f),
+                                    ),
+                                    shaderColorStops = listOf(
+                                        0.4f,
+                                        0.5f,
+                                        0.6f,
+                                    ),
+                                )
+                            )
+                        ),
                     painter = painterResource(id = CoreDrawableRes.logo_large),
                     contentDescription = null
                 )
@@ -132,13 +167,13 @@ private fun RegisterScreen(
                 ) {
                     HFFilledTextField(
                         placeholder = stringResource(id = CoreStringRes.login),
-                        text = state.login,
-                        semanticContentType = ContentType.Username
+                        text = state.login
                     ) { onLoginChange(it) }
                     HFFilledTextField(
                         placeholder = stringResource(id = CoreStringRes.password),
                         text = state.password,
-                        semanticContentType = ContentType.Password
+                        semanticContentType = ContentType.Password,
+                        visualTransformation = PasswordVisualTransformation()
                     ) { onPasswordChange(it) }
                     HFFilledTextField(
                         placeholder = stringResource(id = CoreStringRes.name),

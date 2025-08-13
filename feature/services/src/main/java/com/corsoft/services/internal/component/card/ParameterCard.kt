@@ -1,8 +1,10 @@
 package com.corsoft.services.internal.component.card
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -30,13 +32,14 @@ internal fun ParameterCard(
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
         ) {
             Text(text = "$name:", modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.width(16.dp))
             Text(text = value, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
 
 @Composable
-@Preview
+@Preview(apiLevel = 34)
 private fun ParameterCardPreview() {
     HitFactorTheme(
         darkTheme = true

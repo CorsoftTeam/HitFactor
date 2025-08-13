@@ -34,6 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import com.corsoft.hitfactor.navigation.HFRootNavGraph
 import com.corsoft.hitfactor.navigation.navigators.AuthNavigatorImpl
 import com.corsoft.hitfactor.navigation.navigators.PaymentsNavigatorImpl
+import com.corsoft.hitfactor.navigation.navigators.ServicesNavigatorImpl
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.bottombar.BottomNavigationBar
@@ -44,8 +45,10 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.auth.navgraphs.AuthGraph
 import com.ramcosta.composedestinations.generated.navgraphs.PaymentsGraph
 import com.ramcosta.composedestinations.generated.services.destinations.DocumentsScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.ProfileScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.ServiceListScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.WeaponsScreenDestination
 import com.ramcosta.composedestinations.generated.services.navgraphs.ServicesGraph
 import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.spec.Direction
@@ -60,20 +63,20 @@ enum class NavigationBarItem(
     @DrawableRes val iconOutline: Int,
     @StringRes val titleRes: Int
 ) {
-    SERVICES(
-        CoreDrawableRes.ic_services,
-        CoreDrawableRes.ic_services_outline,
-        CoreStringRes.services
-    ),
     TIMER(
         CoreDrawableRes.ic_timer,
         CoreDrawableRes.ic_timer_outline,
         CoreStringRes.timer
     ),
-    DOCUMENTS(
-        CoreDrawableRes.ic_document,
-        CoreDrawableRes.ic_document,
-        CoreStringRes.documents
+    SERVICES(
+        CoreDrawableRes.ic_services,
+        CoreDrawableRes.ic_services_outline,
+        CoreStringRes.services
+    ),
+    WEAPONS(
+        CoreDrawableRes.ic_gun,
+        CoreDrawableRes.ic_gun,
+        CoreStringRes.gun_storage
     ),
 }
 
@@ -117,15 +120,15 @@ internal fun App(
                         destinationNav.navigate(TimerScreenDestination)
                     }
 
-                    NavigationBarItem.DOCUMENTS -> {
-                        destinationNav.navigate(DocumentsScreenDestination)
+                    NavigationBarItem.WEAPONS -> {
+                        destinationNav.navigate(WeaponsScreenDestination)
                     }
                 }
             }
         ) {
             DestinationsNavHost(
                 navGraph = HFRootNavGraph,
-                start = AuthGraph,
+                start = PaymentsGraph,
                 navController = navController,
                 dependenciesContainerBuilder = {
                     dependency(
@@ -133,6 +136,9 @@ internal fun App(
                     )
                     dependency(
                         PaymentsNavigatorImpl(destinationsNavigator)
+                    )
+                    dependency(
+                        ServicesNavigatorImpl(destinationsNavigator)
                     )
                 }
             )
@@ -201,6 +207,6 @@ private fun isBottomBarVisible(route: String?): Boolean {
     return route != null && route in listOf(
         ServiceListScreenDestination.route,
         TimerScreenDestination.route,
-        DocumentsScreenDestination.route
+        WeaponsScreenDestination.route
     )
 }

@@ -1,4 +1,4 @@
-package com.corsoft.data
+package com.corsoft.data.internal
 
 import android.content.Context
 import android.content.SharedPreferences

@@ -27,6 +27,7 @@
     <string name="gun_storage">Оружейная</string>
     <string name="ammo">Снаряжение</string>
     <string name="trainings">Тренировки</string>
+    <string name="training">Тренировка</string>
     <string name="calculator">Калькулятор</string>
     <string name="documents">Документы</string>
     <string name="statistic">Статистика</string>
@@ -37,6 +38,7 @@
     <string name="serial_number">Серийный номер</string>
     <string name="caliber">Калибр</string>
     <string name="weapon_type">Тип оружия</string>
+    <string name="weapon">Оружие</string>
     <string name="shot_count">Настрел</string>
     <string name="add">Добавить</string>
     <string name="weapon_adding">Добавление оружия</string>
@@ -48,6 +50,8 @@
     <string name="no_shoot_x">No shoot %d</string>
     <string name="procedure_x">Procedure %d</string>
     <string name="start_sub">Начать тренироваться!</string>
+    <string name="activate_promocode">Активировать промокод</string>
+    <string name="promocode">Промокод</string>
     <string name="next_without_sub">Продолжить в ограниченном режиме</string>
     <string name="offline_mode">Оффлайн режим</string>
     <string name="ranges">Стрельбища</string>
@@ -58,6 +62,23 @@
     <string name="new_training">Новая тренировка</string>
     <string name="federal_law_150">150-ФЗ \"Об оружии\"</string>
     <string name="sign_in_to_training">Запись на тренировку</string>
+    <string name="length_of_training">Длительность, часов</string>
+    <string name="date_and_time">Дата и время</string>
+    <string name="select_gun">Выберите оружие (опционально)</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">OK</string>
+    <string name="club_gun">Клубное</string>
+    <string name="note">Заметки</string>
+    <string name="shots">Выстрелов</string>
+    <string name="end_training">Завершить тренировку</string>
+    <string name="roha_rspa">РОХа/РСПа</string>
+    <string name="buying_license">Лицензия на покупку</string>
+    <string name="all">Все</string>
+    <string name="sportsman">Спортсмен</string>
+    <string name="hunter">Охотник</string>
+    <string name="custom">Свой набор</string>
+    <string name="check_gun_state">Проверить состояние оружия</string>
+    <string name="add_to_calendar">Добавить в календарь</string>
 
 
     <!-- Enums -->
@@ -83,19 +104,24 @@
     <string name="rules_desc">Правила вида спорта \"Практическая стрельба\" с официального сайта</string>
     <string name="law_desc">Полный текст ФЗ №150 \"Об оружии\" с поправками от 08.08.2024</string>
     <string name="feedback_desc">Ваши пожелания и предложения - внесите свой вклад в развитие проекта и расскажите, что вы бы хотели видеть в приложении</string>
+    <string name="weapon_docs_desc">Документы на оружие - РОХа/РСПа и лицензия на покупку</string>
 
     <!-- Errors -->
 
     <string name="all_fields_must_be_filled">Все поля должны быть заполнены</string>
+    <string name="email_must_be_filled">Поле e-mail должно быть заполнено</string>
+    <string name="wrong_hf_field">Неверно указан Hit Factor</string>
     <string name="something_wrong">Что-то пошло не так</string>
+    <string name="wrong_promocode">Промокод неверный</string>
 
     <!-- Messages -->
 
-    <string name="local_documents_message">Обратите внимание, что документы хранятся локально на вашем устройстве и не передаются на сервер</string>
+    <string name="local_documents_message">Обратите внимание, что документы хранятся только на вашем устройстве и не передаются на сервер</string>
     <string name="pdf_reader_message">Загрузка документа может занять некоторое время. Для увеличения текста - двойное касание</string>
     <string name="get_sub_for_more">Опробуйте полный функционал за 1 рубль!</string>
     <string name="next_sub_paid">После первого месяца — 299 ₽. Можно отменить в любой момент</string>
     <string name="there_is_no_trainings">В выбранный день тренировок нет</string>
+    <string name="email_recover_link_sended">Ссылка для восстановления пароля отправлена на ваш e-mail</string>
 
     <!-- Warnings -->
     <string name="need_clean">Оружие необходимо почистить. Настрел превысил максимальный показатель</string>

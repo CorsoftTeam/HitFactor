@@ -2,6 +2,10 @@ package com.corsoft.auth.internal.screen.login
 
 import LoadingCircle
 import android.annotation.SuppressLint
+import android.util.Log
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,16 +19,23 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,6 +52,14 @@ import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.generated.auth.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.valentinilk.shimmer.Shimmer
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.ShimmerTheme
+import com.valentinilk.shimmer.defaultShimmerTheme
+import com.valentinilk.shimmer.rememberShimmer
+import com.valentinilk.shimmer.shimmer
+import com.valentinilk.shimmer.shimmerSpec
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -70,6 +89,7 @@ internal fun LoginScreen(
         state = uiState,
         onLoginClick = { viewModel.onAction(LoginAction.Login) },
         onRegisterClick = { navigator.navigate(RegisterScreenDestination) },
+        onResetPasswordClick = { viewModel.onAction(LoginAction.ResetPassword) },
         onLoginChange = { viewModel.onAction(LoginAction.UpdateLogin(it)) },
         onPasswordChange = { viewModel.onAction(LoginAction.UpdatePassword(it)) },
         snackbarHostState = snackBarHostState
@@ -81,18 +101,16 @@ private fun LoginScreen(
     state: LoginScreenModel,
     onLoginClick: () -> Unit = {},
     onRegisterClick: () -> Unit = {},
+    onResetPasswordClick: () -> Unit = {},
     onLoginChange: (String) -> Unit = {},
     onPasswordChange: (String) -> Unit = {},
     snackbarHostState: SnackbarHostState = SnackbarHostState()
 ) {
-    Scaffold(
-        topBar = {
-            HFSnackBarHost(
-                hostState = snackbarHostState,
-                modifier = Modifier.statusBarsPadding()
-            )
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
+        SnackbarHost(
+            modifier = Modifier.statusBarsPadding(),
+            hostState = snackbarHostState
+        )
         if (state.isLoading) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -115,6 +133,33 @@ private fun LoginScreen(
             ) {
                 Spacer(modifier = Modifier.height(50.dp))
                 Image(
+                    modifier = Modifier
+                        .height(100.dp).shimmer(
+                            customShimmer = rememberShimmer(
+                                shimmerBounds = ShimmerBounds.View,
+                                theme = defaultShimmerTheme.copy(
+                                    animationSpec = infiniteRepeatable(
+                                        animation = shimmerSpec(
+                                            durationMillis = 2000,
+                                            easing = LinearEasing,
+                                            delayMillis = 500,
+                                        ),
+                                        repeatMode = RepeatMode.Restart,
+                                    ),
+                                    blendMode = BlendMode.SrcAtop,
+                                    shaderColors = listOf(
+                                        Color.White.copy(alpha = 0f),
+                                        Color.White.copy(alpha = 0.3f),
+                                        Color.White.copy(alpha = 0f),
+                                    ),
+                                    shaderColorStops = listOf(
+                                        0.4f,
+                                        0.5f,
+                                        0.6f,
+                                    ),
+                                )
+                            )
+                        ),
                     painter = painterResource(id = CoreDrawableRes.logo_large),
                     contentDescription = null
                 )
@@ -132,18 +177,20 @@ private fun LoginScreen(
                         placeholder = stringResource(id = CoreStringRes.password),
                         text = state.password,
                         onTextChange = { onPasswordChange(it) },
-                        semanticContentType = ContentType.Password
+                        semanticContentType = ContentType.Password,
+                        visualTransformation = PasswordVisualTransformation()
                     )
                     HFTextButton(
                         text = stringResource(id = CoreStringRes.restore_pass)
                     ) {
-
+                        onResetPasswordClick()
                     }
                 }
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     HFButton(
+                        //isShimmer = true,
                         text = stringResource(id = CoreStringRes.enter)
                     )
                     { onLoginClick() }

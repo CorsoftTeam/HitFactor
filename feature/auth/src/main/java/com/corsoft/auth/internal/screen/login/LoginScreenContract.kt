@@ -10,17 +10,18 @@ internal data class LoginScreenModel(
     val email: String = "",
     val password: String = "",
     val error: String = "",
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
 ) : MviState
 
 internal sealed interface LoginAction : MviAction {
     data object Login : LoginAction
     data class UpdateLogin(val login: String) : LoginAction
     data class UpdatePassword(val password: String) : LoginAction
+    data object ResetPassword: LoginAction
 }
 
 internal sealed interface LoginEffect : MviEffect {
     data object GoToServices : LoginEffect
     data object GoToPayment : LoginEffect
-    data class ShowError(val message: String) : LoginEffect
+    data class ShowError(val message: String) : LoginEffect //TODO: ResId
 }

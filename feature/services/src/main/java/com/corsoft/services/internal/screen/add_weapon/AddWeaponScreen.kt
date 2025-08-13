@@ -133,7 +133,7 @@ private fun AddWeaponScreen(
 }
 
 
-@Preview
+@Preview(apiLevel = 34)
 @Composable
 private fun AddWeaponPreviewDark() {
     HitFactorTheme(

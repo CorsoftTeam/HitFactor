@@ -5,7 +5,6 @@ import com.corsoft.common.mvvm.MviAction
 import com.corsoft.common.mvvm.MviEffect
 import com.corsoft.common.mvvm.MviState
 import com.corsoft.services.internal.model.GunModel
-import com.corsoft.services.internal.model.UserModel
 
 @Immutable
 internal data class WeaponDetailsScreenState(
@@ -14,9 +13,9 @@ internal data class WeaponDetailsScreenState(
 ) : MviState
 
 internal sealed interface WeaponDetailsAction : MviAction {
-    data object Delete: WeaponDetailsAction
+    data object Delete : WeaponDetailsAction
 }
 
 internal sealed interface WeaponDetailsEffect : MviEffect {
-    data object Back: WeaponDetailsEffect
+    data object Back : WeaponDetailsEffect
 }

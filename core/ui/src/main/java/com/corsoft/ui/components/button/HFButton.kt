@@ -11,11 +11,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.corsoft.ui.theme.AppColors
 import com.corsoft.ui.theme.HitFactorTheme
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.defaultShimmerTheme
+import com.valentinilk.shimmer.rememberShimmer
+import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun HFButton(
@@ -24,20 +29,36 @@ fun HFButton(
     isPrimary: Boolean = true,
     enabled: Boolean = true,
     customColor: Color? = null,
+    isShimmer: Boolean = false,
     onClick: () -> Unit
 ) {
     Button(
-        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        modifier = if (isShimmer)
+            modifier.fillMaxWidth().shimmer(
+                customShimmer = rememberShimmer(
+                    shimmerBounds = ShimmerBounds.Window,
+                    theme = defaultShimmerTheme.copy(
+                        blendMode = BlendMode.SrcAtop,
+                        shaderColors = listOf(
+                            Color.White.copy(alpha = 0f),
+                            Color.White.copy(alpha = 0.5f),
+                            Color.White.copy(alpha = 0f),
+                        ),
+                    )
+                )
+            )
+        else
+            modifier.fillMaxWidth(),
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = customColor
                 ?: when (isPrimary) {
                     true -> AppColors.Primary
-                    false -> MaterialTheme.colorScheme.primaryContainer
+                    false -> MaterialTheme.colorScheme.secondary
                 }
-        ),
-        shape = RoundedCornerShape(16.dp)
+        )
     ) {
         Text(
             modifier = Modifier.padding(8.dp),
@@ -82,7 +103,7 @@ private fun HFButtonPreview() {
     }
 }
 
-@Preview
+@Preview(apiLevel = 34)
 @Composable
 private fun HFButtonPreviewDark() {
     HitFactorTheme(

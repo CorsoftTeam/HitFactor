@@ -1,6 +1,5 @@
 package com.corsoft.services.internal.screen.weapon_details
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.corsoft.common.mvvm.MviViewModel
@@ -20,7 +19,7 @@ internal class WeaponDetailsViewModel(
     private val navArgs = WeaponDetailsScreenDestination.argsFrom(savedStateHandle)
 
     override fun onAction(action: WeaponDetailsAction) {
-        when(action){
+        when (action) {
             WeaponDetailsAction.Delete -> delete()
         }
     }
@@ -30,7 +29,6 @@ internal class WeaponDetailsViewModel(
             userRepository.getGunById(navArgs.gunId).doOn(
                 success = {
                     changeState { state ->
-                        Log.d("WEAPON", it.toString())
                         state.copy(gunModel = it.toUiModel())
                     }
                 },
@@ -40,7 +38,7 @@ internal class WeaponDetailsViewModel(
         }
     }
 
-    private fun delete(){
+    private fun delete() {
         viewModelScope.launch {
             userRepository.deleteGunById(uiState.value.gunModel.id).doOn(
                 success = {
@@ -53,7 +51,7 @@ internal class WeaponDetailsViewModel(
         }
     }
 
-    private fun setLoading(state: Boolean){
+    private fun setLoading(state: Boolean) {
         changeState {
             it.copy(
                 isLoading = state

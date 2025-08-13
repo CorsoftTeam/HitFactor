@@ -34,7 +34,9 @@ object AppColors {
     val GraphiteGray = Color(0xFF4B4B4B)
     val OrangeAccent = Color(0xFFE9A600)
 
-    val Primary = Color(0xFFE9A600) // Основной цвет
+//    val Primary = Color(0xFFE9A600) // Основной цвет
+//    val PrimaryVariant = Color(0xFFB28700) // Более темный оттенок основного цвета
+    val Primary = Color(0xFFbb9553) // Основной цвет
     val PrimaryVariant = Color(0xFFB28700) // Более темный оттенок основного цвета
     val Secondary = Color(0xFF4B4B4B) // Графитовый серый
     val SecondaryVariant = Color(0xFF383838) // Более темный оттенок графитового серого

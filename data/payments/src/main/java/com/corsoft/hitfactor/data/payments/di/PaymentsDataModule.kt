@@ -19,7 +19,7 @@ val paymentsDataModule = module {
         )
     }
     single {
-        PaymentsRepositoryImpl(get())
+        PaymentsRepositoryImpl(get(), get(), get())
     } bind PaymentsRepository::class
 }
 

@@ -49,7 +49,7 @@ internal fun ServiceCard2(
         if (enabled) White else MaterialTheme.colorScheme.onSurfaceVariant
     Card(
         modifier = modifier.fillMaxWidth(),
-        onClick = onClick,
+        onClick = { if (enabled) onClick() },
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         shape = RoundedCornerShape(16.dp)
     ) {

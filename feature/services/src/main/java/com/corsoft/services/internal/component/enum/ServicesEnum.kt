@@ -129,7 +129,7 @@ internal enum class ServicesEnum {
             TRAINERS -> true
             AMMO -> false
             GUNS -> true
-            DOCS -> true
+            DOCS -> false
             STAT -> false
             ANALYZE -> false
             RESULTS -> false

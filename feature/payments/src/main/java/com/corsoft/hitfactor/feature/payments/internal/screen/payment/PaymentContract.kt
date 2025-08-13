@@ -8,11 +8,12 @@ import com.corsoft.common.mvvm.MviState
 @Immutable
 internal data class PaymentScreenModel(
     val error: String = "",
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
 ) : MviState
 
 internal sealed interface PaymentAction : MviAction {
     data object Pay : PaymentAction
+    data class CheckCode(val code: String) : PaymentAction
 }
 
 internal sealed interface PaymentEffect : MviEffect {

@@ -15,6 +15,11 @@ internal data class ProfileScreenState(
     val isLoading: Boolean = true
 ) : MviState
 
-internal sealed interface ProfileAction : MviAction
+internal sealed interface ProfileAction : MviAction {
+    data object OnExit: ProfileAction
+}
 
-internal sealed interface ProfileEffect : MviEffect
+internal sealed interface ProfileEffect : MviEffect {
+    data class ShowError(val message: String) : ProfileEffect
+    data object Logout: ProfileEffect
+}

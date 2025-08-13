@@ -42,7 +42,6 @@ fun BottomNavigationBar(
         modifier = modifier
     ) {
         Column {
-            Divider()
             Spacer(modifier = Modifier.height(8.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,

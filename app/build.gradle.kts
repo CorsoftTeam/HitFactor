@@ -34,4 +34,5 @@ dependencies {
     implementation(project(":data:auth"))
     implementation(project(":data:user"))
     implementation(project(":data:payments"))
+    implementation(project(":data:analytics"))
 }

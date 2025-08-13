@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -29,7 +31,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
-import com.corsoft.services.internal.component.card.ParameterCard
+import com.corsoft.services.internal.component.card.MultiParameterCard
+import com.corsoft.services.internal.component.card.ServiceCard2
 import com.corsoft.services.internal.component.enum.GunTypeEnum
 import com.corsoft.services.internal.model.GunModel
 import com.corsoft.services.internal.screen.weapon_details.navigation.WeaponDetailsNavArgs
@@ -42,6 +45,7 @@ import com.corsoft.ui.theme.HitFactorTheme
 import com.corsoft.ui.util.observeWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.generated.services.destinations.AddWeaponScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.WeaponDocsScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.valentinilk.shimmer.shimmer
 import org.koin.androidx.compose.koinViewModel
@@ -65,6 +69,7 @@ internal fun WeaponDetailsScreen(
         state = uiState,
         onAddClick = { navigator.navigate(AddWeaponScreenDestination) },
         onBackClick = { navigator.popBackStack() },
+        onDocumentsClick = { navigator.navigate(WeaponDocsScreenDestination(uiState.gunModel.id)) },
         onDeleteClick = { viewModel.onAction(WeaponDetailsAction.Delete) }
     )
     HFSnackBarHost(
@@ -79,6 +84,7 @@ private fun WeaponDetailsScreen(
     state: WeaponDetailsScreenState,
     onAddClick: () -> Unit = {},
     onBackClick: () -> Unit = {},
+    onDocumentsClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
 ) {
     Scaffold(
@@ -111,6 +117,7 @@ private fun WeaponDetailsScreen(
                 Modifier
                     .padding(paddingValues)
                     .padding(horizontal = 16.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
@@ -134,25 +141,31 @@ private fun WeaponDetailsScreen(
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                ParameterCard(
-                    name = stringResource(id = CoreStringRes.serial_number),
-                    value = state.gunModel.serialNumber
+                MultiParameterCard(
+                    params = mapOf(
+                        Pair(
+                            stringResource(id = CoreStringRes.serial_number),
+                            state.gunModel.serialNumber
+                        ),
+                        Pair(
+                            stringResource(id = CoreStringRes.weapon_type),
+                            state.gunModel.gunType.getName()
+                        ),
+                        Pair(stringResource(id = CoreStringRes.caliber), state.gunModel.caliber),
+                        Pair(
+                            stringResource(id = CoreStringRes.shot_count),
+                            state.gunModel.shotCount.toString()
+                        )
+                    )
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                ParameterCard(
-                    name = stringResource(id = CoreStringRes.weapon_type),
-                    value = state.gunModel.gunType.getName()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                ParameterCard(
-                    name = stringResource(id = CoreStringRes.caliber),
-                    value = state.gunModel.caliber
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                ParameterCard(
-                    name = stringResource(id = CoreStringRes.shot_count),
-                    value = state.gunModel.shotCount.toString()
-                )
+                ServiceCard2(
+                    name = stringResource(id = CoreStringRes.documents),
+                    description = stringResource(id = CoreStringRes.weapon_docs_desc),
+                    icon = CoreDrawableRes.ic_document
+                ) {
+                    onDocumentsClick()
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -174,7 +187,7 @@ private fun WeaponDetailsScreen(
 }
 
 
-@Preview
+@Preview(apiLevel = 34)
 @Composable
 private fun ServicesPreviewDark() {
     HitFactorTheme(
@@ -183,6 +196,7 @@ private fun ServicesPreviewDark() {
         Surface {
             WeaponDetailsScreen(
                 state = WeaponDetailsScreenState(
+                    isLoading = false,
                     gunModel = GunModel(
                         gunType = GunTypeEnum.BOLT_ACTION
                     )

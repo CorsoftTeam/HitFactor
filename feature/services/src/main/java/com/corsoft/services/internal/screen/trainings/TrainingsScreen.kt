@@ -1,9 +1,6 @@
 package com.corsoft.services.internal.screen.trainings
 
 import LoadingCircle
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +25,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,13 +41,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.rememberNavController
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.services.internal.component.card.TrainingCard
 import com.corsoft.services.internal.component.title.SimpleCalendarTitle
-import com.corsoft.services.internal.model.ServiceModel
+import com.corsoft.services.internal.screen.training_details.navigation.TrainingDetailsNavArgs
 import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
@@ -65,8 +62,9 @@ import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.generated.services.destinations.AddTrainingScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.TrainingDetailsScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.DayOfWeek
@@ -75,13 +73,8 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 
-private val pageBackgroundColor: Color @Composable get() = Color.White
-private val itemBackgroundColor: Color @Composable get() = Color.White
-private val toolbarColor: Color @Composable get() = Color.White
 private val selectedItemColor: Color @Composable get() = Primary
-private val inActiveTextColor: Color @Composable get() = Color.White
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Destination<ServicesNavGraph>
 internal fun TrainingsScreen(
@@ -91,10 +84,18 @@ internal fun TrainingsScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.onAction(TrainingsAction.Refresh)
+    }
+
     TrainingsScreen(
         state = uiState,
-        navigator = navigator,
-        onServiceClick = { navigator.navigate(it.destination) }
+        onNewTrainingClick = {
+            navigator.navigate(AddTrainingScreenDestination)
+        },
+        onTrainingClick = {
+            navigator.navigate(TrainingDetailsScreenDestination(TrainingDetailsNavArgs(it)))
+        }
     )
     HFSnackBarHost(
         hostState = snackBarHostState,
@@ -102,13 +103,12 @@ internal fun TrainingsScreen(
     )
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun TrainingsScreen(
     modifier: Modifier = Modifier,
     state: TrainingsScreenState,
-    navigator: DestinationsNavigator,
-    onServiceClick: (ServiceModel) -> Unit = {}
+    onNewTrainingClick: () -> Unit = {},
+    onTrainingClick: (String) -> Unit = {}
 ) {
     var selection by remember { mutableStateOf<LocalDate>(LocalDate.now()) }
     val currentMonth = remember { YearMonth.now() }
@@ -142,7 +142,7 @@ private fun TrainingsScreen(
             HFButton(
                 modifier = Modifier.padding(16.dp),
                 text = stringResource(id = CoreStringRes.new_training),
-                onClick = {  } //TODO: add click
+                onClick = onNewTrainingClick
             )
         },
         contentWindowInsets = WindowInsets(0.dp)
@@ -185,9 +185,9 @@ private fun TrainingsScreen(
                         Day(
                             day = day,
                             isSelected = selection == day.date,
-                            colors = if (day.date in state.trainings.map { it.dateTime.toLocalDate() }) listOf(
-                                Primary
-                            ) else emptyList(),
+                            trainingLength = state.trainings.firstOrNull {
+                                it.dateTime.toLocalDate() == day.date
+                            }?.length ?: 0
                         ) { clicked ->
                             selection = clicked.date
                         }
@@ -209,7 +209,9 @@ private fun TrainingsScreen(
                     )
                 } else {
                     trainings.forEach {
-                        TrainingCard(trainingModel = it) { }
+                        TrainingCard(trainingModel = it) {
+                            onTrainingClick(it.id)
+                        }
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
@@ -218,14 +220,18 @@ private fun TrainingsScreen(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun Day(
     day: CalendarDay,
     isSelected: Boolean = false,
-    colors: List<Color> = emptyList(),
+    trainingLength: Int = 0,
     onClick: (CalendarDay) -> Unit = {},
 ) {
+    val color: Color = if (trainingLength == 0) {
+        MaterialTheme.colorScheme.primaryContainer
+    } else {
+        MaterialTheme.colorScheme.primary.copy(alpha = trainingLength * 0.2f)
+    }
     Card(
         modifier = Modifier
             .aspectRatio(1f)
@@ -239,7 +245,7 @@ private fun Day(
                 enabled = day.position == DayPosition.MonthDate,
                 onClick = { onClick(day) },
             ),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        colors = CardDefaults.cardColors(containerColor = color),
         shape = RoundedCornerShape(4.dp)
     ) {
         val textColor = when (day.position) {
@@ -252,32 +258,32 @@ private fun Day(
             Text(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(top = 3.dp, end = 4.dp),
+                    .padding(top = 4.dp, end = 4.dp),
                 text = day.date.dayOfMonth.toString(),
                 color = textColor,
-                fontSize = 12.sp,
+                fontSize = 16.sp,
             )
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-            ) {
-                for (color in colors) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(5.dp)
-                            .background(color),
-                    )
-                }
-            }
+// Lines
+//            Column(
+//                modifier = Modifier
+//                    .align(Alignment.BottomCenter)
+//                    .fillMaxWidth()
+//                    .padding(bottom = 8.dp),
+//                verticalArrangement = Arrangement.spacedBy(6.dp),
+//            ) {
+//                for (color in colors) {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(5.dp)
+//                            .background(color),
+//                    )
+//                }
+//            }
         }
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun MonthHeader(
     modifier: Modifier = Modifier,
@@ -297,7 +303,6 @@ private fun MonthHeader(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(apiLevel = 34)
 @Composable
 private fun ServicesPreviewDark() {
@@ -308,8 +313,7 @@ private fun ServicesPreviewDark() {
             TrainingsScreen(
                 state = TrainingsScreenState(
                     isLoading = false
-                ),
-                navigator = rememberNavController().rememberDestinationsNavigator()
+                )
             )
         }
     }

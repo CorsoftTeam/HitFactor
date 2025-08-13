@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.bundles.core)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.retrofit)
+    implementation(libs.bundles.firebase)
     implementation(libs.bundles.payments)
     implementation(project(":core:network"))
     implementation(project(":core:data"))

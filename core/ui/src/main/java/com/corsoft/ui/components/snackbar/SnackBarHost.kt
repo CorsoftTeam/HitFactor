@@ -19,7 +19,7 @@ private const val MAX_SYMBOLS = 100
 private const val DURATION_ANIMATION = 500
 
 @Composable
-fun HFSnackBarHost(
+fun HFSnackBarHost( //TODO: add error and info state
     hostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {

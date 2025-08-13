@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -39,6 +40,8 @@ import com.corsoft.hitfactor.feature.payments.api.PaymentsNavigator
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.ui.components.button.HFButton
+import com.corsoft.ui.components.button.HFTextButton
+import com.corsoft.ui.components.input.TextInputDialog
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.theme.AppColors.GoodColor
 import com.corsoft.ui.theme.HitFactorTheme
@@ -59,6 +62,7 @@ internal fun PaymentScreen(
     val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isCodeInputShow = remember { mutableStateOf(false) }
 
     viewModel.effect.observeWithLifecycle { effect ->
         when (effect) {
@@ -72,11 +76,25 @@ internal fun PaymentScreen(
         }
     }
 
+    if (isCodeInputShow.value) {
+        TextInputDialog(
+            title = stringResource(CoreStringRes.activate_promocode),
+            placeholder = stringResource(CoreStringRes.promocode),
+            onDismiss = { isCodeInputShow.value = false },
+            onConfirm = { viewModel.onAction(PaymentAction.CheckCode(it)) }
+        )
+    }
+
     PaymentScreen(
         state = uiState,
         onPaymentClick = { viewModel.onAction(PaymentAction.Pay) },
         onNextClick = { paymentsNavigator.back() },
+        onActivatePromoClick = { isCodeInputShow.value = true },
         snackbarHostState = snackBarHostState
+    )
+    HFSnackBarHost(
+        hostState = snackBarHostState,
+        modifier = Modifier.statusBarsPadding()
     )
 }
 
@@ -86,6 +104,7 @@ private fun PaymentScreen(
     state: PaymentScreenModel,
     onPaymentClick: () -> Unit = {},
     onNextClick: () -> Unit = {},
+    onActivatePromoClick: () -> Unit = {},
     snackbarHostState: SnackbarHostState = SnackbarHostState()
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -101,20 +120,24 @@ private fun PaymentScreen(
             modifier = Modifier.fillMaxSize(),
             containerColor = Color.Transparent,
             contentColor = contentColorFor(backgroundColor = MaterialTheme.colorScheme.background),
-            topBar = {
-                HFSnackBarHost(
-                    hostState = snackbarHostState,
-                    modifier = Modifier.statusBarsPadding()
-                )
-            },
             bottomBar = {
                 if (!state.isLoading) {
-                    HFButton(
+                    Column (
                         modifier = Modifier.padding(16.dp),
-                        text = stringResource(id = CoreStringRes.start_sub),
-                        onClick = onPaymentClick,
-                        customColor = GoodColor
-                    )
+                        verticalArrangement = Arrangement.spacedBy(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        HFButton(
+                            text = stringResource(CoreStringRes.start_sub),
+                            onClick = onPaymentClick,
+                            customColor = GoodColor
+                        )
+                        HFTextButton(
+                            text = stringResource(CoreStringRes.activate_promocode),
+                            onClick = onActivatePromoClick
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             },
         ) { paddingValues ->

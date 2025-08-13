@@ -16,7 +16,7 @@ fun LoadingCircle(
 ) {
     Image(
         modifier = modifier
-            .size(150.dp)
+            .size(100.dp)
             .shimmer(),
         painter = painterResource(id = CoreDrawableRes.logo_large),
         contentDescription = ""

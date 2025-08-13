@@ -5,14 +5,17 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewModelScope
 import com.corsoft.auth.api.AuthRepository
+import com.corsoft.common.ResourceProvider
 import com.corsoft.common.mvvm.MviViewModel
 import com.corsoft.network.model.NetworkResponse
+import com.corsoft.resources.CoreStringRes
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kotlin.time.Duration
 
 internal class RegisterViewModel(
     private val authRepository: AuthRepository,
+    private val resourceProvider: ResourceProvider
 ) : MviViewModel<RegisterScreenState, RegisterAction, RegisterEffect>(
     RegisterScreenState()
 ) {
@@ -21,29 +24,37 @@ internal class RegisterViewModel(
         setLoading(false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun register() {
-        viewModelScope.launch {
-            setLoading(true)
-            val response =
-                authRepository.register(
-                    login = uiState.value.login,
-                    password = uiState.value.password,
-                    email = uiState.value.email,
-                    name = uiState.value.name
-                )
-            when (response) {
-                is NetworkResponse.Success -> {
-                    viewModelScope.launch {
-                        sendEffect(RegisterEffect.ShowError("Регистрация успешна!"))
-                        delay(java.time.Duration.ofSeconds(2))
-                        sendEffect(RegisterEffect.Register)
+        if (
+            uiState.value.name.isEmpty() ||
+            uiState.value.login.isEmpty() ||
+            uiState.value.email.isEmpty() ||
+            uiState.value.password.isEmpty()
+        ) {
+            sendEffect(RegisterEffect.ShowError(resourceProvider.getString(CoreStringRes.all_fields_must_be_filled)))
+        } else {
+            viewModelScope.launch {
+                setLoading(true)
+                val response =
+                    authRepository.register(
+                        login = uiState.value.login,
+                        password = uiState.value.password,
+                        email = uiState.value.email,
+                        name = uiState.value.name
+                    )
+                when (response) {
+                    is NetworkResponse.Success -> {
+                        viewModelScope.launch {
+                            sendEffect(RegisterEffect.ShowError("Регистрация успешна!"))
+                            delay(java.time.Duration.ofSeconds(2))
+                            sendEffect(RegisterEffect.Register)
+                        }
                     }
-                }
 
-                is NetworkResponse.Failed -> {
-                    setLoading(false)
-                    sendEffect(RegisterEffect.ShowError(response.getErrorMessage()))
+                    is NetworkResponse.Failed -> {
+                        setLoading(false)
+                        sendEffect(RegisterEffect.ShowError(response.getErrorMessage()))
+                    }
                 }
             }
         }

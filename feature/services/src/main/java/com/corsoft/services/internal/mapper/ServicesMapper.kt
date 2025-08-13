@@ -30,10 +30,10 @@ internal fun User.toUiModel(): UserModel =
     UserModel(
         uuid = uuid,
         name = name,
-        lastName = lastName,
         login = login,
         email = email,
-        phoneNumber = phoneNumber
+        phoneNumber = phoneNumber,
+        photoUrl = photoUrl
     )
 
 internal fun City.toUiModel(): CityModel =
@@ -53,6 +53,7 @@ internal fun Range.toUiModel(): RangeModel =
 
 internal fun Training.toUiModel(): TrainingModel =
     TrainingModel(
+        id = id,
         dateTime = dateTime,
         length = length,
         hfScore = hfScore,

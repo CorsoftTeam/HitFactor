@@ -1,11 +1,14 @@
 package com.corsoft.services.internal.screen.calculate_hf
 
 import androidx.lifecycle.SavedStateHandle
+import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.hitfactor.data.analytics.api.AnalyticsRepository
 import com.ramcosta.composedestinations.generated.services.destinations.CalculateHFScreenDestination
 
 internal class CalculateHFViewModel(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    analytics: AnalyticsRepository
 ) :
     MviViewModel<CalculateHFScreenState, CalculateHFAction, CalculateHFEffect>(
         CalculateHFScreenState()
@@ -19,6 +22,7 @@ internal class CalculateHFViewModel(
                 time = navArgs.time
             )
         }
+        analytics.sendEvent(FirebaseEventsEnum.OPEN_CALC.key)
     }
 
     override fun onAction(action: CalculateHFAction) {

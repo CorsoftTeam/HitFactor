@@ -203,7 +203,7 @@ private fun documentTab(
 }
 
 
-@Preview
+@Preview(apiLevel = 34)
 @Composable
 private fun DocumentsPreviewDark() {
     HitFactorTheme(

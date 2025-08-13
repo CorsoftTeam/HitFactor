@@ -1,7 +1,5 @@
 package com.corsoft.services.internal.component.title
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -33,7 +31,6 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SimpleCalendarTitle(
     modifier: Modifier,
@@ -46,21 +43,18 @@ fun SimpleCalendarTitle(
         modifier = modifier.height(40.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        HFIconButton(icon = CoreDrawableRes.ic_back) {
-            goToPrevious()
-        }
         Text(
             modifier = Modifier
                 .weight(1f)
                 .testTag("MonthTitle"),
-            text = currentMonth.month.getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault()) + " " + currentMonth.year.toString(),
+            text = currentMonth.month.getDisplayName(
+                TextStyle.FULL_STANDALONE,
+                Locale.getDefault()
+            ) + " " + currentMonth.year.toString(),
             fontSize = 22.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Medium,
         )
-        HFIconButton(icon = CoreDrawableRes.ic_next) {
-            goToNext()
-        }
     }
 }
 

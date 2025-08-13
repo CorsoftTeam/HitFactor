@@ -1,14 +1,17 @@
 package com.corsoft.services.internal.screen.ranges
 
 import androidx.lifecycle.viewModelScope
+import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.hitfactor.data.analytics.api.AnalyticsRepository
 import com.corsoft.hitfactor.data.user.api.UserRepository
 import com.corsoft.services.internal.mapper.toUiModel
 import kotlinx.coroutines.launch
 import ppk.app.core.network.util.doOn
 
 internal class RangesViewModel(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    analytics: AnalyticsRepository
 ) : MviViewModel<RangesScreenState, RangesAction, RangesEffect>(
     RangesScreenState()
 ) {
@@ -21,6 +24,7 @@ internal class RangesViewModel(
 
     init {
         loadData()
+        analytics.sendEvent(FirebaseEventsEnum.OPEN_RANGES.key)
     }
 
     private fun loadData() {

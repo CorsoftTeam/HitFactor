@@ -1,14 +1,17 @@
 package com.corsoft.services.internal.screen.trainers
 
 import androidx.lifecycle.viewModelScope
+import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.hitfactor.data.analytics.api.AnalyticsRepository
 import com.corsoft.hitfactor.data.user.api.UserRepository
 import com.corsoft.services.internal.mapper.toUiModel
 import kotlinx.coroutines.launch
 import ppk.app.core.network.util.doOn
 
 internal class TrainersViewModel(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    analytics: AnalyticsRepository
 ) : MviViewModel<TrainersScreenState, TrainersAction, TrainersEffect>(
     TrainersScreenState()
 ) {
@@ -21,6 +24,7 @@ internal class TrainersViewModel(
 
     init {
         loadData()
+        analytics.sendEvent(FirebaseEventsEnum.OPEN_TRAINERS.key)
     }
 
     private fun loadData() {

@@ -8,7 +8,9 @@ import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.hitfactor.data.analytics.api.AnalyticsRepository
 import com.corsoft.resources.CoreRawRes
 import com.corsoft.services.internal.component.enum.TimerStateEnum
 import com.corsoft.services.internal.model.timer.ShotModel
@@ -24,7 +26,8 @@ import kotlin.math.sqrt
 import kotlin.random.Random
 
 internal class TimerViewModel(
-    context: Context
+    context: Context,
+    analytics: AnalyticsRepository
 ) : MviViewModel<TimerState, TimerAction, TimerEffect>(
     TimerState()
 ) {
@@ -41,6 +44,10 @@ internal class TimerViewModel(
         AudioFormat.ENCODING_PCM_FLOAT
     )
     private var recording: Job? = null
+
+    init {
+        analytics.sendEvent(FirebaseEventsEnum.OPEN_TIMER.key)
+    }
 
     override fun onAction(action: TimerAction) {
         when (action) {

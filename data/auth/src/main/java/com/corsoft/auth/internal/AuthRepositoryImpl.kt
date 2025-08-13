@@ -14,6 +14,7 @@ internal class AuthRepositoryImpl(
 ) : AuthRepository {
     override suspend fun login(email: String, password: String): NetworkResponse<Unit> =
         suspendCancellableCoroutine { continuation ->
+            auth.setLanguageCode("ru")
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     continuation.resume(NetworkResponse.Success(Unit))
@@ -36,6 +37,7 @@ internal class AuthRepositoryImpl(
         name: String
     ): NetworkResponse<Unit> =
         suspendCancellableCoroutine { continuation ->
+            auth.setLanguageCode("ru")
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
@@ -72,6 +74,23 @@ internal class AuthRepositoryImpl(
             }
         }
 
+    override suspend fun sendResetPasswordLink(email: String): NetworkResponse<Unit> =
+        suspendCancellableCoroutine { continuation ->
+            auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    continuation.resume(NetworkResponse.Success(Unit))
+                } else {
+                    continuation.resume(
+                        NetworkResponse.Failed(
+                            Throwable(
+                                task.exception?.message ?: "Неизвестная ошибка"
+                            )
+                        )
+                    )
+                }
+            }
+        }
+
     override suspend fun isUserAuthorised(): Boolean =
         suspendCancellableCoroutine { continuation ->
             val currentUser = auth.currentUser
@@ -88,11 +107,7 @@ internal class AuthRepositoryImpl(
             if (currentUser != null) {
                 firestore.collection("users").document(currentUser.uid).get()
                     .addOnSuccessListener { result ->
-                        if (result.data?.getOrDefault("isVip", false) == true) {
-                            continuation.resume(true)
-                        } else {
-                            continuation.resume(false)
-                        }
+                        continuation.resume((result.data?.getOrDefault("isVip", false) == true))
                     }.addOnFailureListener {
                     continuation.resume(false)
                 }
@@ -100,5 +115,9 @@ internal class AuthRepositoryImpl(
                 continuation.resume(false)
             }
         }
+
+    override suspend fun logout() {
+        auth.signOut()
+    }
 
 }
