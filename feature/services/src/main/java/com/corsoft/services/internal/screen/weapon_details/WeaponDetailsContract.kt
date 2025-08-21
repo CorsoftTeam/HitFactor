@@ -14,6 +14,7 @@ internal data class WeaponDetailsScreenState(
 
 internal sealed interface WeaponDetailsAction : MviAction {
     data object Delete : WeaponDetailsAction
+    data object Clean : WeaponDetailsAction
 }
 
 internal sealed interface WeaponDetailsEffect : MviEffect {

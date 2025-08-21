@@ -9,4 +9,5 @@ data class GunModel(
     val serialNumber: String = "",
     val gunType: GunTypeEnum = GunTypeEnum.PISTOL,
     val shotCount: Int = 0,
+    val shotCountBeforeClean: Int = 0
 )

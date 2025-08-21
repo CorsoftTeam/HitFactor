@@ -1,6 +1,5 @@
-package com.corsoft.services.internal.screen.rules
+package com.corsoft.services.internal.screen.pdf_view
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,30 +9,40 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.corsoft.resources.CoreDrawableRes
-import com.corsoft.resources.CoreRawRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
+import com.corsoft.services.internal.screen.pdf_view.navigation.PdfViewNavArgs
 import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.card.InfoCard
 import com.corsoft.ui.components.topbar.ToolBar
-import com.corsoft.ui.theme.HitFactorTheme
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.generated.services.destinations.PdfViewScreenDestination
+import com.ramcosta.composedestinations.generated.services.navArgs
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.rizzi.bouquet.ResourceType
 import com.rizzi.bouquet.VerticalPDFReader
 import com.rizzi.bouquet.rememberVerticalPdfReaderState
 
 @Composable
-@Destination<ServicesNavGraph>
-internal fun RulesScreen() {
+@Destination<ServicesNavGraph>(navArgs = PdfViewNavArgs::class)
+internal fun PdfViewScreen(
+    navigator: DestinationsNavigator
+) {
+    val navArgs = navigator.getBackStackEntry(PdfViewScreenDestination)?.navArgs<PdfViewNavArgs>()
     Scaffold(
         topBar = {
             ToolBar(
                 title = {
                     Text(
-                        text = stringResource(id = CoreStringRes.rules)
+                        text = navArgs?.documentName ?: ""
+                    )
+                },
+                navigationIcon = {
+                    HFIconButton(
+                        icon = CoreDrawableRes.ic_back,
+                        onClick = { navigator.popBackStack() }
                     )
                 }
             )
@@ -51,22 +60,11 @@ internal fun RulesScreen() {
             )
             VerticalPDFReader(
                 state = rememberVerticalPdfReaderState(
-                    resource = ResourceType.Asset(CoreRawRes.doc_ipsc_rules),
+                    resource = ResourceType.Asset(navArgs?.documentResId ?: 0),
                     isZoomEnable = true
                 ),
                 modifier = Modifier.fillMaxSize()
             )
-        }
-    }
-}
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
-@Composable
-private fun RulesScreenPreview() {
-    HitFactorTheme {
-        Scaffold {
-            RulesScreen()
         }
     }
 }

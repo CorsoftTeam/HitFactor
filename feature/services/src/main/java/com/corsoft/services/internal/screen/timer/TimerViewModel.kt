@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.mvvm.MviViewModel
 import com.corsoft.hitfactor.data.analytics.api.AnalyticsRepository
+import com.corsoft.hitfactor.data.user.api.UserRepository
 import com.corsoft.resources.CoreRawRes
 import com.corsoft.services.internal.component.enum.TimerStateEnum
 import com.corsoft.services.internal.model.timer.ShotModel
@@ -20,14 +21,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlin.math.abs
-import kotlin.math.log10
 import kotlin.math.sqrt
 import kotlin.random.Random
 
 internal class TimerViewModel(
     context: Context,
-    analytics: AnalyticsRepository
+    analytics: AnalyticsRepository,
+    val userRepository: UserRepository
 ) : MviViewModel<TimerState, TimerAction, TimerEffect>(
     TimerState()
 ) {
@@ -47,6 +47,14 @@ internal class TimerViewModel(
 
     init {
         analytics.sendEvent(FirebaseEventsEnum.OPEN_TIMER.key)
+        viewModelScope.launch {
+            val timerSensitivity = userRepository.getTimerSensitivity()
+            changeState {
+                it.copy(
+                    sensitivity = timerSensitivity
+                )
+            }
+        }
     }
 
     override fun onAction(action: TimerAction) {
@@ -56,6 +64,18 @@ internal class TimerViewModel(
             is TimerAction.StartCountDown -> startCountdown()
             is TimerAction.StartRecording -> startListening()
             is TimerAction.DeleteTime -> deleteTime(action.index)
+            is TimerAction.ChangeSensitivity -> updateSensitivity(action.sensitivity)
+        }
+    }
+
+    private fun updateSensitivity(sensitivity: Int) {
+        viewModelScope.launch {
+            changeState {
+                it.copy(
+                    sensitivity = sensitivity
+                )
+            }
+            userRepository.setTimerSensitivity(sensitivity)
         }
     }
 
@@ -124,6 +144,7 @@ internal class TimerViewModel(
     private fun startListening() {
         if (recording == null) {
             recording = CoroutineScope(Dispatchers.IO).launch {
+
                 val audioRecord = AudioRecord(
                     MediaRecorder.AudioSource.UNPROCESSED,
                     sampleRate,
@@ -136,15 +157,21 @@ internal class TimerViewModel(
                 val buffer = FloatArray(bufferSize)
 
                 while (true) {
+                    val sensitivity = uiState.value.sensitivity * (1f / 100f)
                     val read = audioRecord.read(buffer, 0, bufferSize, AudioRecord.READ_BLOCKING)
                     if (read > 0) {
                         val maxAmplitude = buffer.maxOrNull() ?: 0f
                         val rms = sqrt(buffer.map { it * it }.average())
                         if (maxAmplitude > 0.5f) {
-                            Log.d("SHOT", rms.toString())
-                            if (rms > 0.37f) { // TODO: ADD SETTINGS
-                                Log.d("REAL_SHOT", rms.toString())
+                            if (rms > sensitivity) {
+                                Log.d("REAL_SHOT", maxAmplitude.toString())
+                                Log.d("REAL_SHOT_RMS", rms.toString())
+                                Log.d("REAL_SHOT_SENS", sensitivity.toString())
                                 onShotDetected((maxAmplitude * 32767).toInt())
+                            } else {
+                                Log.d("SHOT", maxAmplitude.toString())
+                                Log.d("SHOT_RMS", rms.toString())
+                                Log.d("SHOT_SENS", sensitivity.toString())
                             }
                         }
                     }

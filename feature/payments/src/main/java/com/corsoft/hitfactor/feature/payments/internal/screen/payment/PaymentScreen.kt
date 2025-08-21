@@ -130,7 +130,7 @@ private fun PaymentScreen(
                         HFButton(
                             text = stringResource(CoreStringRes.start_sub),
                             onClick = onPaymentClick,
-                            customColor = GoodColor
+                            customColor = MaterialTheme.colorScheme.primary
                         )
                         HFTextButton(
                             text = stringResource(CoreStringRes.activate_promocode),
@@ -173,7 +173,7 @@ private fun PaymentScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = "1 ₽",
+                        text = "0 ₽",
                         style = MaterialTheme.typography.displaySmall
                     )
                     Spacer(modifier = Modifier.height(32.dp))

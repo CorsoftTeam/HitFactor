@@ -16,7 +16,8 @@ val userDataModule = module {
         UserLocalRepositoryImpl(
             auth = get(),
             firestore = get(),
-            userDatabase = get()
+            userDatabase = get(),
+            localStorage = get()
         )
     } bind UserRepository::class
 

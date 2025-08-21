@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,9 @@ import com.corsoft.services.internal.component.item.ShotTimeItem
 import com.corsoft.services.internal.model.timer.ShotModel
 import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.button.HFIconButton
+import com.corsoft.ui.components.card.InfoCard
+import com.corsoft.ui.components.input.SliderDialog
+import com.corsoft.ui.components.placeholder.HFPlaceholder
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.HitFactorTheme
@@ -53,6 +57,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.generated.services.destinations.CalculateHFScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.koinViewModel
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Destination<ServicesNavGraph>
@@ -64,6 +69,7 @@ internal fun TimerScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val hasAudioPermission = rememberPermissionState(permission = Manifest.permission.RECORD_AUDIO)
+    val showSettingsDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(hasAudioPermission) {
         if (!hasAudioPermission.status.isGranted) {
@@ -84,7 +90,9 @@ internal fun TimerScreen(
                     )
                 },
                 actions = {
-                    HFIconButton(icon = CoreDrawableRes.ic_settings) { }
+                    HFIconButton(icon = CoreDrawableRes.ic_settings) {
+                        showSettingsDialog.value = true
+                    }
                 }
             )
             HFSnackBarHost(
@@ -103,6 +111,17 @@ internal fun TimerScreen(
             onCalculateButtonClick = { navigator.navigate(CalculateHFScreenDestination(time = uiState.time)) }
         )
     }
+
+    if (showSettingsDialog.value) {
+        SliderDialog(
+            value = uiState.sensitivity,
+            title = stringResource(CoreStringRes.sensitivity),
+            onDismiss = { showSettingsDialog.value = false }
+        ) {
+            viewModel.onAction(TimerAction.ChangeSensitivity(it.roundToInt()))
+            showSettingsDialog.value = false
+        }
+    }
 }
 
 @Composable
@@ -119,6 +138,12 @@ private fun TimerScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom
     ) {
+        if (state.sensitivity == 0) {
+            InfoCard(
+                text = stringResource(CoreStringRes.set_sensitivity_before_start)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         Card(
             Modifier.weight(1f),
             colors = CardDefaults.cardColors(
@@ -130,16 +155,30 @@ private fun TimerScreen(
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                LazyColumn {
-                    items(state.shotTimes) { time ->
-                        ShotTimeItem(
-                            modifier = Modifier.animateItem(),
-                            index = state.shotTimes.indexOf(time) + 1,
-                            time = formatTime(time.time),
-                            split = formatTime(time.split),
-                            onDelete = { actions(TimerAction.DeleteTime(state.shotTimes.indexOf(time))) }
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
+                if (state.shotTimes.isEmpty()) {
+                    HFPlaceholder(
+                        text = stringResource(CoreStringRes.press_start)
+                    )
+                } else {
+                    LazyColumn {
+                        items(state.shotTimes) { time ->
+                            ShotTimeItem(
+                                modifier = Modifier.animateItem(),
+                                index = state.shotTimes.indexOf(time) + 1,
+                                time = formatTime(time.time),
+                                split = formatTime(time.split),
+                                onDelete = {
+                                    actions(
+                                        TimerAction.DeleteTime(
+                                            state.shotTimes.indexOf(
+                                                time
+                                            )
+                                        )
+                                    )
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
                     }
                 }
             }
@@ -180,10 +219,9 @@ private fun TimerScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(
-            visible = state.timerState == TimerStateEnum.STOPPED
+            visible = (state.timerState == TimerStateEnum.STOPPED && state.shotTimes.isNotEmpty())
         ) {
             HFButton(
-                modifier = Modifier.height(64.dp),
                 text = stringResource(id = CoreStringRes.results),
                 isPrimary = false,
                 onClick = onCalculateButtonClick

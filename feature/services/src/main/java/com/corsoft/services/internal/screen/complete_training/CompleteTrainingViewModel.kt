@@ -6,11 +6,9 @@ import com.corsoft.common.ResourceProvider
 import com.corsoft.common.mvvm.MviViewModel
 import com.corsoft.hitfactor.data.user.api.UserRepository
 import com.corsoft.resources.CoreStringRes
-import com.corsoft.services.internal.mapper.toUiModel
 import com.ramcosta.composedestinations.generated.services.destinations.CompleteTrainingScreenDestination
 import kotlinx.coroutines.launch
 import ppk.app.core.network.util.doOn
-import java.time.LocalDateTime
 
 internal class CompleteTrainingViewModel(
     private val userRepository: UserRepository,
@@ -71,7 +69,7 @@ internal class CompleteTrainingViewModel(
     private fun changeHfScore(hfScore: String) {
         viewModelScope.launch {
             changeState {
-                it.copy(hfScore = hfScore)
+                it.copy(hfScore = hfScore.replace(',', '.'))
             }
         }
     }

@@ -26,6 +26,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.services.internal.screen.calculate_hf.navigation.CalculateHFNavArgs
 import com.corsoft.ui.components.button.HFIconButton
+import com.corsoft.ui.components.input.TextInputDialog
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.HitFactorTheme
@@ -59,6 +61,7 @@ internal fun CalculateHFScreen(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val showNameDialog = remember { mutableStateOf(false) }
 
     CalculateHFScreen(
         state = uiState,
@@ -69,12 +72,24 @@ internal fun CalculateHFScreen(
         addMiss = { viewModel.onAction(CalculateHFAction.AddMiss) },
         addNoShoot = { viewModel.onAction(CalculateHFAction.AddNoShoot) },
         addProcedure = { viewModel.onAction(CalculateHFAction.AddProcedure) },
-        reset = { viewModel.onAction(CalculateHFAction.Reset) }
+        reset = { viewModel.onAction(CalculateHFAction.Reset) },
+        save = { showNameDialog.value = true }
     )
     HFSnackBarHost(
         hostState = snackBarHostState,
         modifier = Modifier.statusBarsPadding()
     )
+
+    if (showNameDialog.value) {
+        TextInputDialog(
+            title = stringResource(CoreStringRes.sportsman),
+            placeholder = stringResource(CoreStringRes.FIO),
+            onDismiss = { showNameDialog.value = false }
+        ) {
+            viewModel.onAction(CalculateHFAction.Save(it))
+            showNameDialog.value = false
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -145,7 +160,7 @@ private fun CalculateHFScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        //TODO
+                        //TODO time edit
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
@@ -156,12 +171,13 @@ private fun CalculateHFScreen(
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    painter = painterResource(id = CoreDrawableRes.ic_edit),
-                    tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = ""
-                )
+                //TODO: time edit
+//                Spacer(modifier = Modifier.width(8.dp))
+//                Icon(
+//                    painter = painterResource(id = CoreDrawableRes.ic_edit),
+//                    tint = MaterialTheme.colorScheme.primary,
+//                    contentDescription = ""
+//                )
             }
 
             Spacer(modifier = Modifier.height(32.dp))

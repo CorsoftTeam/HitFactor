@@ -30,6 +30,7 @@ import com.corsoft.services.internal.model.GunModel
 import com.corsoft.services.internal.screen.weapon_details.navigation.WeaponDetailsNavArgs
 import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.button.HFIconButton
+import com.corsoft.ui.components.placeholder.HFPlaceholder
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.HitFactorTheme
@@ -111,6 +112,11 @@ private fun WeaponsScreen(
                 LoadingCircle()
             }
         } else {
+            if (state.weaponsList.isEmpty()) {
+                HFPlaceholder(
+                    text = stringResource(CoreStringRes.add_your_weapons)
+                )
+            }
             GunList(
                 modifier = modifier
                     .padding(paddingValues)

@@ -3,7 +3,6 @@ package com.corsoft.hitfactor.data.payments.internal
 import com.corsoft.data.api.storage.EncryptedStorage
 import com.corsoft.hitfactor.data.payments.api.PaymentsRepository
 import com.corsoft.network.model.NetworkResponse
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.rustore.sdk.billingclient.RuStoreBillingClient
@@ -31,10 +30,11 @@ class PaymentsRepositoryImpl(
                     val hasActiveSubscription = purchases.any { purchase ->
                         purchase.productType == ProductType.SUBSCRIPTION && purchase.purchaseState == PurchaseState.CONFIRMED
                     }
+                    encryptedStorage.isSub = hasActiveSubscription
                     continuation.resume(hasActiveSubscription)
                 }
                 .addOnFailureListener {
-                    continuation.resume(null)
+                    continuation.resume(encryptedStorage.isSub)
                 }
         }
 
@@ -62,56 +62,44 @@ class PaymentsRepositoryImpl(
                             }
                         }
 
-                        when {
-                            code == null -> {
-                                if (encryptedStorage.promocode.isNullOrBlank()) {
-                                    resumeIfNotCompleted(NetworkResponse.Success(false))
-                                } else {
-                                    for (existingCode in codes) {
-                                        if (existingCode.id == encryptedStorage.promocode) {
-                                            resumeIfNotCompleted(NetworkResponse.Success(true))
-                                            return@addOnCompleteListener
-                                        }
-                                    }
-                                    resumeIfNotCompleted(NetworkResponse.Success(false))
-                                }
-                            }
-
-                            encryptedStorage.promocode.isNullOrBlank() -> {
-                                for (existingCode in codes) {
-                                    if (existingCode.id == code) {
-                                        if (!(existingCode.data?.get("isUsed") as Boolean)) {
-                                            encryptedStorage.promocode = code
-                                            firestore.collection("codes").document(code).set(
-                                                mapOf(
-                                                    "isUsed" to true
-                                                )
-                                            )
-                                            resumeIfNotCompleted(NetworkResponse.Success(true))
-                                            return@addOnCompleteListener
-                                        }
-                                    }
-                                }
+                        if (code == null) {
+                            if (encryptedStorage.promocode.isNullOrBlank()) {
+                                encryptedStorage.isSub = false
                                 resumeIfNotCompleted(NetworkResponse.Success(false))
-                            }
-
-                            else -> {
+                            } else {
                                 for (existingCode in codes) {
-                                    if (existingCode.id == code) {
+                                    if (existingCode.id == encryptedStorage.promocode) {
+                                        encryptedStorage.isSub = true
                                         resumeIfNotCompleted(NetworkResponse.Success(true))
                                         return@addOnCompleteListener
                                     }
                                 }
+                                encryptedStorage.isSub = false
                                 resumeIfNotCompleted(NetworkResponse.Success(false))
                             }
+                        } else {
+                            for (existingCode in codes) {
+                                if (existingCode.id == code) {
+                                    if (!(existingCode.data?.get("isUsed") as Boolean)) {
+                                        encryptedStorage.promocode = code
+                                        firestore.collection("codes").document(code).set(
+                                            mapOf(
+                                                "isUsed" to true
+                                            )
+                                        )
+                                        encryptedStorage.isSub = true
+                                        resumeIfNotCompleted(NetworkResponse.Success(true))
+                                        return@addOnCompleteListener
+                                    }
+                                }
+                            }
+                            encryptedStorage.isSub = false
+                            resumeIfNotCompleted(NetworkResponse.Success(false))
                         }
+
                     } else {
                         continuation.resume(
-                            NetworkResponse.Failed(
-                                Throwable(
-                                    task.exception?.message ?: "Неизвестная ошибка"
-                                )
-                            )
+                            NetworkResponse.Success(encryptedStorage.isSub)
                         )
                     }
                 }

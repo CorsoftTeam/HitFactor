@@ -1,8 +1,10 @@
 package com.corsoft.hitfactor.data.user.internal
 
+import com.corsoft.data.api.storage.LocalStorage
 import com.corsoft.hitfactor.data.user.api.UserRepository
 import com.corsoft.hitfactor.data.user.api.entities.GunDocumentsEntity
 import com.corsoft.hitfactor.data.user.api.entities.GunEntity
+import com.corsoft.hitfactor.data.user.api.entities.ResultEntity
 import com.corsoft.hitfactor.data.user.api.entities.TrainingEntity
 import com.corsoft.hitfactor.data.user.api.model.City
 import com.corsoft.hitfactor.data.user.api.model.Gun
@@ -26,7 +28,8 @@ import kotlin.coroutines.resume
 class UserLocalRepositoryImpl(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
-    private val userDatabase: UserDatabase
+    private val userDatabase: UserDatabase,
+    private val localStorage: LocalStorage
 ) : UserRepository {
     override suspend fun getMe(): NetworkResponse<User> {
         TODO("Not yet implemented")
@@ -39,7 +42,8 @@ class UserLocalRepositoryImpl(
         name: String,
         caliber: String,
         serialNumber: String,
-        type: String
+        type: String,
+        shotsBeforeClean: Int
     ): NetworkResponse<Unit> {
         userDatabase.gunsDao().insert(
             GunEntity(
@@ -48,7 +52,8 @@ class UserLocalRepositoryImpl(
                 caliber = caliber,
                 serialNumber = serialNumber,
                 gunType = type,
-                shotCount = 0
+                shotCount = 0,
+                shotsBeforeClean = shotsBeforeClean
             )
         )
         return NetworkResponse.Success(Unit)
@@ -202,5 +207,54 @@ class UserLocalRepositoryImpl(
             weaponId = weaponId,
             shotCount = shotCount
         )
+    }
+
+    override suspend fun deleteTrainingById(id: String): NetworkResponse<Unit> {
+        userDatabase.trainingsDao().deleteById(id)
+        return NetworkResponse.Success(Unit)
+    }
+
+    override suspend fun cleanGunById(id: String) {
+        userDatabase.gunsDao().cleanGun(id)
+    }
+
+    override suspend fun setTimerSensitivity(sensitivity: Int) {
+        localStorage.addString("timer_sensitivity", sensitivity.toString())
+    }
+
+    override suspend fun getTimerSensitivity(): Int {
+        return localStorage.getString("timer_sensitivity").toIntOrNull() ?: 0
+    }
+
+    override suspend fun addResult(
+        name: String,
+        score: Int,
+        time: Long,
+        hitFactor: Float
+    ) {
+        userDatabase.resultsDao().insert(
+            ResultEntity(
+                name = name,
+                score = score,
+                time = time,
+                hitFactor = hitFactor
+            )
+        )
+    }
+
+    override suspend fun getResults(): List<ResultEntity> {
+        return userDatabase.resultsDao().observeAll()
+    }
+
+    override suspend fun deleteResultById(id: Long) {
+        userDatabase.resultsDao().deleteById(id)
+    }
+
+    override suspend fun setServiceGroup(name: String) {
+        localStorage.addString("service_group", name)
+    }
+
+    override suspend fun getServiceGroup(): String {
+        return localStorage.getString("service_group")
     }
 }

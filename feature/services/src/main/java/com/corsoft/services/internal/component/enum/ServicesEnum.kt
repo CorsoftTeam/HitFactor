@@ -8,18 +8,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
+import com.ramcosta.composedestinations.generated.services.destinations.ActsScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.CalculateHFScreenDestination
-import com.ramcosta.composedestinations.generated.services.destinations.DocumentsScreenDestination
-import com.ramcosta.composedestinations.generated.services.destinations.LawScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.RangesScreenDestination
-import com.ramcosta.composedestinations.generated.services.destinations.RulesScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.ResultsScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TimerScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TrainersScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.TrainingsScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.WeaponsScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-internal enum class ServicesEnum {
+enum class ServicesEnum {
     TIMER,
     CALC,
     CALENDAR,
@@ -27,13 +26,12 @@ internal enum class ServicesEnum {
     TRAINERS,
     AMMO,
     GUNS,
-    DOCS,
     STAT,
     ANALYZE,
     RESULTS,
-    RULES,
-    LAW,
-    FEEDBACK
+    ACTS,
+    FEEDBACK,
+    CHECKLISTS
     ;
 
     @Composable
@@ -46,14 +44,12 @@ internal enum class ServicesEnum {
             TRAINERS -> stringResource(id = CoreStringRes.trainers)
             AMMO -> stringResource(id = CoreStringRes.ammo)
             GUNS -> stringResource(id = CoreStringRes.gun_storage)
-            DOCS -> stringResource(id = CoreStringRes.documents)
             STAT -> stringResource(id = CoreStringRes.statistic)
             ANALYZE -> stringResource(id = CoreStringRes.video_analyze)
             RESULTS -> stringResource(id = CoreStringRes.results)
-            RULES -> stringResource(id = CoreStringRes.rules)
-            LAW -> stringResource(id = CoreStringRes.federal_law_150)
+            ACTS -> stringResource(id = CoreStringRes.documents)
             FEEDBACK -> stringResource(id = CoreStringRes.feedback)
-
+            CHECKLISTS -> stringResource(id = CoreStringRes.checklists)
         }
 
     @Composable
@@ -66,13 +62,12 @@ internal enum class ServicesEnum {
             TRAINERS -> stringResource(id = CoreStringRes.trainers_desc)
             AMMO -> stringResource(id = CoreStringRes.ammo_desc)
             GUNS -> stringResource(id = CoreStringRes.guns_desc)
-            DOCS -> stringResource(id = CoreStringRes.docs_desc)
             STAT -> stringResource(id = CoreStringRes.stat_desc)
             ANALYZE -> stringResource(id = CoreStringRes.analyze_desc)
             RESULTS -> stringResource(id = CoreStringRes.results_desc)
-            RULES -> stringResource(id = CoreStringRes.rules_desc)
-            LAW -> stringResource(id = CoreStringRes.law_desc)
+            ACTS -> stringResource(id = CoreStringRes.acts_desc)
             FEEDBACK -> stringResource(id = CoreStringRes.feedback_desc)
+            CHECKLISTS -> stringResource(id = CoreStringRes.checklists_desc)
         }
 
     @Composable
@@ -86,13 +81,12 @@ internal enum class ServicesEnum {
             TRAINERS -> CoreDrawableRes.is_search_people
             AMMO -> CoreDrawableRes.ic_ammo
             GUNS -> CoreDrawableRes.ic_gun
-            DOCS -> CoreDrawableRes.ic_document
             STAT -> CoreDrawableRes.ic_chart
             ANALYZE -> CoreDrawableRes.ic_scan
             RESULTS -> CoreDrawableRes.ic_results
-            RULES -> CoreDrawableRes.ic_rules
-            LAW -> CoreDrawableRes.ic_law
+            ACTS -> CoreDrawableRes.ic_document
             FEEDBACK -> CoreDrawableRes.ic_feedback
+            CHECKLISTS -> CoreDrawableRes.ic_checklist
         }
 
     fun navigate(navigator: DestinationsNavigator, context: Context) {
@@ -104,12 +98,10 @@ internal enum class ServicesEnum {
             TRAINERS -> navigator.navigate(TrainersScreenDestination)
             AMMO -> {}
             GUNS -> navigator.navigate(WeaponsScreenDestination)
-            DOCS -> navigator.navigate(DocumentsScreenDestination)
             STAT -> {}
             ANALYZE -> {}
-            RESULTS -> {}
-            RULES -> navigator.navigate(RulesScreenDestination)
-            LAW -> navigator.navigate(LawScreenDestination)
+            RESULTS -> navigator.navigate(ResultsScreenDestination)
+            ACTS -> navigator.navigate(ActsScreenDestination)
             FEEDBACK -> {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse("https://forms.yandex.ru/u/682bc3eeeb61468a89c0c0b5")
@@ -117,6 +109,7 @@ internal enum class ServicesEnum {
                 }
                 context.startActivity(intent)
             }
+            CHECKLISTS -> {}
         }
     }
 
@@ -129,13 +122,12 @@ internal enum class ServicesEnum {
             TRAINERS -> true
             AMMO -> false
             GUNS -> true
-            DOCS -> false
             STAT -> false
             ANALYZE -> false
-            RESULTS -> false
-            RULES -> true
-            LAW -> true
+            RESULTS -> true
+            ACTS -> true
             FEEDBACK -> true
+            CHECKLISTS -> false
         }
 
 }

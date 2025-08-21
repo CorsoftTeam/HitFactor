@@ -7,7 +7,9 @@ import com.corsoft.services.internal.screen.complete_training.CompleteTrainingVi
 import com.corsoft.services.internal.screen.documents.DocumentsViewModel
 import com.corsoft.services.internal.screen.profile.ProfileViewModel
 import com.corsoft.services.internal.screen.ranges.RangesViewModel
+import com.corsoft.services.internal.screen.results.ResultsViewModel
 import com.corsoft.services.internal.screen.service_list.ServiceListViewModel
+import com.corsoft.services.internal.screen.settings.SettingsViewModel
 import com.corsoft.services.internal.screen.timer.TimerViewModel
 import com.corsoft.services.internal.screen.trainers.TrainersViewModel
 import com.corsoft.services.internal.screen.training_details.TrainingDetailsViewModel
@@ -34,4 +36,6 @@ val servicesFeatureModule = module {
     viewModelOf(::TrainingDetailsViewModel)
     viewModelOf(::CompleteTrainingViewModel)
     viewModelOf(::WeaponDocsViewModel)
+    viewModelOf(::ResultsViewModel)
+    viewModelOf(::SettingsViewModel)
 }

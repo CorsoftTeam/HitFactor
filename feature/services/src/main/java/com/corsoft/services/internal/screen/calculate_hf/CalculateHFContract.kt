@@ -18,7 +18,7 @@ data class CalculateHFScreenState(
     val totalShootCount: Int = 0,
     val isLoading: Boolean = true
 ) : MviState {
-    private val points: Int
+    val points: Int
         get() = if (isMajor) {
             alphaCount * 5 + charlieCount * 4 + deltaCount * 2 - (missCount + noShootCount + procedureCount) * 10
         } else {
@@ -42,7 +42,7 @@ internal sealed interface CalculateHFAction : MviAction {
 
     data object AddProcedure : CalculateHFAction
 
-    data object Save : CalculateHFAction
+    data class Save(val name: String) : CalculateHFAction
 
     data object Reset : CalculateHFAction
 

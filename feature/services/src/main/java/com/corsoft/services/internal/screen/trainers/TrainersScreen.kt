@@ -26,7 +26,9 @@ import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
 import com.corsoft.services.internal.component.list.TrainerList
 import com.corsoft.ui.components.button.HFIconButton
+import com.corsoft.ui.components.card.InfoCard
 import com.corsoft.ui.components.dropdown.HFDropdownMenu
+import com.corsoft.ui.components.placeholder.HFPlaceholder
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.HitFactorTheme
@@ -104,16 +106,26 @@ private fun TrainersScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp)
         ) {
+            InfoCard(
+                text = stringResource(CoreStringRes.add_range_or_instructor)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             HFDropdownMenu(
                 selectedOption = state.currentCity.name,
                 options = state.citiesList.map { it.name },
                 onValueChange = onCityChange
             )
             Spacer(modifier = Modifier.height(16.dp))
-            TrainerList(
-                trainerList = state.trainersList,
-                onCallClick = onCallClick
-            )
+            if (state.trainersList.isEmpty()) {
+                HFPlaceholder(
+                    text = stringResource(CoreStringRes.select_your_city)
+                )
+            } else {
+                TrainerList(
+                    trainerList = state.trainersList,
+                    onCallClick = onCallClick
+                )
+            }
         }
     }
 }

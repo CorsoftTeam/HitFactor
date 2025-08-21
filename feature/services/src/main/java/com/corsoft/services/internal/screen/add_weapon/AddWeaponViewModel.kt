@@ -1,8 +1,10 @@
 package com.corsoft.services.internal.screen.add_weapon
 
 import androidx.lifecycle.viewModelScope
+import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.ResourceProvider
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.hitfactor.data.analytics.api.AnalyticsRepository
 import com.corsoft.hitfactor.data.user.api.UserRepository
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.internal.component.enum.GunTypeEnum
@@ -11,7 +13,8 @@ import ppk.app.core.network.util.doOn
 
 internal class AddWeaponViewModel(
     private val userRepository: UserRepository,
-    private val resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider,
+    analyticsRepository: AnalyticsRepository
 ) : MviViewModel<AddWeaponScreenState, AddWeaponAction, AddWeaponEffect>(
     AddWeaponScreenState()
 ) {
@@ -22,6 +25,13 @@ internal class AddWeaponViewModel(
             is AddWeaponAction.ChangeName -> changeName(action.name)
             is AddWeaponAction.ChangeSerialNumber -> changeSerialNumber(action.serialNumber)
             AddWeaponAction.AddWeapon -> addWeapon()
+            is AddWeaponAction.ChangeShotBeforeCleanCount -> changeShotsBeforeCLean(action.shotCount)
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            analyticsRepository.sendEvent(FirebaseEventsEnum.ADD_GUN.key)
         }
     }
 
@@ -38,7 +48,8 @@ internal class AddWeaponViewModel(
                     name = uiState.value.name,
                     caliber = uiState.value.caliber,
                     type = uiState.value.gunType.getKey(),
-                    serialNumber = uiState.value.serialNumber
+                    serialNumber = uiState.value.serialNumber,
+                    shotsBeforeClean = uiState.value.shotsBeforeClean
                 ).doOn(
                     success = {
                         sendEffect(AddWeaponEffect.Back)
@@ -79,6 +90,14 @@ internal class AddWeaponViewModel(
         viewModelScope.launch {
             changeState {
                 it.copy(gunType = GunTypeEnum.fromName(type))
+            }
+        }
+    }
+
+    private fun changeShotsBeforeCLean(shotCount: Int) {
+        viewModelScope.launch {
+            changeState {
+                it.copy(shotsBeforeClean = shotCount)
             }
         }
     }

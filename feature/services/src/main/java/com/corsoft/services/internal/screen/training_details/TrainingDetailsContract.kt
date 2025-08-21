@@ -22,6 +22,7 @@ internal data class TrainingDetailsScreenState(
 
 internal sealed interface TrainingDetailsAction : MviAction {
     data object Delete : TrainingDetailsAction
+    data object Refresh: TrainingDetailsAction
 }
 
 internal sealed interface TrainingDetailsEffect : MviEffect {

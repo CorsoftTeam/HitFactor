@@ -112,5 +112,6 @@ internal fun GunEntity.toModel(): Gun =
         caliber = caliber,
         serialNumber = serialNumber,
         gunType = gunType,
-        shotCount = shotCount
+        shotCount = shotCount,
+        shotsBeforeClean = shotsBeforeClean
     )

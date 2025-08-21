@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.corsoft.services.internal.component.card.ServiceCard2
 import com.corsoft.services.internal.component.enum.ServicesEnum
+import com.corsoft.services.internal.component.enum.ServicesGroupsEnum
 import com.corsoft.ui.theme.HitFactorTheme
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
@@ -24,7 +25,8 @@ import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
 internal fun ServiceList2(
     modifier: Modifier = Modifier,
     context: Context,
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    serviceList: List<ServicesEnum>
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
@@ -33,7 +35,7 @@ internal fun ServiceList2(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(ServicesEnum.entries) { item ->
+        items(serviceList) { item ->
             ServiceCard2(
                 name = item.getName(),
                 description = item.getDescription(),
@@ -55,7 +57,8 @@ private fun ServiceList2Preview() {
         Surface {
             ServiceList2(
                 navigator = rememberNavController().rememberDestinationsNavigator(),
-                context = LocalContext.current
+                context = LocalContext.current,
+                serviceList = ServicesGroupsEnum.ALL.serviceList
             )
         }
     }

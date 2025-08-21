@@ -133,7 +133,7 @@ private fun AddTrainingScreen(
             )
             HFFilledTextField(
                 placeholder = stringResource(id = CoreStringRes.length_of_training),
-                text = state.length?.toString() ?: "",
+                text = if (state.length == 0) "" else state.length?.toString() ?: "",
                 onTextChange = { onLengthChange(it.toIntOrNull() ?: 0) },
                 keyboardType = KeyboardType.Decimal
             )

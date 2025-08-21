@@ -1,6 +1,8 @@
 package com.corsoft.services.internal.screen.training_details
 
 import LoadingCircle
+import android.content.Intent
+import android.provider.CalendarContract
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,10 +19,12 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,12 +33,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
-import com.corsoft.services.internal.component.card.ClickableCard
 import com.corsoft.services.internal.component.card.MultiParameterCard
 import com.corsoft.services.internal.component.card.ParameterColumnCard
 import com.corsoft.services.internal.model.TrainingModel
 import com.corsoft.services.internal.screen.complete_training.navigation.CompleteTrainingNavArgs
 import com.corsoft.services.internal.screen.training_details.navigation.TrainingDetailsNavArgs
+import com.corsoft.services.internal.screen.weapons.WeaponsAction
 import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
@@ -48,6 +52,7 @@ import com.ramcosta.composedestinations.generated.services.destinations.WeaponDe
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.valentinilk.shimmer.shimmer
 import org.koin.androidx.compose.koinViewModel
+import java.time.ZoneId
 
 @Composable
 @Destination<ServicesNavGraph>(navArgs = TrainingDetailsNavArgs::class)
@@ -57,6 +62,8 @@ internal fun TrainingDetailsScreen(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val trainingName = stringResource(CoreStringRes.training)
 
     viewModel.effect.observeWithLifecycle { effect ->
         when (effect) {
@@ -64,10 +71,17 @@ internal fun TrainingDetailsScreen(
         }
     }
 
+    LaunchedEffect(true) {
+        viewModel.onAction(TrainingDetailsAction.Refresh)
+    }
+
     TrainingDetailsScreen(
         state = uiState,
         onBackClick = { navigator.popBackStack() },
-        onDeleteClick = { viewModel.onAction(TrainingDetailsAction.Delete) },
+        onDeleteClick = {
+            viewModel.onAction(TrainingDetailsAction.Delete)
+            navigator.popBackStack()
+        },
         onCompleteClick = {
             navigator.navigate(
                 CompleteTrainingScreenDestination(
@@ -75,7 +89,20 @@ internal fun TrainingDetailsScreen(
                 )
             )
         },
-        onCalendarAddClick = { }, //TODO
+        onCalendarAddClick = {
+            val intent = Intent(Intent.ACTION_INSERT).apply {
+                data = CalendarContract.Events.CONTENT_URI
+                putExtra(CalendarContract.Events.TITLE, trainingName)
+                putExtra(
+                    CalendarContract.EXTRA_EVENT_BEGIN_TIME, uiState.trainingModel.dateTime.atZone(
+                        ZoneId.systemDefault()
+                    )
+                        .toInstant()
+                        .toEpochMilli()
+                )
+            }
+            context.startActivity(intent)
+        },
         onCheckGunStateClick = { navigator.navigate(WeaponDetailsScreenDestination(it)) }
     )
     HFSnackBarHost(
@@ -178,21 +205,6 @@ private fun TrainingDetailsScreen(
                             onCheckGunStateClick(state.usedGun.id)
                         }
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(60.dp)
-                            .clickable { onDeleteClick() },
-                        verticalArrangement = Arrangement.Center,
-                    ) {
-                        Text(
-                            text = stringResource(id = CoreStringRes.cancel),
-                            style = MaterialTheme.typography.titleSmall,
-                            color = AppColors.RedIcon
-                        )
-                    }
                 } else {
                     MultiParameterCard(
                         params = mapOf(
@@ -222,6 +234,21 @@ private fun TrainingDetailsScreen(
                     ParameterColumnCard(
                         name = stringResource(id = CoreStringRes.note),
                         value = state.trainingModel.note
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                        .clickable { onDeleteClick() },
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(
+                        text = stringResource(id = CoreStringRes.delete),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = AppColors.RedIcon
                     )
                 }
                 //TODO: idea: add useful tips

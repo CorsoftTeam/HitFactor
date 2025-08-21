@@ -39,7 +39,7 @@
     <string name="caliber">Калибр</string>
     <string name="weapon_type">Тип оружия</string>
     <string name="weapon">Оружие</string>
-    <string name="shot_count">Настрел</string>
+    <string name="shot_count">Настрел с последней чистки</string>
     <string name="add">Добавить</string>
     <string name="weapon_adding">Добавление оружия</string>
     <string name="results">Результаты</string>
@@ -79,6 +79,17 @@
     <string name="custom">Свой набор</string>
     <string name="check_gun_state">Проверить состояние оружия</string>
     <string name="add_to_calendar">Добавить в календарь</string>
+    <string name="shots_before_clean">Настрел между чистками</string>
+    <string name="clean_gun">Чистка оружия</string>
+    <string name="sensitivity">Чувствительность</string>
+    <string name="x_score">очки: %s</string>
+    <string name="FIO">ФИО или инициалы</string>
+    <string name="settings">Настройки</string>
+    <string name="subscription_settings">Управление подпиской</string>
+    <string name="subscription">Подписка</string>
+    <string name="about_app">О приложении</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="checklists">Чеклисты</string>
 
 
     <!-- Enums -->
@@ -91,7 +102,7 @@
     <string name="bolt_action">Болтовка</string>
 
     <string name="timer_desc">Стрелковый таймер для IPSC. Можно использовать совместно с калькулятором для рассчета результатов</string>
-    <string name="calc_desc">Калькулятор очков IPSC. Позволяет рассчитать hit factor спортсмена, исходя из времени выполнения и набранных очков</string>
+    <string name="calc_desc">Калькулятор очков IPSC. Позволяет рассчитать hit factor спортсмена, работает совместно с таймером</string>
     <string name="calendar_desc">Календарь тренировок. Записывайте свои тренировки, удобно отслеживайте дни, добавляйте напоминания</string>
     <string name="ranges_desc">Стрельбища вашего города. Найдите подходящее для себя стрельбище и забронируйте посещение</string>
     <string name="trainers_desc">Квалифицированные тренеры вашего города. Найдите подходящего для себя и запишитесь на тренировку</string>
@@ -100,11 +111,13 @@
     <string name="docs_desc">Храните все документы в одном месте и предоставляйте по необходимости, открывая через приложение</string>
     <string name="stat_desc">Просматривайте свою статистику за определенный период времени и улучшайте показатели</string>
     <string name="analyze_desc">Просматривайте свои и чужие выступления, сравнивайте время выполнения и факторы, влияющие на время и качество выполнения</string>
-    <string name="results_desc">Результаты общего зачета стрелков за локальное проведенное соревнование</string>
+    <string name="results_desc">Результаты общего зачета стрелков. Добавляются из сервиса рассчета очков после выступления стрелка</string>
     <string name="rules_desc">Правила вида спорта \"Практическая стрельба\" с официального сайта</string>
     <string name="law_desc">Полный текст ФЗ №150 \"Об оружии\" с поправками от 08.08.2024</string>
     <string name="feedback_desc">Ваши пожелания и предложения - внесите свой вклад в развитие проекта и расскажите, что вы бы хотели видеть в приложении</string>
     <string name="weapon_docs_desc">Документы на оружие - РОХа/РСПа и лицензия на покупку</string>
+    <string name="acts_desc">Документы, нормативные акты, правила и законы в одном месте</string>
+    <string name="checklists_desc">Создавайте свои списки для сбора вещей на полигон, чтобы ничего не забыть</string>
 
     <!-- Errors -->
 
@@ -116,15 +129,21 @@
 
     <!-- Messages -->
 
-    <string name="local_documents_message">Обратите внимание, что документы хранятся только на вашем устройстве и не передаются на сервер</string>
+    <string name="local_documents_message">Обратите внимание, что документы хранятся только на вашем устройстве и не передаются на сервер. Для изменения документа - нажать и удерживать</string>
     <string name="pdf_reader_message">Загрузка документа может занять некоторое время. Для увеличения текста - двойное касание</string>
-    <string name="get_sub_for_more">Опробуйте полный функционал за 1 рубль!</string>
+    <string name="get_sub_for_more">Опробуйте полный функционал бесплатно!</string>
     <string name="next_sub_paid">После первого месяца — 299 ₽. Можно отменить в любой момент</string>
     <string name="there_is_no_trainings">В выбранный день тренировок нет</string>
     <string name="email_recover_link_sended">Ссылка для восстановления пароля отправлена на ваш e-mail</string>
+    <string name="add_range_or_instructor">Предложить добавление стрельбища или инструктора в раздел можно в сервисе \"Обратная связь\"</string>
 
     <!-- Warnings -->
-    <string name="need_clean">Оружие необходимо почистить. Настрел превысил максимальный показатель</string>
+    <string name="need_clean">Оружие рекомендуется почистить. Настрел близок к максимальному показателю</string>
     <string name="need_clean_immediately">Оружие необходимо почистить. Настрел превысил максимальный показатель, дальнейшее использование в текущем состоянии может привести к поломке</string>
+    <string name="add_your_weapons">Добавьте свое оружие и отслеживайте его состояние в приложении</string>
+    <string name="select_your_city">Выберите свой город из списка</string>
+    <string name="press_start">Для начала работы с таймером нажмите на старт</string>
+    <string name="there_are_results">Здесь будут результаты участников проведенного зачета</string>
+    <string name="set_sensitivity_before_start">Отрегулируйте чувствительность таймера в настройках</string>
 
 </resources>

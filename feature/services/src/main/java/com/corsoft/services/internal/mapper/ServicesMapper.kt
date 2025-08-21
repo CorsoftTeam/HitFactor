@@ -23,7 +23,8 @@ internal fun Gun.toUiModel(): GunModel =
         serialNumber = serialNumber,
         caliber = caliber,
         gunType = GunTypeEnum.fromKey(gunType.lowercase()),
-        shotCount = shotCount
+        shotCount = shotCount,
+        shotCountBeforeClean = shotsBeforeClean
     )
 
 internal fun User.toUiModel(): UserModel =

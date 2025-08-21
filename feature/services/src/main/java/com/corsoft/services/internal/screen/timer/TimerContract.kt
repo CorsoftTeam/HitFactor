@@ -14,6 +14,7 @@ internal data class TimerState(
     val realTime: Int = 0,
     val shotTimes: List<ShotModel> = emptyList(),
     val readyTimerValue: Int = 0,
+    val sensitivity: Int = 0
 ) : MviState
 
 internal sealed interface TimerAction : MviAction {
@@ -22,6 +23,7 @@ internal sealed interface TimerAction : MviAction {
     data object StartCountDown : TimerAction
     data object StartRecording : TimerAction
     data class DeleteTime(val index: Int) : TimerAction
+    data class ChangeSensitivity(val sensitivity: Int): TimerAction
 }
 
 internal sealed interface TimerEffect : MviEffect {

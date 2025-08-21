@@ -6,5 +6,6 @@ data class Gun(
     val caliber: String = "",
     val serialNumber: String = "",
     val gunType: String = "",
-    val shotCount: Int = 0
+    val shotCount: Int = 0,
+    val shotsBeforeClean: Int = 0
 )

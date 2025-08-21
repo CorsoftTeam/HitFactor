@@ -1,8 +1,10 @@
 package com.corsoft.services.internal.screen.add_training
 
 import androidx.lifecycle.viewModelScope
+import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.ResourceProvider
 import com.corsoft.common.mvvm.MviViewModel
+import com.corsoft.hitfactor.data.analytics.api.AnalyticsRepository
 import com.corsoft.hitfactor.data.user.api.UserRepository
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.internal.component.enum.GunTypeEnum
@@ -12,7 +14,8 @@ import ppk.app.core.network.util.doOn
 import java.time.LocalDateTime
 
 internal class AddTrainingViewModel(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    analyticsRepository: AnalyticsRepository
 ) : MviViewModel<AddTrainingScreenState, AddTrainingAction, AddTrainingEffect>(
     AddTrainingScreenState()
 ) {
@@ -32,6 +35,7 @@ internal class AddTrainingViewModel(
 
     init { //TODO: add loading
         viewModelScope.launch {
+            analyticsRepository.sendEvent(FirebaseEventsEnum.ADD_TRAINING.key)
             userRepository.getMyGuns().doOn(
                 success = { response ->
                     changeState { state ->

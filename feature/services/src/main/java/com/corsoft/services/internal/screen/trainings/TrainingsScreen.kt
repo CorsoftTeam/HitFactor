@@ -95,6 +95,9 @@ internal fun TrainingsScreen(
         },
         onTrainingClick = {
             navigator.navigate(TrainingDetailsScreenDestination(TrainingDetailsNavArgs(it)))
+        },
+        onBackCLick = {
+            navigator.popBackStack()
         }
     )
     HFSnackBarHost(
@@ -108,7 +111,8 @@ private fun TrainingsScreen(
     modifier: Modifier = Modifier,
     state: TrainingsScreenState,
     onNewTrainingClick: () -> Unit = {},
-    onTrainingClick: (String) -> Unit = {}
+    onTrainingClick: (String) -> Unit = {},
+    onBackCLick: () -> Unit = {}
 ) {
     var selection by remember { mutableStateOf<LocalDate>(LocalDate.now()) }
     val currentMonth = remember { YearMonth.now() }
@@ -133,7 +137,7 @@ private fun TrainingsScreen(
                 navigationIcon = {
                     HFIconButton(
                         icon = CoreDrawableRes.ic_back,
-                        onClick = { } //TODO: add back click
+                        onClick = onBackCLick
                     )
                 },
             )

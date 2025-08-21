@@ -1,7 +1,5 @@
 package com.corsoft.services.internal.screen.trainings
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewModelScope
 import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.mvvm.MviViewModel
@@ -11,7 +9,6 @@ import com.corsoft.services.internal.mapper.toUiModel
 import kotlinx.coroutines.launch
 import ppk.app.core.network.util.doOn
 
-@RequiresApi(Build.VERSION_CODES.O)
 internal class TrainingsViewModel(
     private val userRepository: UserRepository,
     analytics: AnalyticsRepository

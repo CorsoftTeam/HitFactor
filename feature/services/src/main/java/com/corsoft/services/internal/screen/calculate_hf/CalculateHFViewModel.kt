@@ -1,14 +1,19 @@
 package com.corsoft.services.internal.screen.calculate_hf
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.corsoft.common.FirebaseEventsEnum
 import com.corsoft.common.mvvm.MviViewModel
 import com.corsoft.hitfactor.data.analytics.api.AnalyticsRepository
+import com.corsoft.hitfactor.data.user.api.UserRepository
+import com.corsoft.hitfactor.data.user.api.entities.ResultEntity
 import com.ramcosta.composedestinations.generated.services.destinations.CalculateHFScreenDestination
+import kotlinx.coroutines.launch
 
 internal class CalculateHFViewModel(
     savedStateHandle: SavedStateHandle,
-    analytics: AnalyticsRepository
+    analytics: AnalyticsRepository,
+    val userRepository: UserRepository
 ) :
     MviViewModel<CalculateHFScreenState, CalculateHFAction, CalculateHFEffect>(
         CalculateHFScreenState()
@@ -34,12 +39,19 @@ internal class CalculateHFViewModel(
             CalculateHFAction.AddNoShoot -> addNoShoot()
             CalculateHFAction.AddProcedure -> addProcedure()
             CalculateHFAction.Reset -> reset()
-            CalculateHFAction.Save -> save()
+            is CalculateHFAction.Save -> save(action.name)
         }
     }
 
-    private fun save() {
-        //TODO: add shooter saving
+    private fun save(name: String) {
+        viewModelScope.launch {
+            userRepository.addResult(
+                name = name,
+                score = uiState.value.points,
+                time = uiState.value.time.toLong(),
+                hitFactor = uiState.value.hitFactor.toFloat()
+            )
+        }
     }
 
     private fun reset() {

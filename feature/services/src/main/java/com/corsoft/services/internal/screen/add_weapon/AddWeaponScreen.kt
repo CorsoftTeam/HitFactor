@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -61,6 +62,13 @@ internal fun AddWeaponScreen(
         onCaliberChange = { viewModel.onAction(AddWeaponAction.ChangeCaliber(it)) },
         onTypeChange = { viewModel.onAction(AddWeaponAction.ChangeGunType(it)) },
         onAddClick = { viewModel.onAction(AddWeaponAction.AddWeapon) },
+        onShotsBeforeCleanChange = {
+            viewModel.onAction(
+                AddWeaponAction.ChangeShotBeforeCleanCount(
+                    it
+                )
+            )
+        },
         snackbarHostState = snackBarHostState
     )
     HFSnackBarHost(
@@ -77,6 +85,7 @@ private fun AddWeaponScreen(
     onCaliberChange: (String) -> Unit = {},
     onTypeChange: (String) -> Unit = {},
     onSerialNumberChange: (String) -> Unit = {},
+    onShotsBeforeCleanChange: (Int) -> Unit = {},
     onAddClick: () -> Unit = {},
     snackbarHostState: SnackbarHostState = SnackbarHostState()
 ) {
@@ -122,6 +131,12 @@ private fun AddWeaponScreen(
                 placeholder = stringResource(id = CoreStringRes.caliber),
                 text = state.caliber,
                 onTextChange = onCaliberChange
+            )
+            HFFilledTextField(
+                placeholder = stringResource(id = CoreStringRes.shots_before_clean),
+                text = if (state.shotsBeforeClean == 0) "" else state.shotsBeforeClean.toString(),
+                onTextChange = { onShotsBeforeCleanChange(it.toIntOrNull() ?: 0) },
+                keyboardType = KeyboardType.Decimal
             )
             HFDropdownMenu(
                 selectedOption = state.gunType.getName(),

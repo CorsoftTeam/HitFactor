@@ -76,13 +76,13 @@ internal fun GunCard(
                         style = MaterialTheme.typography.labelMedium
                     )
                 }
-                if (gunModel.shotCount > 100) {
+                if (gunModel.shotCount > gunModel.shotCountBeforeClean.times(0.8f)) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Column {
                         Icon(
                             modifier = Modifier.size(24.dp),
                             painter = painterResource(id = CoreDrawableRes.ic_alert),
-                            tint = if (gunModel.shotCount > 200) Color.Red else Color.Yellow,
+                            tint = if (gunModel.shotCount > gunModel.shotCountBeforeClean) Color.Red else Color.Yellow,
                             contentDescription = ""
                         )
                     }

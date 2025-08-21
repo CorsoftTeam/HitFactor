@@ -1,5 +1,6 @@
 package com.corsoft.services.internal.screen.weapon_details
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.corsoft.common.mvvm.MviViewModel
@@ -21,10 +22,15 @@ internal class WeaponDetailsViewModel(
     override fun onAction(action: WeaponDetailsAction) {
         when (action) {
             WeaponDetailsAction.Delete -> delete()
+            WeaponDetailsAction.Clean -> clean()
         }
     }
 
     init {
+        update()
+    }
+
+    private fun update() {
         viewModelScope.launch {
             userRepository.getGunById(navArgs.gunId).doOn(
                 success = {
@@ -48,6 +54,13 @@ internal class WeaponDetailsViewModel(
                     //TODO: add warning
                 }
             )
+        }
+    }
+
+    private fun clean() {
+        viewModelScope.launch {
+            userRepository.cleanGunById(navArgs.gunId)
+            update()
         }
     }
 

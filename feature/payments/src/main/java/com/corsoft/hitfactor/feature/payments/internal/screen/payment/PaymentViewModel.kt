@@ -66,12 +66,13 @@ internal class PaymentViewModel(
         viewModelScope.launch {
             if (paymentsRepository.isSub() == true) {
                 sendEffect(PaymentEffect.GoNext)
+            } else {
+                checkCode()
             }
         }
     }
 
     init {
         checkSub()
-        checkCode()
     }
 }

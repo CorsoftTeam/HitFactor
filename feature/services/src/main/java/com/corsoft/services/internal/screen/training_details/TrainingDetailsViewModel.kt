@@ -21,10 +21,15 @@ internal class TrainingDetailsViewModel(
     override fun onAction(action: TrainingDetailsAction) {
         when (action) {
             TrainingDetailsAction.Delete -> delete()
+            TrainingDetailsAction.Refresh -> loadData()
         }
     }
 
     init {
+        loadData()
+    }
+
+    private fun loadData() {
         viewModelScope.launch {
             userRepository.getTrainingById(navArgs.trainingId).doOn(
                 success = {
@@ -54,7 +59,7 @@ internal class TrainingDetailsViewModel(
 
     private fun delete() {
         viewModelScope.launch {
-            // TODO: add delete
+            userRepository.deleteTrainingById(navArgs.trainingId)
         }
     }
 

@@ -1,6 +1,7 @@
 package com.corsoft.common.delegate
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -15,6 +16,6 @@ class StringPrefsDelegate(
     }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: String?) {
-        preferences.edit().putString(key, value).apply()
+        preferences.edit { putString(key, value) }
     }
 }

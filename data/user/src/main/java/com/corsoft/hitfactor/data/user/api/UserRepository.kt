@@ -1,6 +1,7 @@
 package com.corsoft.hitfactor.data.user.api
 
 import com.corsoft.hitfactor.data.user.api.entities.GunDocumentsEntity
+import com.corsoft.hitfactor.data.user.api.entities.ResultEntity
 import com.corsoft.hitfactor.data.user.api.model.City
 import com.corsoft.hitfactor.data.user.api.model.Gun
 import com.corsoft.hitfactor.data.user.api.model.Range
@@ -17,7 +18,8 @@ interface UserRepository {
         name: String,
         caliber: String,
         serialNumber: String,
-        type: String
+        type: String,
+        shotsBeforeClean: Int
     ): NetworkResponse<Unit>
 
     suspend fun getGunById(id: String): NetworkResponse<Gun>
@@ -57,4 +59,27 @@ interface UserRepository {
         weaponId: String? = null,
         shotCount: Int? = null
     )
+
+    suspend fun deleteTrainingById(id: String): NetworkResponse<Unit>
+
+    suspend fun cleanGunById(id: String)
+
+    suspend fun setTimerSensitivity(sensitivity: Int)
+
+    suspend fun getTimerSensitivity(): Int
+
+    suspend fun addResult(
+        name: String,
+        score: Int,
+        time: Long,
+        hitFactor: Float
+    )
+
+    suspend fun getResults(): List<ResultEntity>
+
+    suspend fun deleteResultById(id: Long)
+
+    suspend fun setServiceGroup(name: String)
+
+    suspend fun getServiceGroup(): String
 }

@@ -43,6 +43,10 @@ fun SimpleCalendarTitle(
         modifier = modifier.height(40.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        HFIconButton(
+            icon = CoreDrawableRes.ic_back,
+            onClick = goToPrevious
+        )
         Text(
             modifier = Modifier
                 .weight(1f)
@@ -54,6 +58,10 @@ fun SimpleCalendarTitle(
             fontSize = 22.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Medium,
+        )
+        HFIconButton(
+            icon = CoreDrawableRes.ic_next,
+            onClick = goToNext
         )
     }
 }

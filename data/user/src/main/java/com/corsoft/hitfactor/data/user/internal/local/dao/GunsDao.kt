@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.corsoft.data.api.database.BaseDao
 import com.corsoft.hitfactor.data.user.api.entities.GunEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GunsDao : BaseDao<GunEntity> {
@@ -19,4 +18,7 @@ interface GunsDao : BaseDao<GunEntity> {
 
     @Query("UPDATE guns SET shotCount = shotCount + :increment WHERE id = :gunId")
     suspend fun incrementShotCount(gunId: String, increment: Int = 1)
+
+    @Query("UPDATE guns SET shotCount = 0 WHERE id = :gunId")
+    suspend fun cleanGun(gunId: String)
 }

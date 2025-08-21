@@ -109,7 +109,7 @@ private fun CompleteTrainingScreen(
         ) {
             HFFilledTextField(
                 placeholder = stringResource(id = CoreStringRes.shots),
-                text = state.shotCount.toString(),
+                text = if (state.shotCount == 0) "" else state.shotCount.toString(),
                 onTextChange = { onShotCountChange(it.toIntOrNull() ?: 0) },
                 keyboardType = KeyboardType.Decimal
             )

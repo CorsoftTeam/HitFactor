@@ -36,6 +36,7 @@ import com.corsoft.services.internal.component.card.ServiceCard2
 import com.corsoft.services.internal.component.enum.GunTypeEnum
 import com.corsoft.services.internal.model.GunModel
 import com.corsoft.services.internal.screen.weapon_details.navigation.WeaponDetailsNavArgs
+import com.corsoft.ui.components.button.HFButton
 import com.corsoft.ui.components.button.HFIconButton
 import com.corsoft.ui.components.card.WarningCard
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
@@ -70,7 +71,8 @@ internal fun WeaponDetailsScreen(
         onAddClick = { navigator.navigate(AddWeaponScreenDestination) },
         onBackClick = { navigator.popBackStack() },
         onDocumentsClick = { navigator.navigate(WeaponDocsScreenDestination(uiState.gunModel.id)) },
-        onDeleteClick = { viewModel.onAction(WeaponDetailsAction.Delete) }
+        onDeleteClick = { viewModel.onAction(WeaponDetailsAction.Delete) },
+        onCleanClick = { viewModel.onAction(WeaponDetailsAction.Clean) }
     )
     HFSnackBarHost(
         hostState = snackBarHostState,
@@ -86,6 +88,7 @@ private fun WeaponDetailsScreen(
     onBackClick: () -> Unit = {},
     onDocumentsClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
+    onCleanClick: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -128,16 +131,16 @@ private fun WeaponDetailsScreen(
                     painter = painterResource(id = state.gunModel.gunType.getImageRes()),
                     contentDescription = ""
                 )
-                if (state.gunModel.shotCount > 100) {
+                if (state.gunModel.shotCount > state.gunModel.shotCountBeforeClean.times(0.8f)) {
                     Spacer(modifier = Modifier.height(16.dp))
                     WarningCard(
                         text = stringResource(
-                            id = if (state.gunModel.shotCount > 200)
+                            id = if (state.gunModel.shotCount > state.gunModel.shotCountBeforeClean)
                                 CoreStringRes.need_clean_immediately
                             else
                                 CoreStringRes.need_clean
                         ),
-                        isStrong = state.gunModel.shotCount > 200
+                        isStrong = state.gunModel.shotCount > state.gunModel.shotCountBeforeClean
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -157,6 +160,12 @@ private fun WeaponDetailsScreen(
                             state.gunModel.shotCount.toString()
                         )
                     )
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                HFButton(
+                    isPrimary = false,
+                    text = stringResource(CoreStringRes.clean_gun),
+                    onClick = onCleanClick
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 ServiceCard2(
