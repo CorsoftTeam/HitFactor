@@ -214,6 +214,11 @@ private fun PaymentScreen(
                     )
                     Text(
                         modifier = Modifier.fillMaxWidth(),
+                        text = "✓  Инструкторы вашего города",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
                         text = "✓  Постоянные обновления",
                         style = MaterialTheme.typography.titleMedium
                     )
