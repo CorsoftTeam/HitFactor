@@ -128,7 +128,7 @@ internal fun App(
         ) {
             DestinationsNavHost(
                 navGraph = HFRootNavGraph,
-                start = PaymentsGraph,
+                start = ServicesGraph,
                 navController = navController,
                 dependenciesContainerBuilder = {
                     dependency(
