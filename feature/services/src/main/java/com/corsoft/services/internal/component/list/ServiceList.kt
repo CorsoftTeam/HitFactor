@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,13 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.corsoft.services.internal.component.card.ServiceCard
 import com.corsoft.services.internal.component.enum.ServicesEnum
+import com.corsoft.services.internal.component.enum.ServicesGroupsEnum
 import com.corsoft.ui.theme.HitFactorTheme
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
-import kotlinx.coroutines.currentCoroutineContext
 
 @Composable
 internal fun ServiceList(
+    serviceList: List<ServicesEnum>,
     modifier: Modifier = Modifier,
     context: Context,
     navigator: DestinationsNavigator
@@ -35,7 +35,7 @@ internal fun ServiceList(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(ServicesEnum.entries) { item ->
+        items(serviceList) { item ->
             ServiceCard(
                 name = item.getName(),
                 icon = item.getIconRes(),
@@ -50,11 +50,12 @@ internal fun ServiceList(
 @Preview
 @Composable
 private fun ServiceCardPreview() {
-    HitFactorTheme (
+    HitFactorTheme(
         darkTheme = true
-    ){
+    ) {
         Surface {
             ServiceList(
+                serviceList = ServicesGroupsEnum.ALL.serviceList,
                 navigator = rememberNavController().rememberDestinationsNavigator(),
                 context = LocalContext.current
             )

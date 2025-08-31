@@ -17,4 +17,13 @@ class LocalStorageImpl(
     }
 
     override fun getString(key: String): String = sharedPrefs.getString(key, "") ?: ""
+
+    override fun addBoolean(key: String, value: Boolean) {
+        with(sharedPrefs.edit()) {
+            putBoolean(key, value)
+            apply()
+        }
+    }
+
+    override fun getBoolean(key: String): Boolean = sharedPrefs.getBoolean(key, false)
 }

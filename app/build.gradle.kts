@@ -23,6 +23,7 @@ dependencies {
     implementation(libs.bundles.testing)
     implementation(libs.bundles.compose.navigation)
     implementation(libs.bundles.payments)
+    implementation(libs.bundles.appmetrica)
     implementation(project(":core:ui"))
     implementation(project(":core:resources"))
     implementation(project(":core:network"))

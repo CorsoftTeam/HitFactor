@@ -257,4 +257,12 @@ class UserLocalRepositoryImpl(
     override suspend fun getServiceGroup(): String {
         return localStorage.getString("service_group")
     }
+
+    override suspend fun setServiceMode(isGrid: Boolean) {
+        localStorage.addBoolean("service_mode_grid", isGrid)
+    }
+
+    override suspend fun getServiceMode(): Boolean {
+        return localStorage.getBoolean("service_mode_grid")
+    }
 }

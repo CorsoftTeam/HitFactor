@@ -18,13 +18,13 @@ enum class ServicesGroupsEnum(
             ServicesEnum.ACTS,
             ServicesEnum.FEEDBACK,
             //DISABLED
+            ServicesEnum.TARGET_ANALYZE,
             ServicesEnum.AMMO,
             ServicesEnum.CHECKLISTS,
             ServicesEnum.STAT,
             ServicesEnum.ANALYZE
         )
     ),
-
     HUNTER(
         groupName = "Охотник",
         serviceList = listOf(
@@ -51,10 +51,27 @@ enum class ServicesGroupsEnum(
             ServicesEnum.ACTS,
             ServicesEnum.FEEDBACK,
             //DISABLED
+            ServicesEnum.TARGET_ANALYZE,
             ServicesEnum.AMMO,
             ServicesEnum.CHECKLISTS,
             ServicesEnum.STAT,
             ServicesEnum.ANALYZE
+        )
+    ),
+    PRECISION(
+        groupName = "Высокоточник",
+        serviceList = listOf(
+            ServicesEnum.GUNS,
+            ServicesEnum.CALENDAR,
+            ServicesEnum.RANGES,
+            ServicesEnum.TRAINERS,
+            ServicesEnum.ACTS,
+            ServicesEnum.FEEDBACK,
+            //DISABLED
+            ServicesEnum.TARGET_ANALYZE,
+            ServicesEnum.AMMO,
+            ServicesEnum.CHECKLISTS,
+            ServicesEnum.STAT
         )
     )
 }

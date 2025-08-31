@@ -90,6 +90,8 @@
     <string name="about_app">О приложении</string>
     <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="checklists">Чеклисты</string>
+    <string name="tg_channel">Telegram канал</string>
+    <string name="target_analyze">Анализ мишеней</string>
 
 
     <!-- Enums -->
@@ -118,6 +120,7 @@
     <string name="weapon_docs_desc">Документы на оружие - РОХа/РСПа и лицензия на покупку</string>
     <string name="acts_desc">Документы, нормативные акты, правила и законы в одном месте</string>
     <string name="checklists_desc">Создавайте свои списки для сбора вещей на полигон, чтобы ничего не забыть</string>
+    <string name="target_analyze_desc">Рассчет СТП и поправок по фотографии мишени на основе машинного обучения</string>
 
     <!-- Errors -->
 
@@ -136,6 +139,7 @@
     <string name="there_is_no_trainings">В выбранный день тренировок нет</string>
     <string name="email_recover_link_sended">Ссылка для восстановления пароля отправлена на ваш e-mail</string>
     <string name="add_range_or_instructor">Предложить добавление стрельбища или инструктора в раздел можно в сервисе \"Обратная связь\"</string>
+    <string name="you_can_change_service_list">Вы можете изменить список сервисов в настройках</string>
 
     <!-- Warnings -->
     <string name="need_clean">Оружие рекомендуется почистить. Настрел близок к максимальному показателю</string>

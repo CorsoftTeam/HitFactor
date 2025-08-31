@@ -31,7 +31,8 @@ enum class ServicesEnum {
     RESULTS,
     ACTS,
     FEEDBACK,
-    CHECKLISTS
+    CHECKLISTS,
+    TARGET_ANALYZE
     ;
 
     @Composable
@@ -50,6 +51,7 @@ enum class ServicesEnum {
             ACTS -> stringResource(id = CoreStringRes.documents)
             FEEDBACK -> stringResource(id = CoreStringRes.feedback)
             CHECKLISTS -> stringResource(id = CoreStringRes.checklists)
+            TARGET_ANALYZE -> stringResource(id = CoreStringRes.target_analyze)
         }
 
     @Composable
@@ -68,6 +70,7 @@ enum class ServicesEnum {
             ACTS -> stringResource(id = CoreStringRes.acts_desc)
             FEEDBACK -> stringResource(id = CoreStringRes.feedback_desc)
             CHECKLISTS -> stringResource(id = CoreStringRes.checklists_desc)
+            TARGET_ANALYZE -> stringResource(id = CoreStringRes.target_analyze_desc)
         }
 
     @Composable
@@ -87,6 +90,7 @@ enum class ServicesEnum {
             ACTS -> CoreDrawableRes.ic_document
             FEEDBACK -> CoreDrawableRes.ic_feedback
             CHECKLISTS -> CoreDrawableRes.ic_checklist
+            TARGET_ANALYZE -> CoreDrawableRes.ic_target_variant
         }
 
     fun navigate(navigator: DestinationsNavigator, context: Context) {
@@ -110,6 +114,7 @@ enum class ServicesEnum {
                 context.startActivity(intent)
             }
             CHECKLISTS -> {}
+            TARGET_ANALYZE -> {}
         }
     }
 
@@ -128,6 +133,7 @@ enum class ServicesEnum {
             ACTS -> true
             FEEDBACK -> true
             CHECKLISTS -> false
+            TARGET_ANALYZE -> false
         }
 
 }

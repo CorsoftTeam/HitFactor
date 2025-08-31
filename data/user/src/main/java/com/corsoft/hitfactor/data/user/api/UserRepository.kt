@@ -82,4 +82,8 @@ interface UserRepository {
     suspend fun setServiceGroup(name: String)
 
     suspend fun getServiceGroup(): String
+
+    suspend fun setServiceMode(isGrid: Boolean)
+
+    suspend fun getServiceMode(): Boolean
 }

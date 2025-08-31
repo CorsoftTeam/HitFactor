@@ -1,6 +1,7 @@
 package com.corsoft.common
 
 enum class FirebaseEventsEnum(val key: String) {
+    OPEN_SERVICES("open_services"),
     OPEN_TIMER("open_timer"),
     OPEN_CALC("open_calc"),
     OPEN_CALENDAR("open_calendar"),

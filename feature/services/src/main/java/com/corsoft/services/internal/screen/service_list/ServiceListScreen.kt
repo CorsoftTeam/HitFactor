@@ -1,12 +1,9 @@
 package com.corsoft.services.internal.screen.service_list
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -14,9 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -27,16 +22,10 @@ import androidx.navigation.compose.rememberNavController
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.corsoft.services.api.ServicesNavGraph
-import com.corsoft.services.internal.component.enum.GunTypeEnum
-import com.corsoft.services.internal.component.enum.ServiceCategoriesEnum
-import com.corsoft.services.internal.component.enum.ServicesGroupsEnum
 import com.corsoft.services.internal.component.list.ServiceList
 import com.corsoft.services.internal.component.list.ServiceList2
 import com.corsoft.services.internal.model.ServiceModel
 import com.corsoft.ui.components.button.HFIconButton
-import com.corsoft.ui.components.dropdown.HFDropdownMenu
-import com.corsoft.ui.components.dropdown.HFLightDropdownMenu
-import com.corsoft.ui.components.dropdown.HFLightDropdownMenuPreview
 import com.corsoft.ui.components.snackbar.HFSnackBarHost
 import com.corsoft.ui.components.topbar.ToolBar
 import com.corsoft.ui.theme.HitFactorTheme
@@ -62,7 +51,7 @@ internal fun ServiceListScreen(
     ServiceListScreen(
         state = uiState,
         navigator = navigator,
-        onServiceClick = { navigator.navigate(it.destination) }
+        onModeChange = { viewModel.onAction(ServiceListAction.ChangeMode) }
     )
     HFSnackBarHost(
         hostState = snackBarHostState,
@@ -75,6 +64,7 @@ private fun ServiceListScreen(
     modifier: Modifier = Modifier,
     state: ServiceListScreenState,
     navigator: DestinationsNavigator,
+    onModeChange: () -> Unit = {},
     onServiceClick: (ServiceModel) -> Unit = {}
 ) {
     Scaffold(
@@ -89,6 +79,13 @@ private fun ServiceListScreen(
                                 )
                             },
                             actions = {
+                                HFIconButton(
+                                    icon =
+                                        if (state.isServiceModeGrid) CoreDrawableRes.ic_services
+                                        else CoreDrawableRes.ic_list
+                                ) {
+                                    onModeChange()
+                                }
                                 HFIconButton(icon = CoreDrawableRes.ic_settings) {
                                     navigator.navigate(SettingsScreenDestination)
                                 }
@@ -100,14 +97,30 @@ private fun ServiceListScreen(
         },
         contentWindowInsets = WindowInsets(0.dp)
     ) { paddingValues ->
-        ServiceList2(
-            modifier = modifier
+        Column(
+            modifier = Modifier
                 .padding(paddingValues)
-                .padding(horizontal = 8.dp),
-            serviceList = state.serviceGroup.serviceList,
-            context = LocalContext.current,
-            navigator = navigator
-        )
+                .padding(horizontal = 8.dp)
+        ) {
+//            InfoCard(
+//                modifier = Modifier.padding(horizontal = 8.dp),
+//                text = stringResource(CoreStringRes.you_can_change_service_list)
+//            )
+//            Spacer(modifier = Modifier.height(16.dp))
+            if (state.isServiceModeGrid) {
+                ServiceList(
+                    serviceList = state.serviceGroup.serviceList,
+                    context = LocalContext.current,
+                    navigator = navigator
+                )
+            } else {
+                ServiceList2(
+                    serviceList = state.serviceGroup.serviceList,
+                    context = LocalContext.current,
+                    navigator = navigator
+                )
+            }
+        }
     }
 }
 

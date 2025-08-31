@@ -14,6 +14,7 @@ dependencies {
     implementation(libs.bundles.koin)
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.firebase)
+    implementation(libs.bundles.appmetrica)
     implementation(project(":core:network"))
     implementation(project(":core:data"))
 }

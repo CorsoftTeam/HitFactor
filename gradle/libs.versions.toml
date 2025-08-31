@@ -65,6 +65,9 @@ calendar = "2.7.0"
 #Room
 room = "2.7.2"
 
+#AppMetrica
+appmetrica = "7.11.0"
+
 
 #---------------------------------------------------------------------------------------------------
 [libraries]
@@ -149,6 +152,9 @@ calendar = {group = "com.kizitonwose.calendar", name = "compose", version.ref = 
 room = {group = "androidx.room", name = "room-runtime", version.ref = "room"}
 room-ksp = {group = "androidx.room", name = "room-compiler", version.ref = "room"}
 room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
+
+#AppMetrica
+appmetrica = {group = "io.appmetrica.analytics", name = "analytics", version.ref = "appmetrica"}
 
 
 #---------------------------------------------------------------------------------------------------
@@ -237,6 +243,10 @@ payments = [
 room = [
     "room",
     "room-ktx"
+]
+
+appmetrica = [
+    "appmetrica"
 ]
 
 

@@ -109,6 +109,17 @@ internal fun SettingsScreen(
                         )
                     )
                 }
+                Spacer(modifier = Modifier.height(8.dp))
+                ClickableCard(
+                    text = stringResource(CoreStringRes.tg_channel)
+                ) {
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            "https://t.me/HitFactorApp".toUri()
+                        )
+                    )
+                }
             }
         }
     }
