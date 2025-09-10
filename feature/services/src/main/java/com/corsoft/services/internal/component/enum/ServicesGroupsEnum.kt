@@ -8,8 +8,8 @@ enum class ServicesGroupsEnum(
     ALL(
         groupName = "Все",
         serviceList = listOf(
+            ServicesEnum.BALLISTICS,
             ServicesEnum.TIMER,
-            ServicesEnum.CALC,
             ServicesEnum.GUNS,
             ServicesEnum.CALENDAR,
             ServicesEnum.RESULTS,
@@ -28,6 +28,7 @@ enum class ServicesGroupsEnum(
     HUNTER(
         groupName = "Охотник",
         serviceList = listOf(
+            ServicesEnum.BALLISTICS,
             ServicesEnum.GUNS,
             ServicesEnum.RANGES,
             ServicesEnum.TRAINERS,
@@ -41,8 +42,8 @@ enum class ServicesGroupsEnum(
     SPORTSMAN(
         groupName = "Спортсмен",
         serviceList = listOf(
+            ServicesEnum.BALLISTICS,
             ServicesEnum.TIMER,
-            ServicesEnum.CALC,
             ServicesEnum.GUNS,
             ServicesEnum.CALENDAR,
             ServicesEnum.RESULTS,
@@ -61,6 +62,7 @@ enum class ServicesGroupsEnum(
     PRECISION(
         groupName = "Высокоточник",
         serviceList = listOf(
+            ServicesEnum.BALLISTICS,
             ServicesEnum.GUNS,
             ServicesEnum.CALENDAR,
             ServicesEnum.RANGES,

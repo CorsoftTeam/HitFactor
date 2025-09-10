@@ -1,5 +1,6 @@
 package com.corsoft.hitfactor.data.user.api
 
+import com.corsoft.hitfactor.data.user.api.entities.ComplexEntity
 import com.corsoft.hitfactor.data.user.api.entities.GunDocumentsEntity
 import com.corsoft.hitfactor.data.user.api.entities.ResultEntity
 import com.corsoft.hitfactor.data.user.api.model.City
@@ -86,4 +87,20 @@ interface UserRepository {
     suspend fun setServiceMode(isGrid: Boolean)
 
     suspend fun getServiceMode(): Boolean
+
+    suspend fun addComplex(
+        name: String,
+        gunId: String,
+        zeroRange: Int,
+        sightHeight: Float,
+        clickPrice: String,
+        muzzleVelocity: Int,
+        ballisticCoefficient: Float
+    )
+
+    suspend fun getComplexById(id: String): ComplexEntity
+
+    suspend fun getComplexes(): List<ComplexEntity>
+
+    suspend fun deleteComplexById(id: String)
 }

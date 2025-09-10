@@ -12,6 +12,7 @@ enum class FirebaseEventsEnum(val key: String) {
 
     OPEN_RESULTS("open_results"),
     ADD_GUN("add_gun"),
+    ADD_COMPLEX("add_complex"),
     ADD_TRAINING("add_training")
     ;
 

@@ -68,6 +68,9 @@ room = "2.7.2"
 #AppMetrica
 appmetrica = "7.11.0"
 
+#Charts
+charts = "0.1.11"
+
 
 #---------------------------------------------------------------------------------------------------
 [libraries]
@@ -156,6 +159,9 @@ room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
 #AppMetrica
 appmetrica = {group = "io.appmetrica.analytics", name = "analytics", version.ref = "appmetrica"}
 
+#Charts
+charts = {group = "io.github.ehsannarmani", name = "compose-charts", version.ref = "charts"}
+
 
 #---------------------------------------------------------------------------------------------------
 [plugins]
@@ -204,7 +210,8 @@ compose = [
     "pdf_viewer",
     "lottie",
     "shimmer",
-    "calendar"
+    "calendar",
+    "charts"
 ]
 
 compose-navigation = [

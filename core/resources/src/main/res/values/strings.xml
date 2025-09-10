@@ -92,6 +92,39 @@
     <string name="checklists">Чеклисты</string>
     <string name="tg_channel">Telegram канал</string>
     <string name="target_analyze">Анализ мишеней</string>
+    <string name="ballistics_calc">Баллистический калькулятор</string>
+    <string name="select_weapon_complex">Не выбрано</string>
+    <string name="distance_meters">Дистанция стрельбы, м:</string>
+    <string name="zero_distance">Дистанция пристрелки, м:</string>
+    <string name="wind_speed_ms_d">Скорость ветра, м/c:</string>
+    <string name="wind_angle_d">Угол ветра:</string>
+    <string name="select_click_measure">Система поправок:</string>
+    <string name="drop_cm">Падение, см</string>
+    <string name="wind_drop_cm">Снос, см</string>
+    <string name="x_cm">%s см</string>
+    <string name="correction">Поправка</string>
+    <string name="bullet_drop_cm_m">Падение в см/м</string>
+    <string name="speed_ms_m">Скорость в мс/м</string>
+    <string name="time_s_m">Время в с/м</string>
+    <string name="new_complex">Новый комплекс</string>
+    <string name="zero_range_m">Дистанция пристрелки, м</string>
+    <string name="sight_height_cm">Высота над осью ствола, см</string>
+    <string name="click_price">Цена клика прицела</string>
+    <string name="click_in_moa_mil">Клик = %s</string>
+    <string name="muzzle_velocity_ms">Скорость вылета, м/с</string>
+    <string name="ballistic_coefficient">Баллистический коэффицент G1</string>
+    <string name="g1_coeff">Коэффицент G1</string>
+    <string name="rifle">Винтовка</string>
+    <string name="sight">Прицел</string>
+    <string name="shell">Патрон</string>
+    <string name="moa">MOA</string>
+    <string name="mil">MIL</string>
+    <string name="clicks">Клики</string>
+    <string name="complex">Комплекс</string>
+    <string name="wind_speed_ms">Скорость ветра, м/c</string>
+    <string name="wind_angle">Угол ветра</string>
+    <string name="charts">Графики</string>
+    <string name="data">Данные</string>
 
 
     <!-- Enums -->
@@ -121,6 +154,7 @@
     <string name="acts_desc">Документы, нормативные акты, правила и законы в одном месте</string>
     <string name="checklists_desc">Создавайте свои списки для сбора вещей на полигон, чтобы ничего не забыть</string>
     <string name="target_analyze_desc">Рассчет СТП и поправок по фотографии мишени на основе машинного обучения</string>
+    <string name="ballistics_calc_desc">Рассчет баллистической траектории для различных боеприпасов</string>
 
     <!-- Errors -->
 
@@ -149,5 +183,6 @@
     <string name="press_start">Для начала работы с таймером нажмите на старт</string>
     <string name="there_are_results">Здесь будут результаты участников проведенного зачета</string>
     <string name="set_sensitivity_before_start">Отрегулируйте чувствительность таймера в настройках</string>
+    <string name="select_or_add_complex">Выберите из списка или добавьте новый комплекс оружие-прицел-патрон для рассчета баллистики</string>
 
 </resources>

@@ -36,4 +36,5 @@ dependencies {
     implementation(project(":data:user"))
     implementation(project(":data:payments"))
     implementation(project(":data:analytics"))
+    implementation(project(":data:ballistic"))
 }

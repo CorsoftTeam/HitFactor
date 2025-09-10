@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import com.corsoft.resources.CoreDrawableRes
 import com.corsoft.resources.CoreStringRes
 import com.ramcosta.composedestinations.generated.services.destinations.ActsScreenDestination
+import com.ramcosta.composedestinations.generated.services.destinations.BallisticsCalcScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.CalculateHFScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.RangesScreenDestination
 import com.ramcosta.composedestinations.generated.services.destinations.ResultsScreenDestination
@@ -32,7 +33,8 @@ enum class ServicesEnum {
     ACTS,
     FEEDBACK,
     CHECKLISTS,
-    TARGET_ANALYZE
+    TARGET_ANALYZE,
+    BALLISTICS
     ;
 
     @Composable
@@ -52,6 +54,7 @@ enum class ServicesEnum {
             FEEDBACK -> stringResource(id = CoreStringRes.feedback)
             CHECKLISTS -> stringResource(id = CoreStringRes.checklists)
             TARGET_ANALYZE -> stringResource(id = CoreStringRes.target_analyze)
+            BALLISTICS -> stringResource(id = CoreStringRes.calculator)
         }
 
     @Composable
@@ -71,6 +74,7 @@ enum class ServicesEnum {
             FEEDBACK -> stringResource(id = CoreStringRes.feedback_desc)
             CHECKLISTS -> stringResource(id = CoreStringRes.checklists_desc)
             TARGET_ANALYZE -> stringResource(id = CoreStringRes.target_analyze_desc)
+            BALLISTICS -> stringResource(id = CoreStringRes.ballistics_calc_desc)
         }
 
     @Composable
@@ -91,6 +95,7 @@ enum class ServicesEnum {
             FEEDBACK -> CoreDrawableRes.ic_feedback
             CHECKLISTS -> CoreDrawableRes.ic_checklist
             TARGET_ANALYZE -> CoreDrawableRes.ic_target_variant
+            BALLISTICS -> CoreDrawableRes.ic_calc
         }
 
     fun navigate(navigator: DestinationsNavigator, context: Context) {
@@ -113,8 +118,12 @@ enum class ServicesEnum {
                 }
                 context.startActivity(intent)
             }
+
             CHECKLISTS -> {}
             TARGET_ANALYZE -> {}
+            BALLISTICS -> {
+                navigator.navigate(BallisticsCalcScreenDestination)
+            }
         }
     }
 
@@ -134,6 +143,7 @@ enum class ServicesEnum {
             FEEDBACK -> true
             CHECKLISTS -> false
             TARGET_ANALYZE -> false
+            BALLISTICS -> true
         }
 
 }

@@ -1,46 +1,36 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hf.androidLib)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "com.corsoft.hitfactor.data.ballistic"
-    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.corsoft.hitfactor.data.ballistic"
-        minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        externalNativeBuild {
+            cmake {
+                cppFlags += "-std=c++11"
+            }
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
     }
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    ksp(libs.room.ksp)
+    implementation(platform(libs.koin.bom))
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.core)
+    implementation(libs.bundles.koin)
+    implementation(libs.bundles.retrofit)
+    implementation(libs.bundles.firebase)
+    implementation(libs.bundles.room)
+    implementation(project(":core:network"))
+    implementation(project(":core:data"))
 }

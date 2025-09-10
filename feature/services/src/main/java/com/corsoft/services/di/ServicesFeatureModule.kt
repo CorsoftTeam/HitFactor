@@ -1,7 +1,9 @@
 package com.corsoft.services.di
 
+import com.corsoft.services.internal.screen.add_complex.AddComplexViewModel
 import com.corsoft.services.internal.screen.add_training.AddTrainingViewModel
 import com.corsoft.services.internal.screen.add_weapon.AddWeaponViewModel
+import com.corsoft.services.internal.screen.ballistics_calc.BallisticsCalcViewModel
 import com.corsoft.services.internal.screen.calculate_hf.CalculateHFViewModel
 import com.corsoft.services.internal.screen.complete_training.CompleteTrainingViewModel
 import com.corsoft.services.internal.screen.documents.DocumentsViewModel
@@ -38,4 +40,6 @@ val servicesFeatureModule = module {
     viewModelOf(::WeaponDocsViewModel)
     viewModelOf(::ResultsViewModel)
     viewModelOf(::SettingsViewModel)
+    viewModelOf(::BallisticsCalcViewModel)
+    viewModelOf(::AddComplexViewModel)
 }

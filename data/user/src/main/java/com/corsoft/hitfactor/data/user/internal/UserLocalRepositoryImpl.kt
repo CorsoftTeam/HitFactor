@@ -2,6 +2,7 @@ package com.corsoft.hitfactor.data.user.internal
 
 import com.corsoft.data.api.storage.LocalStorage
 import com.corsoft.hitfactor.data.user.api.UserRepository
+import com.corsoft.hitfactor.data.user.api.entities.ComplexEntity
 import com.corsoft.hitfactor.data.user.api.entities.GunDocumentsEntity
 import com.corsoft.hitfactor.data.user.api.entities.GunEntity
 import com.corsoft.hitfactor.data.user.api.entities.ResultEntity
@@ -265,4 +266,42 @@ class UserLocalRepositoryImpl(
     override suspend fun getServiceMode(): Boolean {
         return localStorage.getBoolean("service_mode_grid")
     }
+
+    override suspend fun addComplex(
+        name: String,
+        gunId: String,
+        zeroRange: Int,
+        sightHeight: Float,
+        clickPrice: String,
+        muzzleVelocity: Int,
+        ballisticCoefficient: Float
+    ) {
+        userDatabase.complexesDao().insert(
+            ComplexEntity(
+                id = UUID.randomUUID().toString(),
+                name = name,
+                gunId = gunId,
+                zeroRange = zeroRange,
+                sightHeight = sightHeight,
+                clickPrice = clickPrice,
+                muzzleVelocity = muzzleVelocity,
+                ballisticCoefficient = ballisticCoefficient
+            )
+        )
+    }
+
+
+    override suspend fun getComplexById(id: String): ComplexEntity {
+        return userDatabase.complexesDao().getById(id) ?: ComplexEntity("")
+    }
+
+    override suspend fun getComplexes(): List<ComplexEntity> {
+        return userDatabase.complexesDao().observeAll()
+    }
+
+    override suspend fun deleteComplexById(id: String) {
+        userDatabase.complexesDao().deleteById(id)
+    }
+
+
 }

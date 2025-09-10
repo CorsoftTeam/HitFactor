@@ -22,6 +22,7 @@ dependencies {
     implementation(project(":data:auth"))
     implementation(project(":data:user"))
     implementation(project(":data:analytics"))
+    implementation(project(":data:ballistic"))
     implementation(platform(libs.koin.bom))
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.core)

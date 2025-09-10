@@ -23,8 +23,8 @@ internal fun Project.configureApp(appExtension: ApplicationExtension) {
             applicationId = ProjectConfig.appId
             minSdk = ProjectConfig.minSdk
             targetSdk = ProjectConfig.targetSdk
-            versionCode = 4
-            versionName = "1.0.3"
+            versionCode = 6
+            versionName = "1.1.1"
 
             val shop =
                 if (project.hasProperty("shopName"))

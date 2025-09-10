@@ -6,6 +6,7 @@ import com.corsoft.auth.di.authFeatureModule
 import com.corsoft.common.di.commonModule
 import com.corsoft.data.di.dataModule
 import com.corsoft.hitfactor.data.analytics.di.analyticsDataModule
+import com.corsoft.hitfactor.data.ballistic.di.ballisticsDataModule
 import com.corsoft.hitfactor.data.payments.di.paymentsDataModule
 import com.corsoft.hitfactor.data.user.di.userDataModule
 import com.corsoft.hitfactor.di.appModule
@@ -49,7 +50,8 @@ class HitFactorApp : Application() {
                     authDataModule,
                     userDataModule,
                     paymentsDataModule,
-                    analyticsDataModule
+                    analyticsDataModule,
+                    ballisticsDataModule
                 )
             }
         val featureModules =
